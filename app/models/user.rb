@@ -1,6 +1,11 @@
 class User < ApplicationRecord
+  include AvatarHelper
+
   has_secure_password
   has_many :sessions, dependent: :destroy
+
+  has_many :members, dependent: :destroy
+  has_many :workspaces, through: :members, source: :workspace
 
   normalizes :email, with: ->(e) { e.strip.downcase }
 
