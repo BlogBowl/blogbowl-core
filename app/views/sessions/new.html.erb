@@ -1,0 +1,34 @@
+<% content_for :title, "Sign in" %>
+<div class="flex min-h-screen w-full items-center justify-center">
+  <!-- Left side - Auth form -->
+  <div class="card w-full md:w-fit md:min-w-[500px] p-10 drop-shadow-lg bg-white">
+    <div class="w-full max-w-md">
+      <div class="mb-8 flex items-center justify-center">
+        <%= image_tag("logo-with-text.png", width: 120) %>
+      </div>
+
+      <div class="w-full">
+        <div class="space-y-6">
+          <div>
+            <h1 class="text-3xl font-bold text-center">Welcome back 👋</h1>
+          </div>
+
+          <%= render partial: 'shared/flashes' %>
+
+          <%= form_with(url: session_path, class: 'space-y-2') do |form| %>
+            <div class="space-y-2">
+              <%= form.label :email, class: "block text-sm font-medium mb-1" %>
+              <%= form.email_field :email, value: params[:email_hint], required: true, autofocus: true, autocomplete: "email", placeholder: "E-mail", class: "w-full" %>
+            </div>
+            <div class="space-y-2">
+              <%= form.label :password, class: "block text-sm font-medium mb-1" %>
+              <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Password", class: "w-full" %>
+            </div>
+            <%= form.hidden_field :invitation_token, value: params[:invitation_token] if params[:invitation_token].present? %>
+            <%= form.submit "Sign in", class: 'btn btn-neutral w-full btn-lg mt-5' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+one:
+  email: one@example.com
+  password_digest: BCrypt::Password.create("password")
+
+two:
+  email: two@example.com
+  password_digest: BCrypt::Password.create("password")
