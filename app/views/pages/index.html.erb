@@ -1,0 +1,30 @@
+<% content_for :title, "All Pages" %>
+<div class="pt-10">
+  <div class="">
+    <!-- Header Section -->
+    <div class="flex justify-between items-center mb-8">
+      <h1>Workspace pages</h1>
+    </div>
+
+    <div class="mb-10">
+      <%= render partial: 'shared/flashes' %>
+    </div>
+
+    <!-- Posts List -->
+    <div class="grid grid-cols-3 gap-4">
+      <!-- Post Item -->
+      <%= render partial: "pages/page", collection: @pages %>
+
+      <%= link_to new_page_path, class: "relative rounded-xl border-2 border-dashed border-gray-300 p-6 hover:border-blue-400 transition-colors min-h-32" do %>
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+          <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-100 transition-colors mb-2">
+            <i class="iconoir-plus text-3xl text-blue-500"></i>
+          </div>
+          <span class="text-sm font-medium text-gray-900">Create New Page</span>
+          <span class="text-sm text-gray-500">Start writing your next page</span>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>

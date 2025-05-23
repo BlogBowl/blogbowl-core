@@ -1,0 +1,37 @@
+<div class="relative">
+  <%= link_to page_path(page) do %>
+    <div
+      class="h-full group bg-white rounded-xl border border-gray-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all cursor-pointer"
+    >
+      <div class="flex items-start justify-between mb-4">
+        <div class="flex items-center space-x-3">
+          <% if page.settings.favicon.attached? %>
+            <%= image_tag page.settings.favicon, class: "h-10 rounded object-cover" %>
+          <% else %>
+            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+              <i class="iconoir-book-stack text-xl text-blue-500"></i>
+            </div>
+          <% end %>
+          <div>
+            <h3 class="font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+              <%= page.name %>
+            </h3>
+            <p class="text-sm text-gray-500">/<%= page.slug %> ■ <%= pluralize(page.posts.count, 'post') %></p>
+          </div>
+        </div>
+      </div>
+
+      <% if page.posts.any? %>
+        <div class="flex items-center space-x-2 text-sm text-gray-500">
+          <i class="iconoir-clock text-md text-gray-500"></i>
+          <span>Last updated <%= distance_of_time_in_words(page.posts.maximum(:updated_at), Time.now) + ' ago' %></span>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+  <div class="absolute right-6 top-6">
+    <a class="btn btn-square" target="_blank" href="https://<%= page.domain %>">
+      <i class="iconoir-internet text-xl text-gray-500 hover:text-primary"></i>
+    </a>
+  </div>
+</div>

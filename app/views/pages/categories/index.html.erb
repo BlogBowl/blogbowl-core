@@ -1,0 +1,38 @@
+<% content_for :title, "Authors" %>
+<div class="pt-10">
+  <div class="">
+    <!-- Header Section -->
+    <div class="flex justify-between items-center mb-8">
+      <h1>Categories</h1>
+
+      <div class="flex items-center gap-4">
+        <%= link_to "New category", new_pages_category_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+
+    <div class="mb-10">
+      <%= render partial: 'shared/flashes' %>
+    </div>
+
+    <!-- Header -->
+    <div class="grid grid-cols-12 py-2 border-b font-medium text-gray-600 text-xs px-5">
+      <div class="col-span-7">TAG</div>
+      <div class="col-span-2">SLUG</div>
+      <div class="col-span-2">NO. OF POSTS</div>
+      <div class="col-span-1"></div>
+    </div>
+
+    <div class="divide-y border-b">
+      <% if @categories.any? %>
+        <%= render partial: "pages/categories/category", collection: @categories %>
+      <% else %>
+        <div class="grid grid-cols-12 py-4 items-center hover:bg-gray-100 transition-colors px-5">
+          <div class="col-span-12 font-medium flex items-center justify-center">There are no categories yet. Please, add
+            new
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <%= pagy_navigation %>
+  </div>
+</div>

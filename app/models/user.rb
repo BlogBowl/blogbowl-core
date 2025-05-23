@@ -15,4 +15,9 @@ class User < ApplicationRecord
   def formatted_name
     email
   end
+
+  def avatar(size: 1)
+    initials = email[0].upcase + email[1].upcase
+    avatar_placeholder(size: size, initials: initials)
+  end
 end

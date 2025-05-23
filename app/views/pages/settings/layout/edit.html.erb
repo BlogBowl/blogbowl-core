@@ -1,0 +1,83 @@
+<% content_for :title, "Layout & Design settings" %>
+<div class="mx-auto max-w-3xl py-10">
+  <%= form_with(model: @page_settings, url: pages_settings_layout_path, method: :patch) do |form| %>
+    <%= link_to pages_settings_path do %>
+      <div class="flex gap-x-2 items-center text-sm opacity-70 cursor-pointer hover:opacity-50 active:opacity-40">
+        <i class="iconoir-arrow-left"></i>
+        <p>Back to settings</p>
+      </div>
+    <% end %>
+    <div class="flex justify-between mb-5 mt-2">
+      <div>
+        <h1 class="font-bold">Layout & Design</h1>
+      </div>
+      <%= form.submit 'Save settings', class: 'btn btn-primary' %>
+    </div>
+
+    <%= render partial: 'shared/flashes' %>
+
+    <div class="mt-10 flex flex-col gap-y-10">
+
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-globe text-primary text-xl"></i>
+            <h3 class="font-bold">Blog template</h3>
+          </div>
+          <p class="opacity-70 mt-2">Select blog template</p>
+        </div>
+
+        <div class="flex flex-col gap-y-4 mt-5">
+          <div class="mt-2 grid grid-cols-2 gap-5 md:grid-cols-3 lg:gap-6 xl:grid-cols-4">
+            <% @layout_templates.each do |setting| %>
+              <label for="<%= setting[:id] %>">
+                <%= form.radio_button :template, setting[:id], id: setting[:id], class: "peer absolute top-2 left-2 appearance-none" %>
+
+                <div class="relative flex cursor-pointer items-center justify-between overflow-hidden rounded-xl border-2 border-gray-200 bg-white transition-all duration-200 hover:shadow-md peer-checked:border-gray-900 peer-checked:[&_.default]:hidden peer-checked:[&_.active]:block">
+                  <div class="absolute bottom-3 right-3">
+                    <svg class="default h-6 w-6 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    <svg class="active hidden h-6 w-6 text-gray-900" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M1.25 12C1.25 6.06294 6.06294 1.25 12 1.25C17.9371 1.25 22.75 6.06294 22.75 12C22.75 17.9371 17.9371 22.75 12 22.75C6.06294 22.75 1.25 17.9371 1.25 12ZM17.0303 10.0303C17.3232 9.73744 17.3232 9.26256 17.0303 8.96967C16.7374 8.67678 16.2626 8.67678 15.9697 8.96967L11 13.9393L9.03033 11.9697C8.73744 11.6768 8.26256 11.6768 7.96967 11.9697C7.67678 12.2626 7.67678 12.7374 7.96967 13.0303L10.4697 15.5303C10.6103 15.671 10.8011 15.75 11 15.75C11.1989 15.75 11.3897 15.671 11.5303 15.5303L17.0303 10.0303Z"></path>
+                    </svg>
+                  </div>
+                  <div class="flex flex-col pt-2">
+                    <img alt="" src="<%= setting[:img] %>" class="w-[80%] mx-auto border-t border-x rounded-t">
+                    <div class="border-t border-gray-200 px-5 py-3">
+                      <p class="text-base font-medium text-gray-900"><%= setting[:name] %></p>
+                      <a target="_blank" href="<%= setting[:preview_url] %>" class="hover:text-gray-900 -mx-1.5 -my-1 inline-flex items-center gap-1 rounded-lg px-1.5 py-1 text-sm font-semibold text-gray-500 transition-all duration-150 hover:bg-gray-200" rel="noopener">Preview
+                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                          <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
+                          <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </label>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-globe text-primary text-xl"></i>
+            <h3 class="font-bold">Color Theme</h3>
+          </div>
+          <p class="opacity-70 mt-2">Set color blog theme: *advanced</p>
+        </div>
+
+        <div class="flex flex-col gap-y-4 mt-5">
+          <div>
+            <%= form.label :theme, class: "" %>
+            <%= form.text_area :theme, class: 'w-full h-40 bg-white' %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  <% end %>
+</div>

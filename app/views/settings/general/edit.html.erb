@@ -1,0 +1,71 @@
+<% content_for :title, "General settings" %>
+<div class="mx-auto max-w-3xl py-10">
+  <%= form_with(model: @workspace_settings, url: settings_general_path, method: :patch) do |form| %>
+    <%= link_to settings_path do %>
+      <div class="flex gap-x-2 items-center text-sm opacity-70 cursor-pointer hover:opacity-50 active:opacity-40">
+        <i class="iconoir-arrow-left"></i>
+        <p>Back to settings</p>
+      </div>
+    <% end %>
+    <div class="flex justify-between mb-5 mt-2">
+      <div>
+        <h1 class="font-bold">General Workspace Settings</h1>
+      </div>
+      <%= form.submit 'Save settings', class: 'btn btn-primary' %>
+    </div>
+
+    <%= render partial: 'shared/flashes' %>
+
+    <div class="mt-10 flex flex-col gap-y-10">
+
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-design-pencil text-primary text-xl"></i>
+            <h3 class="font-bold">Workspace name</h3>
+          </div>
+          <p class="opacity-70 mt-2"></p>
+        </div>
+
+        <div class="flex flex-col gap-y-4 mt-5">
+          <%= form.fields_for :workspace do |workspace_form| %>
+            <div>
+              <div class="flex justify-between">
+                <%= workspace_form.label :title, "Workspace name", class: "block text-sm font-medium mb-1" %>
+                <p class="text-xs text-gray-400">Just for you! This name won’t appear on the actual site.</p>
+              </div>
+              <%= workspace_form.text_field :title, placeholder: 'My great blog', class: "w-full text-sm" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-globe text-primary text-xl"></i>
+            <h3 class="font-bold">Language</h3>
+          </div>
+          <p class="opacity-70 mt-2">Choose HTML language and locale for your blog</p>
+        </div>
+
+        <div class="flex flex-col gap-y-4 mt-5">
+          <div>
+            <div class="flex justify-between">
+              <%= form.label :html_lang, "HTML lang", class: "block text-sm font-medium mb-1" %>
+            </div>
+            <%= form.text_field :html_lang, maxlength: 2, placeholder: 'en', class: "w-full text-sm mr-5", disabled: @disable_controls %>
+          </div>
+          <div>
+            <div class="flex justify-between">
+              <%= form.label :locale, "Locale", class: "block text-sm font-medium mb-1" %>
+            </div>
+            <%= form.text_field :locale, maxlength: 5, placeholder: 'en_US', class: "w-full text-sm mr-5", disabled: @disable_controls %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  <% end %>
+</div>

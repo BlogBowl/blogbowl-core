@@ -262,6 +262,7 @@ PLATFORMS
   arm64-darwin-23
 
 DEPENDENCIES
+  cancancan (~> 3.6)
   core!
   pg
   propshaft

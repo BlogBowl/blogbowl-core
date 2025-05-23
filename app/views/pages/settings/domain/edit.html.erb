@@ -1,0 +1,63 @@
+<% content_for :title, "Domain & subfolder settings" %>
+<div class="mx-auto max-w-3xl py-10" data-controller="domain">
+  <%= form_with(model: @page_settings, url: pages_settings_domain_path, method: :patch) do |form| %>
+    <%= link_to pages_settings_path do %>
+      <div class="flex gap-x-2 items-center text-sm opacity-70 cursor-pointer hover:opacity-50 active:opacity-40">
+        <i class="iconoir-arrow-left"></i>
+        <p>Back to settings</p>
+      </div>
+    <% end %>
+    <div class="flex justify-between mb-5 mt-2">
+      <div>
+        <h1 class="font-bold">Domain settings</h1>
+      </div>
+      <%= form.submit 'Save settings', class: 'btn btn-primary' %>
+    </div>
+
+    <%= render partial: 'shared/flashes' %>
+
+    <div class="mt-10 flex flex-col gap-y-10">
+
+      <div class="card card-border border-base-300 bg-white">
+        <div class="p-6">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-globe text-primary text-xl"></i>
+            <h3 class="font-bold">Domain</h3>
+          </div>
+          <p class="opacity-70 mt-2">Blog public domain</p>
+        </div>
+        <div class="flex justify-between items-center border-y px-6 py-6">
+          <div>
+            <%= form.label :own_domain, "Use your own domain", class: "text-sm font-medium" %>
+            <p class="text-xs text-gray-400">Enable this if you want to host you page under your domain</p>
+          </div>
+          <%= form.check_box :own_domain, class: "toggle toggle-xl toggle-primary checked:bg-primary checked:text-white checked:border-primary", disabled: !@can_set_own_domain, checked: @has_own_domain, "data-domain-target": "ownDomain", "data-action": "change->domain#onOwnDomainChange" %>
+        </div>
+        <div class="flex justify-between items-center border-b px-6 py-6">
+          <div>
+            <%= form.label :subfolder_enabled, "Enable subfolder", class: "text-sm font-medium" %>
+            <p class="text-xs text-gray-400">Enable this if you want to host your page under subfolder</p>
+          </div>
+          <%= form.check_box :subfolder_enabled, class: "toggle toggle-xl toggle-primary checked:bg-primary checked:text-white checked:border-primary", "data-domain-target": "subfolder", "data-action": "change->domain#onSubfolderChange" %>
+        </div>
+        <div class="flex flex-col gap-y-4 p-6">
+          <%= form.fields_for :page do |page_form| %>
+            <div>
+              <%= page_form.label :domain, "Domain", class: "block text-sm font-medium mb-1" %>
+              <div class="flex items-center">
+                <%= page_form.text_field :domain, placeholder: 'blog.blogbowl.app', class: "w-full text-sm", "data-domain-target": "ownDomainValue", "data-action": "change->domain#onOwnDomainValueChange" %>
+                <p class="ml-3 <%= 'hidden' if @has_own_domain %>" data-domain-target="blogbowlSuffixLabel">.blogbowl.app</p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  <% end %>
+
+  <div data-domain-target="docsSection">
+    <%= render partial: 'dns_documentation' %>
+    <%= render partial: 'subfolder_documentation' %>
+  </div>
+</div>

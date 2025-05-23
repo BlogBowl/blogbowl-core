@@ -1,0 +1,54 @@
+<% content_for :title, "Code injection" %>
+<div class="mx-auto max-w-3xl py-10">
+  <%= form_with(model: @page_settings, url: pages_settings_code_path, method: :patch) do |form| %>
+    <%= link_to pages_settings_path do %>
+      <div class="flex gap-x-2 items-center text-sm opacity-70 cursor-pointer hover:opacity-50 active:opacity-40">
+        <i class="iconoir-arrow-left"></i>
+        <p>Back to settings</p>
+      </div>
+    <% end %>
+    <div class="flex justify-between mb-5 mt-2">
+      <div>
+        <h1 class="font-bold">Inject custom code</h1>
+      </div>
+      <%= form.submit 'Save settings', class: 'btn btn-primary' %>
+    </div>
+
+    <%= render partial: 'shared/flashes' %>
+
+    <div class="mt-10 flex flex-col gap-y-10">
+
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-code text-primary text-xl"></i>
+            <h3 class="font-bold">HTML Head</h3>
+          </div>
+          <p class="opacity-70 mt-2">Any additional code to website HTML head</p>
+        </div>
+        <div class="flex flex-col gap-y-4 mt-2">
+          <div class="bg-accent p-3.5 rounded-md bg-base-100 border-2 border-gray-200 flex flex-col gap-y-4">
+            <div data-react-component="MonacoEditor" data-props="<%= { initialValue: @page_settings.head_html, name: "#{form.object_name}[head_html]" }.to_json %>" class="min-h-56"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-code text-primary text-xl"></i>
+            <h3 class="font-bold">HTML Body</h3>
+          </div>
+          <p class="opacity-70 mt-2">Any additional code to website HTML body</p>
+        </div>
+        <div class="flex flex-col gap-y-4 mt-2">
+          <div class="bg-accent p-3.5 rounded-md bg-base-100 border-2 border-gray-200 flex flex-col gap-y-4">
+            <div data-react-component="MonacoEditor" data-props="<%= { initialValue: @page_settings.body_html, name: "#{form.object_name}[body_html]" }.to_json %>" class="min-h-56"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  <% end %>
+</div>
+

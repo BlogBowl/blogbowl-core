@@ -1,0 +1,48 @@
+<div class="relative">
+  <%= link_to edit_author_path(author) do %>
+    <div class="py-3 pr-2 flex justify-between items-center border-t border-b hover:bg-gray-100 cursor-pointer">
+      <div class="flex items-center gap-x-4 w-full">
+        <div class="">
+          <% if author.avatar_picture.attached? %>
+            <%= image_tag author.avatar_picture, class: "w-full h-24 rounded object-contain" %>
+          <% else %>
+            <div class="h-20 w-20 rounded border border-dashed border-gray-300 flex items-center justify-center">
+              <i class="iconoir-mask-square text-3xl text-gray-300"></i>
+            </div>
+          <% end %>
+        </div>
+        <div class="flex flex-col gap-y-1">
+          <h2 class="text-base font-medium"><%= author.formatted_name %></h2>
+          <p class="text-gray-500 text-sm"><%= author.position %></p>
+          <div class="flex items-center gap-x-2 text-xs">
+            <% if author.member.user == current_user %>
+              <div class="badge badge-neutral badge-outline text-xs">you</div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <div class="dropdown dropdown-end absolute right-5 top-1/2 transform -translate-y-1/2 z-10">
+    <div tabindex="0" role="button" class="p-1">
+      <div class="btn btn-ghost btn-square">
+        <i class="iconoir-more-vert text-xl"></i>
+      </div>
+    </div>
+    <ul tabindex="0" class="dropdown-content menu dropdown-list z-40 min-w-52">
+      <% if can? :edit, author %>
+        <li>
+          <%= link_to "Edit", edit_author_path(author) %>
+        </li>
+      <% end %>
+      <% if can_manage_members %>
+        <div class="divider my-0"></div>
+        <li>
+          <%= button_to deactivate_author_path(author), method: :put, class: 'text-red-500', form_class: '' do %>
+            <span class="text-red-500">Deactivate</span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

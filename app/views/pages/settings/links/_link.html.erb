@@ -1,0 +1,42 @@
+<div id="<%= dom_id(link) %>" class="flex items-center justify-between p-3.5" data-links-target="link" data-id="<%= link.id %>" data-sort="<%= link.order %>">
+  <%= hidden_field_tag "links[][order]", link.order %>
+  <%= hidden_field_tag "links[][id]", link.id %>
+  <div class="flex items-center gap-x-4">
+    <div class="flex items-center gap-x-2">
+      <div data-action="click->links#onUp" class="rounded border-2 border-gray-400 w-6 h-6 flex items-center justify-center hover:bg-gray-200 cursor-pointer active:opacity-70">
+        <i class="iconoir-arrow-up"></i>
+      </div>
+      <div data-action="click->links#onDown" class="rounded border-2 border-gray-400 w-6 h-6 flex items-center justify-center hover:bg-gray-200 cursor-pointer active:opacity-70">
+        <i class="iconoir-arrow-down"></i>
+      </div>
+    </div>
+    <div class="items-center flex gap-x-2">
+      <% if link.link_type == 'link' %>
+        <p class="font-bold"><%= link.title %></p>
+      <% else %>
+        <i class="<%= social_media_icon(link.title) %>"></i>
+      <% end %>
+      <p class="text-xs text-gray-400"><%= link.url %></p>
+    </div>
+  </div>
+  <div class="flex items-center gap-x-2">
+    <div class="badge select-none">
+      <% if link.link_type == 'link' %>
+        <p class="text-xs text-gray-500"><%= link.link_type %></p>
+      <% else %>
+        <p class="text-xs text-gray-500"><%= link.title %></p>
+      <% end %>
+    </div>
+    <%= link_to edit_pages_settings_link_path(@page, link), data: { turbo_frame: "edit_link" }, turbo: true do %>
+      <div class="rounded w-6 h-6 flex items-center justify-center hover:bg-gray-200 active:opacity-50 cursor-pointer">
+        <i class="iconoir-edit"></i>
+      </div>
+    <% end %>
+    <div data-action="click->links#remove">
+      <div class="rounded w-6 h-6 flex items-center justify-center hover:bg-gray-200 active:opacity-50 cursor-pointer">
+        <i class="iconoir-trash"></i>
+      </div>
+    </div>
+  </div>
+
+</div>

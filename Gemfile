@@ -11,3 +11,5 @@ gem "propshaft"
 
 # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
 gem "rubocop-rails-omakase", require: false
+
+gem "cancancan", "~> 3.6"

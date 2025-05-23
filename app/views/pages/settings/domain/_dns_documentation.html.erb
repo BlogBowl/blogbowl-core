@@ -1,0 +1,39 @@
+<div class="card card-border border-base-300 bg-white p-6 mt-10" data-domain-target="dnsDocsSection">
+  <div class="flex items-center gap-x-2 mb-5">
+    <i class="iconoir-internet text-primary text-xl"></i>
+    <h3 class="font-bold">Configure DNS</h3>
+  </div>
+  <div class="prose">
+    <p>Follow this easy guide to setup <code>https://<span data-domain-target="ownDomainLabel"></span></code> as your blog
+      URL.</p>
+
+    <ol>
+      <li>
+        <b>Save settings</b> if you haven't already
+      </li>
+      <li>
+        <p><b>Setup DNS</b></p>
+        <table class="text-left">
+          <thead>
+          <tr>
+            <th>Type</th>
+            <th>Name</th>
+            <th>Value</th>
+            <th>TTL</th>
+          </tr>
+          </thead>
+          <tr>
+            <td>CNAME</td>
+            <td><span data-domain-target="ownDomainLabel"></span></td>
+            <td>
+              <%= Rails.application.routes.default_url_options[:host] %>
+            </td>
+            <td>3600 or leave default</td>
+          </tr>
+        </table>
+      </li>
+      <li><b>Be patient</b> DNS propagation can take some time (usually under 2 hours).</li>
+      <li><b>Done!</b> If you did everything right, try visiting your blog via domain.</li>
+    </ol>
+  </div>
+</div>

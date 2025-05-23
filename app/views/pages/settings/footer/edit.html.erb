@@ -1,0 +1,112 @@
+<% content_for :title, "Footer settings" %>
+<div class="mx-auto max-w-3xl py-10">
+  <%= turbo_frame_tag "new_link", data: { controller: 'links' } %>
+  <%= turbo_frame_tag "edit_link", data: { controller: 'links' } %>
+  <%= form_with(model: @page_settings, url: pages_settings_footer_path, method: :patch, html: { multipart: true }) do |form| %>
+    <%= link_to pages_settings_path do %>
+      <div class="flex gap-x-2 items-center text-sm opacity-70 cursor-pointer hover:opacity-50 active:opacity-40">
+        <i class="iconoir-arrow-left"></i>
+        <p>Back to settings</p>
+      </div>
+    <% end %>
+    <div class="flex justify-between mb-5 mt-2">
+      <div>
+        <h1 class="font-bold">Footer Settings</h1>
+      </div>
+      <%= form.submit 'Save settings', class: 'btn btn-primary' %>
+    </div>
+
+    <%= render partial: 'shared/flashes' %>
+
+    <div class="mt-10 flex flex-col gap-y-10">
+
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-copyright text-primary text-xl"></i>
+            <h3 class="font-bold">Copyright</h3>
+          </div>
+          <p class="opacity-70 mt-2">Your website copyright notice</p>
+        </div>
+
+        <div class="flex flex-col gap-y-4 mt-5">
+          <div>
+            <%= form.label :copyright, class: "block text-sm font-medium mb-1" %>
+            <%= form.text_field :copyright, placeholder: '© 2024 My blog. All Rights Reserved.', class: "w-full text-sm mr-5" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-border border-base-300 bg-white">
+        <div class="p-6">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-three-stars-solid text-primary text-xl"></i>
+            <h3 class="font-bold">Additional features</h3>
+          </div>
+          <p class="opacity-70 mt-2">Disable or enable features</p>
+        </div>
+        <div class="flex justify-between items-center border-y px-6 py-6">
+          <div>
+            <%= form.label :with_sitemap, "Sitemap", class: "text-sm font-medium" %>
+            <p class="text-xs text-gray-400">Add sitemap link to footer</p>
+          </div>
+          <%= form.check_box :with_sitemap, class: "toggle toggle-xl toggle-primary checked:bg-primary checked:text-white checked:border-primary", "data-domain-target": "subfolder", "data-action": "change->domain#onSubfolderChange" %>
+        </div>
+        <div class="flex justify-between items-center border-b px-6 py-6">
+          <div>
+            <%= form.label :with_rss, "RSS", class: "text-sm font-medium" %>
+            <p class="text-xs text-gray-400">Add RSS link to footer</p>
+          </div>
+          <%= form.check_box :with_rss, class: "toggle toggle-xl toggle-primary checked:bg-primary checked:text-white checked:border-primary", "data-domain-target": "subfolder", "data-action": "change->domain#onSubfolderChange" %>
+        </div>
+      </div>
+
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-link text-primary text-xl"></i>
+            <h3 class="font-bold">Links</h3>
+          </div>
+          <p class="opacity-70 mt-2">Add & remove links from footer</p>
+        </div>
+
+        <div class="flex flex-col gap-y-4 mt-5">
+          <div>
+            <div class="rounded w-full bg-primary-content/40 border-2 border-gray-200">
+              <div id="links_list" class="flex flex-col justify-between w-full" data-controller="links" data-links-slug-value="<%= @page.slug %>">
+                <%= render partial: "pages/settings/links/link", collection: @links, as: :link %>
+              </div>
+            </div>
+            <%= link_to new_pages_settings_link_path(location: 'footer'), data: { turbo_frame: "new_link" }, class: "btn btn-outline btn-neutral btn-sm mt-4" do %>
+              Add new link <i class="iconoir-plus text-xl"></i>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-share-android text-primary text-xl"></i>
+            <h3 class="font-bold">Social media</h3>
+          </div>
+          <p class="opacity-70 mt-2">Add & remove social media links</p>
+        </div>
+
+        <div class="flex flex-col gap-y-4 mt-5">
+          <div>
+            <div class="rounded w-full bg-primary-content/40 border-2 border-gray-200">
+              <div id="social_media_list" class="flex flex-col justify-between w-full" data-controller="links" data-links-slug-value="<%= @page.slug %>">
+                <%= render partial: "pages/settings/links/link", collection: @social_media_links, as: :link %>
+              </div>
+            </div>
+            <%= link_to new_pages_settings_link_path(location: 'footer', link_type: 'social_media'), data: { turbo_frame: "new_link" }, class: "btn btn-outline btn-neutral btn-sm mt-4" do %>
+              Add new social media <i class="iconoir-plus text-xl"></i>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  <% end %>
+</div>
