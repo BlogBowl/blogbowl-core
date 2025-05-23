@@ -1,0 +1,9 @@
+<% if @page_settings.cta_enabled %>
+  <div class="card card-border bg-primary flex items-center justify-center flex-col p-6 md:p-12 gap-y-4 <%= defined?(custom_class) ? custom_class : '' %>">
+    <p class="text-3xl text-base-100 font-bold"><%= @page_settings&.cta_title.presence || 'CTA title' %></p>
+    <p class="text-base text-base-100 opacity-80"><%= @page_settings&.cta_description.presence || 'CTA description' %></p>
+    <a href="<%= @page_settings&.cta_button_link.presence %>" target="_blank" class="btn btn-lg mt-2 w-full md:w-fit">
+      <%= @page_settings&.cta_button.presence || 'CTA button' %>
+    </a>
+  </div>
+<% end %>

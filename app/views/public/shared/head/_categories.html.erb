@@ -1,0 +1,23 @@
+<title><%= @page_settings.name %> - All categories</title>
+
+<!-- Canonical url -->
+<link rel="canonical" href="<%= get_full_url(dynamic_prefix("/categories")) %>" />
+
+<!-- Tags -->
+<meta name="description" content="Find all categories"/>
+
+<!-- OG -->
+<meta name="og:locale" content="<%= @workspace_settings.locale %>"/>
+<meta name="og:site_name" content="<%= @page_settings.name %>"/>
+<meta name="og:type" content="website"/>
+<meta name="og:title" content="<%= @page_settings.title %> - All categories"/>
+<meta name="og:description" content="Find all categories"/>
+<meta name="og:url" content="<%= get_full_url(dynamic_prefix("/categories")) %>"/>
+<meta name="og:image" content="<%= @page_settings.og_image.present? ? Rails.application.routes.url_helpers.url_for(@page_settings.og_image) : '' %>"/>
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:site" content="<%= get_full_url(dynamic_prefix("/categories")) %>"/>
+
+<!--Umami Analytics -->
+<%= render "public/shared/head/analytics" rescue nil %>

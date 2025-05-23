@@ -1,0 +1,31 @@
+<%= link_to dynamic_prefix(public_post_path(post)), class: '' do %>
+  <article class="w-full">
+    <div class="rounded-xl overflow-hidden">
+      <div class="w-full h-48 rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+        <% if post.cover_image.attached? %>
+          <%= image_tag post.cover_image, class: "w-full h-full object-cover", alt: post.title %>
+        <% else %>
+          <div class="w-full h-full flex items-center justify-center border border-dashed rounded-xl">
+            <i class="iconoir-mask-square text-3xl text-base-300"></i>
+          </div>
+        <% end %>
+      </div>
+      <div class="py-3">
+        <div class="flex items-center space-x-4 mb-1">
+          <% if post.category.present? %>
+            <span class="px-3 py-1 rounded-full text-xs font-medium text-black" style="background-color: <%= post.category.color %>">
+              <%= post.category.name %>
+            </span>
+          <% end %>
+          <span class="text-xs opacity-70"><%= get_read_time(post) %></span>
+        </div>
+        <h2 class="text-xl font-bold mb-1 line-clamp-2">
+          <%= post.title %>
+        </h2>
+        <time class="text-xs opacity-80">
+          <%= format_date(post.updated_at) %>
+        </time>
+      </div>
+    </div>
+  </article>
+<% end %>

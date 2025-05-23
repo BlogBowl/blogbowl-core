@@ -1,0 +1,26 @@
+<title><%= author.formatted_name %><%= author.position.present? ? " | #{author.position}" : '' %></title>
+
+<!-- Structured data for article-->
+<%= profile_structured_data(author, breadcrumbs) if author.present? %>
+
+<!-- Canonical url -->
+<link rel="canonical" href="<%= get_full_url(dynamic_prefix("/authors/#{author.slug}")) %>" />
+
+<!-- Tags -->
+<meta name="description" content="<%= author.get_tag_description %>"/>
+
+<!-- OG -->
+<meta name="og:locale" content="<%= @workspace_settings.locale %>"/>
+<meta name="og:site_name" content="<%= @page_settings.name %>"/>
+<meta name="og:type" content="website"/>
+<meta name="og:title" content="<%= author.formatted_name %>"/>
+<meta name="og:description" content="<%= author.get_tag_description %>"/>
+<meta name="og:url" content="<%= get_full_url(dynamic_prefix("/authors/#{author.slug}")) %>"/>
+<meta name="og:image" content="<%= author.og_image.present? ? Rails.application.routes.url_helpers.url_for(author.og_image) : ''%>"/>
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:site" content="<%= get_full_url(dynamic_prefix("/authors/#{author.slug}")) %>"/>
+
+<!--Umami Analytics -->
+<%= render "public/shared/head/analytics" rescue nil %>

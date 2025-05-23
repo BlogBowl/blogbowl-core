@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import "tailwindcss";
+@plugin "daisyui" {
+    themes: false;
+}
+
+@plugin "daisyui/theme" {
+    name: "light";
+    default: true;
+    prefersdark: false;
+    color-scheme: "light";
+    --color-base-100: oklch(100% 0 0);
+    --color-base-200: oklch(98% 0 0);
+    --color-base-300: oklch(95% 0 0);
+    --color-base-content: oklch(21% 0.006 285.885);
+    --color-primary: #316bff;
+    --color-primary-content: oklch(93% 0.034 272.788);
+    --color-secondary: oklch(65% 0.241 354.308);
+    --color-secondary-content: oklch(94% 0.028 342.258);
+    --color-accent: oklch(77% 0.152 181.912);
+    --color-accent-content: oklch(38% 0.063 188.416);
+    --color-neutral: oklch(14% 0.005 285.823);
+    --color-neutral-content: oklch(92% 0.004 286.32);
+    --color-info: oklch(74% 0.16 232.661);
+    --color-info-content: oklch(29% 0.066 243.157);
+    --color-success: oklch(76% 0.177 163.223);
+    --color-success-content: oklch(37% 0.077 168.94);
+    --color-warning: oklch(82% 0.189 84.429);
+    --color-warning-content: oklch(41% 0.112 45.904);
+    --color-error: oklch(71% 0.194 13.428);
+    --color-error-content: oklch(27% 0.105 12.094);
+    --radius-selector: 0.5rem;
+    --radius-field: 0.5rem;
+    --radius-box: 1rem;
+    --size-selector: 0.21875rem;
+    --size-field: 0.21875rem;
+    --border: 1px;
+    --depth: 0;
+    --noise: 0;
+}
+
+@plugin "@tailwindcss/typography";
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+@layer base {
+    body {
+        font-family: "Noto Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: normal;
+        font-style: normal;
+        font-variation-settings: "wdth" 100;
+    }
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        @apply border-base-300
+    }
+
+    h1 {
+        @apply font-bold text-4xl md:text-6xl;
+    }
+
+    h2 {
+        @apply text-3xl md:text-4xl font-bold;
+    }
+
+    h3 {
+        @apply text-xl md:text-2xl font-bold;
+    }
+
+    base-text {
+
+    }
+
+    .btn {
+        @apply h-10 min-h-10;
+    }
+
+    .wrapper {
+        @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10;
+    }
+
+    .posts {
+        @apply grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-5 md:gap-y-10;
+    }
+
+    .pressable {
+        @apply hover:opacity-70 active:opacity-50
+    }
+
+    .hero-header {
+        @apply pb-5 md:pb-12 mt-20
+    }
+
+    .breadcrumbs {
+        @apply bg-base-300 rounded-full px-4 py-2 mt-5 flex items-center gap-x-2 text-xs md:text-sm;
+
+        a {
+            @apply opacity-50 hover:opacity-100 font-medium;
+        }
+
+        i {
+            @apply text-xl opacity-50;
+        }
+
+        p {
+            @apply opacity-80 font-medium truncate;
+        }
+    }
+}
+
+.pagy {
+    @apply flex space-x-1 font-semibold text-sm text-gray-500;
+
+    a:not(.gap) {
+        @apply block rounded-lg px-3 py-1 bg-gray-200;
+
+        &:hover {
+            @apply bg-gray-300;
+        }
+
+        &:not([href]) { /* disabled links */
+            @apply text-gray-300 bg-gray-100 cursor-default;
+        }
+
+        &.current {
+            @apply text-white bg-gray-400;
+        }
+    }
+
+    label {
+        @apply inline-block whitespace-nowrap bg-gray-200 rounded-lg px-3 py-0.5;
+
+
+    }
+}

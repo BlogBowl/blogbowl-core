@@ -1,0 +1,30 @@
+<% content_for :head do %>
+  <%= render "public/shared/head/categories", author: @author, page_settings: @page_settings %>
+<% end %>
+
+
+<div class="min-h-screen">
+  <section class="pt-10 px-4 sm:px-6 lg:px-8">
+    <div class="hero-header max-w-7xl mx-auto">
+      <div class="breadcrumbs border w-fit px-6 mx-auto mb-5">
+        <% default_breadcrumbs("Categories").each do |breadcrumb| %>
+          <% if breadcrumb[:url].present? %>
+            <%= link_to(breadcrumb[:title], breadcrumb[:url]) %>
+            <i class="iconoir-nav-arrow-right"></i>
+          <% else %>
+            <p class="">
+              <%= breadcrumb[:title] %>
+            </p>
+          <% end %>
+        <% end %>
+      </div>
+      <h1 class="text-center">Find all categories</h1>
+    </div>
+  </section>
+  <section class="my-10 md:my-20 relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-6 mt-8 text-center sm:grid-cols-2 sm:mt-12 lg:grid-cols-3">
+      <%= render partial: "public/help_docs_1/categories/category", collection: @categories %>
+    </div>
+    <%= pagy_navigation %>
+  </section>
+</div>

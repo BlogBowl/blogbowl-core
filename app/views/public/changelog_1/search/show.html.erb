@@ -1,0 +1,38 @@
+<% content_for :head do %>
+  <%= render "public/shared/head/search", search_query: @search_query %>
+<% end %>
+
+<div class="min-h-screen">
+  <section class="pt-5 md:pt-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="hero-header">
+        <div class="breadcrumbs mb-5">
+          <% default_breadcrumbs("Search").each do |breadcrumb| %>
+            <% if breadcrumb[:url].present? %>
+              <%= link_to(breadcrumb[:title], breadcrumb[:url]) %>
+              <i class="iconoir-nav-arrow-right"></i>
+            <% else %>
+              <p>
+                <%= breadcrumb[:title] %>
+              </p>
+            <% end %>
+          <% end %>
+        </div>
+        <h1 class="text-left">Search results for: <%= @search_query %></h1>
+      </div>
+    </div>
+  </section>
+  <section class="md:mb-10 relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <% if @posts.length > 0 %>
+      <div class="space-y-10 w-full">
+        <%= render partial: "public/changelog_1/pages/post", collection: @posts %>
+      </div>
+      <%= pagy_navigation %>
+    <% else %>
+      <p class="text-center">
+        Nothing matched your search terms.
+        Please try again with some different keywords.
+      </p>
+    <% end %>
+  </section>
+</div>

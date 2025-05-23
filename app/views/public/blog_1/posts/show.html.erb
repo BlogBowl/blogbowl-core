@@ -1,0 +1,173 @@
+<% content_for :head do %>
+  <%= render "public/shared/head/post", post: @post, breadcrumbs: default_breadcrumbs(@post.title) %>
+<% end %>
+
+<div class="wrapper">
+  <section class="md:pb-10">
+    <div class="breadcrumbs shadow-lg">
+      <% default_breadcrumbs(@post.title).each do |breadcrumb| %>
+        <% if breadcrumb[:url].present? %>
+          <%= link_to(breadcrumb[:title], breadcrumb[:url]) %>
+          <i class="iconoir-nav-arrow-right"></i>
+        <% else %>
+          <p class="breadcrumb-item">
+            <%= breadcrumb[:title] %>
+          </p>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="mt-5 md:mt-10">
+      <div class="flex flex-col gap-y-5 md:gap-y-10">
+        <!-- Tag -->
+        <% if @post.category.present? %>
+          <div class="flex items-center gap-x-5">
+            <%= link_to @post.category.name, dynamic_prefix(public_category_path(@post.category)), class: "px-4 py-1 rounded-full w-fit font-medium hover:opacity-70 active:opacity-50 text-sm text-black", style: "background-color: #{@post.category.color}" %>
+          </div>
+        <% end %>
+
+
+        <div class="md:hidden">
+          <% if @post.cover_image.attached? %>
+            <%= image_tag @post.cover_image, class: "w-full h-full rounded-2xl object-cover", alt: @post.title %>
+          <% else %>
+            <div class="w-full h-full flex items-center justify-center">
+              <p>No image provided</p>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Title and metadata container -->
+        <div class="flex items-start justify-between gap-x-8">
+          <div class="flex-1">
+            <!-- Title -->
+            <div class="mb-5 md:mb-10">
+              <h1 class="md:text-5xl text-left w-full">
+                <%= @post.title %>
+              </h1>
+
+              <div class="flex md:items-center gap-x-5 opacity-70 mt-2 flex-col md:flex-row">
+                <p>Last updated on <%= format_date(@post.updated_at) %></p>
+                <p class="hidden md:flex">■</p>
+                <p class="hidden md:flex"><%= get_read_time(@post) %> read</p>
+              </div>
+            </div>
+
+            <!-- Author info and metadata -->
+            <%= link_to dynamic_prefix(public_author_path(@main_author)), class: 'hover:opacity-70 active:opacity-50' do %>
+              <div class="flex items-center justify-between gap-x-4 bg-base-200 rounded-3xl px-5 py-2 md:w-96 w-full">
+                <div class="flex items-center gap-x-4">
+                  <!-- Author avatar -->
+                  <% if @main_author.avatar_picture.present? %>
+                    <%= image_tag @main_author.avatar_picture, class: "w-12 h-12 rounded-full object-cover", alt: @main_author.formatted_name %>
+                  <% end %>
+
+                  <div class="flex items-center gap-x-6">
+                    <!-- Author and date -->
+                    <div>
+                      <p class="font-medium"><%= @main_author.formatted_name %></p>
+                      <p class="opacity-70 text-sm"><%= @main_author.position %></p>
+                    </div>
+
+                  </div>
+                </div>
+                <% if @contributing_authors.any? %>
+                  <p class="text-slate-500 text-sm">+<%= @contributing_authors.count %> contributors</p>
+                <% end %>
+              </div>
+            <% end %>
+
+            <% if @reviewers.present? %>
+              <div class="text-slate-500 text-sm mt-5">
+                Reviewed by:
+                <%= @reviewers.map { |author| link_to(author.formatted_name, dynamic_prefix(public_author_path(author)), class: "text-slate-700 hover:text-slate-900") }.to_sentence.html_safe %>
+              </div>
+            <% end %>
+
+          </div>
+
+          <!-- Featured image -->
+          <div class="hidden md:flex shrink-0">
+            <% if @post.cover_image.attached? %>
+              <%= image_tag @post.cover_image, class: "w-[600px] h-auto rounded-2xl object-cover", alt: @post.title %>
+            <% else %>
+              <div class="w-full h-full flex items-center justify-center">
+                <p>No image provided</p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <div class="h-px w-full my-5 md:my-10 bg-base-300"></div>
+</div>
+
+<div class="flex gap-x-16 max-w-7xl mx-auto px-5 md:px-10">
+  <!-- Table of Contents -->
+  <div class="w-80 shrink-0 hidden md:block">
+    <div class="sticky top-24">
+      <p class="uppercase text-sm opacity-80 tracking-wider mb-6 font-bold">
+        TABLE OF CONTENTS
+      </p>
+
+      <div class="space-y-6 max-h-[calc(100vh-250px)] overflow-scroll">
+        <%= generate_toc(@post.content_html) %>
+      </div>
+
+      <div class="my-5 border-b py-5">
+        <%= render "public/shared/post/social-share" %>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Content Area -->
+  <div class="flex-1">
+
+    <details class="collapse mb-5 md:hidden">
+      <summary class="opacity-80 uppercase text-sm tracking-wider mb-3 font-bold p-2 border bg-base-200 rounded-lg">
+        <div class="flex items-center justify-between">
+          <p>TABLE OF CONTENTS</p>
+          <i class="iconoir-nav-arrow-right text-lg"></i>
+        </div>
+      </summary>
+      <div class="collapse-content p-0">
+        <%= generate_toc(@post.content_html) %>
+      </div>
+    </details>
+
+    <article class="prose prose-lg lg:prose-lg prose-img:rounded pb-10">
+      <%= sanitize @post.content_html, scrubber: CustomScrubber.new %>
+    </article>
+
+    <div class="h-px w-full my-10 bg-base-300"></div>
+    <div class="flex items-center justify-between flex-col md:flex-row gap-y-2">
+      <h3>Share this post</h3>
+      <%= render "public/shared/post/social-share" %>
+    </div>
+    <div class="h-px w-full my-10 bg-base-300"></div>
+
+    <!-- CTA -->
+    <%= render "public/shared/post/main_cta", custom_class: 'mb-10' %>
+
+    <h3 class="text-center md:text-left">Written by</h3>
+    <section class="card card-border border-base-300 bg-base-200 p-5 flex items-center justify-between mt-5 flex-col md:flex-row gap-y-4">
+      <div class="rounded">
+        <%= image_tag @main_author.avatar_picture, class: "w-28 h-28 rounded-full object-cover", alt: @main_author.formatted_name if @main_author.avatar_picture.attached? %>
+      </div>
+      <div class="flex-1 md:pl-8"> <!-- Added right padding for spacing -->
+        <%= link_to @main_author.formatted_name, dynamic_prefix(public_author_path(@main_author)), class: 'font-bold text-xl hover:opacity-70 active:opacity-50' %>
+        <p class="opacity-70 mt-2">
+          <%= @main_author.long_description %>
+        </p>
+      </div>
+    </section>
+  </div>
+</div>
+
+
+<%= @page_settings.body_html&.html_safe %>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8" onload="window.checkTweets()"></script>

@@ -1,0 +1,7 @@
+<% if  @page_settings.theme.present? %>
+  <style>
+      :root {
+      <%= @page_settings.theme.html_safe %>
+      }
+  </style>
+<% end %>

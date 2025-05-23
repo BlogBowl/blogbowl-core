@@ -1,0 +1,28 @@
+<title><%= @page_settings.title %></title>
+
+<!-- Structured data for article-->
+<%= main_structured_data %>
+
+<!-- Canonical url -->
+<link rel="canonical" href="<%= get_full_url(dynamic_prefix('')) %>" />
+
+
+<!-- Tags -->
+<meta name="description" content="<%= @page_settings.seo_description %>"/>
+
+<!-- OG -->
+<meta name="og:locale" content="<%= @workspace_settings.locale %>"/>
+<meta name="og:type" content="website"/>
+<meta name="og:title" content="<%= @page_settings.name %>"/>
+<meta name="og:description" content="<%= @page_settings.seo_description %>"/>
+<meta name="og:url" content="<%= get_full_url(dynamic_prefix('')) %>"/>
+<meta name="og:site_name" content="<%= @page_settings.name %>"/>
+<meta name="og:image" content="<%= @page_settings.og_image.present? ? Rails.application.routes.url_helpers.url_for(@page_settings.og_image) : '' %>"/>
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:site" content="<%= get_full_url(dynamic_prefix("")) %>"/>
+
+<!--Umami Analytics -->
+<%= render "public/shared/head/analytics" rescue nil %>
+

@@ -1,0 +1,21 @@
+<% content_for :head do %>
+  <%= render "public/shared/head/archive" %>
+<% end %>
+
+<section class="hero text-center py-12 relative">
+  <div class="wrapper px-10 border">
+    <h1 class="font-extrabold"><%= @page_settings.title %></h1>
+    <p class="mt-3 mx-auto w-full lg:w-96"><%= @page_settings.description %></p>
+  </div>
+</section>
+<section class="mt-14 relative max-w-5xl mx-auto">
+  <div class="py-5">
+    <p class="font-bold">Breadcrumbs:</p>
+    <%= render_breadcrumbs(default_breadcrumbs("Archive")) %>
+  </div>
+  <div class="flex flex-col gap-y-5">
+    <%= render partial: "public/barebone/pages/post", collection: @posts %>
+  </div>
+  <%== pagy_navigation %>
+</section>
+<div class="w-full h-px bg-gray-200 my-10"></div>

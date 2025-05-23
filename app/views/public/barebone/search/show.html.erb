@@ -1,0 +1,23 @@
+<% content_for :head do %>
+  <%= render "public/shared/head/search", search_query: @search_query %>
+<% end %>
+
+<section class="hero text-center py-12 relative">
+  <div class="wrapper px-10 border">
+    <h2 class="font-extrabold">Search results for: <%= @search_query %></h2>
+  </div>
+</section>
+<section class="mt-14 relative max-w-5xl mx-auto">
+  <% if @posts.length > 0 %>
+    <div class="flex flex-col gap-y-5">
+      <%= render partial: "public/barebone/pages/post", collection: @posts %>
+    </div>
+    <%= pagy_navigation %>
+  <% else %>
+    <p class="text-center">
+      Nothing matched your search terms.
+      Please try again with some different keywords.
+    </p>
+  <% end %>
+</section>
+<div class="w-full h-px bg-gray-200 my-10"></div>

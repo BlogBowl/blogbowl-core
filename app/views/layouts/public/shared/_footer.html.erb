@@ -1,0 +1,34 @@
+<footer class="py-5 border-t bg-base-100">
+  <div class="flex flex-col items-center justify-center py-3 max-w-7xl mx-auto ">
+    <a class="text-2xl" href='<%= get_full_url(dynamic_prefix('/')) %>'>
+      <% if @page_settings.logo.attached? %>
+        <%= image_tag @page_settings.logo, class: "h-7 object-contain", alt: @page_settings.logo_text %>
+      <% else %>
+        <%= @page_settings.logo_text %>
+      <% end %>
+    </a>
+    <nav class="flex items-center mt-5">
+      <ul class="flex items-center gap-x-5">
+        <% @footer_links.each do |link| %>
+          <li><a class="font-medium text-base opacity-70" href="<%= link.url %>"><%= link.title %></a>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+    <div class="flex items-center mt-5 gap-x-4">
+      <% @social_media_links.each do |link| %>
+        <a class="hover:opacity-70 active:opacity-60" href="<%= link.url %>" target="_blank" rel="noopener noreferrer" aria-label="<%= link.title %>">
+          <i class="<%= social_media_icon(link.title) %> text-xl"></i>
+        </a>
+      <% end %>
+    </div>
+    <% if @page_settings.copyright?.present? %>
+      <p class="text-xs mt-5"><%= @page_settings.copyright %></p>
+    <% end %>
+    <% if @workspace_settings.with_watermark? %>
+      <p class="text-xs mt-5">Powered By
+        <a href="https://blogbowl.io?utm=powered-by-public" target="_blank" rel="noopener noreferrer" class="font-bold text-black bg-[#ffe44f] px-1 py-0.5 rounded">Blog
+          🍚</a></p>
+    <% end %>
+  </div>
+</footer>

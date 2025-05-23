@@ -1,0 +1,5 @@
+<%= link_to dynamic_prefix(public_author_path(author)), class: "flex flex-col items-center justify-center border rounded p-2" do %>
+  <%= author.avatar(size: 10, css_class: 'rounded-none').html_safe %>
+  <h2 class="mt-2 font-bold"><%= author.formatted_name %></h2>
+  <p class="mt-2 text-gray-500"><%= author.position %></p>
+<% end %>

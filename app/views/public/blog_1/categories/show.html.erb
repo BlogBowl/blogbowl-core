@@ -1,0 +1,31 @@
+<% content_for :head do %>
+  <%= render "public/shared/head/category", category: @category, breadcrumbs: category_breadcrumbs %>
+<% end %>
+
+<div class="wrapper min-h-screen">
+  <section class="hero-header">
+    <h1><%= @category.name %></h1>
+    <div class="breadcrumbs">
+      <% category_breadcrumbs.each do |breadcrumb| %>
+        <% if breadcrumb[:url].present? %>
+          <%= link_to(breadcrumb[:title], breadcrumb[:url]) %>
+          <i class="iconoir-nav-arrow-right"></i>
+        <% else %>
+          <p class="">
+            <%= breadcrumb[:title] %>
+          </p>
+        <% end %>
+      <% end %>
+    </div>
+    <% if @category.description.present? %>
+      <p class="md:mt-10 md:text-xl leading-8 text-base opacity-80 text-md mt-5 text-center md:text-left"><%= @category.description %></p>
+    <% end %>
+  </section>
+  <section class="mt-5 md:mt-10 relative">
+    <h2 class="font-bold mb-10 text-center md:text-left">Our Best Articles in <%= @category.name %> category</h2>
+    <div class="posts">
+      <%= render partial: "public/blog_1/pages/post", collection: @posts %>
+    </div>
+    <%= pagy_navigation %>
+  </section>
+</div>
