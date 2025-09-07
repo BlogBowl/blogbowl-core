@@ -1,0 +1,25 @@
+one:
+  workspace: one
+  html_lang: 'en'
+  locale: 'en-US'
+
+two:
+  workspace: two
+  html_lang: 'en'
+  locale: 'en-US'
+
+workspace_blog_with_domain_1:
+  workspace: workspace_blog_with_domain_1
+  html_lang: 'en'
+  locale: 'en-US'
+
+workspace_with_subscribers:
+  workspace: workspace_with_subscribers
+  html_lang: 'en'
+  locale: 'en-US'
+
+#TODO: PRO
+#free_workspace_settings:
+#  workspace: free_workspace
+#  html_lang: 'en'
+#  locale: 'en-US'

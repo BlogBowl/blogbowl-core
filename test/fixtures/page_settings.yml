@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  page: one
+  seo_title: MyText
+  seo_description: MyText
+  template: basic
+
+two:
+  page: two
+  seo_title: MyText
+  seo_description: MyText
+  template: basic
+
+blog_with_domain_1_settings:
+  page: blog_with_domain_1
+  seo_title: MyText
+  seo_description: MyText
+  template: basic
+  newsletter: newsletter_blog_with_domain_1
+
+page_settings_with_subscribers:
+  page: blog_with_subscribers
+  seo_title: MyText
+  seo_description: MyText
+  template: basic
+  newsletter: newsletter_with_subscribers

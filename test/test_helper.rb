@@ -1,14 +1,18 @@
-# Configure Rails Environment
-ENV["RAILS_ENV"] = "test"
-
-require_relative "../test/dummy/config/environment"
-ActiveRecord::Migrator.migrations_paths = [ File.expand_path("../test/dummy/db/migrate", __dir__) ]
+ENV["RAILS_ENV"] ||= "test"
+require_relative "../config/environment"
 require "rails/test_help"
+require "bcrypt"
 
-# Load fixtures from the engine
-if ActiveSupport::TestCase.respond_to?(:fixture_paths=)
-  ActiveSupport::TestCase.fixture_paths = [ File.expand_path("fixtures", __dir__) ]
-  ActionDispatch::IntegrationTest.fixture_paths = ActiveSupport::TestCase.fixture_paths
-  ActiveSupport::TestCase.file_fixture_path = File.expand_path("fixtures", __dir__) + "/files"
-  ActiveSupport::TestCase.fixtures :all
+
+class ActiveSupport::TestCase
+  # Run tests in parallel with specified workers
+  parallelize(workers: :number_of_processors)
+
+  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
+  fixtures :all
+
+  # Add more helper methods to be used by all tests here...
+  def sign_in_as(user)
+    post(sign_in_url, params: { email: user.email, password: "Secret1*3*5*" }); user
+  end
 end

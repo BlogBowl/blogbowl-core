@@ -1,7 +1,23 @@
-one:
-  email: one@example.com
-  password_digest: BCrypt::Password.create("password")
+lazaro_nixon:
+  email: lazaronixon@hotmail.com
+  password_digest: <%= BCrypt::Password.create("Secret1*3*5*") %>
 
-two:
-  email: two@example.com
-  password_digest: BCrypt::Password.create("password")
+workspace_owner:
+  email: workspaceowner@email.com
+  password_digest: <%= BCrypt::Password.create("Secret1*3*5*") %>
+
+alex_gonzalez:
+  email: alexgonzalez@hotmail.com
+  password_digest: <%= BCrypt::Password.create("Secret1*3*5*") %>
+
+editor_without_blog:
+  email: noblog1@example.com
+  password_digest: <%= BCrypt::Password.create("Secret1*3*5*") %>
+
+writer_without_blog:
+  email: noblog2@example.com
+  password_digest: <%= BCrypt::Password.create("Secret1*3*5*") %>
+
+member_without_blog:
+  email: noblog3@example.com
+  password_digest: <%= BCrypt::Password.create("Secret1*3*5*") %>
