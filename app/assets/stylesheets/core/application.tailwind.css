@@ -1,16 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @plugin "daisyui" {
     themes: false;
 }
+
 
 @plugin "daisyui/theme" {
     name: "light";
     default: true;
     prefersdark: false;
     color-scheme: "light";
-    --color-base-100: oklch(100% 0 0);
+    --color-base-100: rgb(249 250 251);
     --color-base-200: oklch(98% 0 0);
     --color-base-300: oklch(95% 0 0);
     --color-base-content: oklch(21% 0.006 285.885);
@@ -30,7 +32,7 @@
     --color-warning-content: oklch(41% 0.112 45.904);
     --color-error: oklch(71% 0.194 13.428);
     --color-error-content: oklch(27% 0.105 12.094);
-    --radius-selector: 0.5rem;
+    --radius-selector: 1rem;
     --radius-field: 0.5rem;
     --radius-box: 1rem;
     --size-selector: 0.21875rem;
@@ -40,11 +42,22 @@
     --noise: 0;
 }
 
-@plugin "@tailwindcss/typography";
+
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme{
+    --color-primary: #316bff;
+    --color-border: #e2e8f0;
+    --color-input: #e2e8f0;
+    --color-input-focus: #5BBEDC;
+    --color-input-focus-ring: #E2F4FA;
+    --color-error: #E56B6B;
+    --color-muted: #f1f5f9;
+    --color-muted-foreground: #64748b,
+}
 
 @layer base {
+
     body {
         font-family: "Noto Sans", sans-serif;
         font-optical-sizing: auto;
@@ -62,58 +75,75 @@
     }
 
     h1 {
-        @apply font-bold text-4xl md:text-6xl;
+        @apply text-3xl font-bold;
     }
 
     h2 {
-        @apply text-3xl md:text-4xl font-bold;
+        @apply text-xl font-bold;
     }
 
     h3 {
-        @apply text-xl md:text-2xl font-bold;
+        @apply text-lg font-medium;
     }
 
-    base-text {
-
+    label {
+        @apply block text-sm font-medium mb-1 opacity-80;
     }
 
-    .btn {
-        @apply h-10 min-h-10;
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="url"],
+    textarea {
+        @apply flex h-10 w-full rounded-md bg-white border border-input px-3 py-2 text-sm;
+        @apply focus:border-input-focus focus-visible:outline-none focus-visible:ring-2 focus:ring-input-focus-ring focus-visible:ring-offset-2;
+        @apply disabled:cursor-not-allowed disabled:opacity-50;
     }
 
-    .wrapper {
-        @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10;
+    /* Adjust height for textarea */
+    textarea {
+        @apply h-auto;
     }
 
-
-    .posts {
-        @apply grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-5 md:gap-y-10;
-    }
-
-    .pressable {
-        @apply hover:opacity-70 active:opacity-50
-    }
-
-    .hero-header {
-        @apply pb-5 md:pb-12 mt-20
-    }
-
-    .breadcrumbs {
-        @apply bg-base-300 rounded-full px-4 py-2 mt-5 flex items-center gap-x-2 text-xs md:text-sm;
+    .dropdown-list {
+        @apply absolute bg-base-100 rounded-md z-[1] w-56 !p-0 overflow-hidden shadow;
 
         a {
-            @apply opacity-50 hover:opacity-100 font-medium;
+            @apply flex justify-between font-normal rounded-none;
         }
 
         i {
-            @apply text-xl opacity-50;
+            @apply h-5 text-xl;
         }
 
-        p {
-            @apply opacity-80 font-medium truncate;
+        button {
+            @apply flex justify-between w-full;
         }
     }
+
+    .vertical-text {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        text-orientation: mixed;
+        white-space: nowrap;
+    }
 }
+
+input[type="color"] {
+    -webkit-appearance: none;
+    border: none;
+    background: #E2F4FA
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+}
+
 
 .pagy {
     @apply flex space-x-1 font-semibold text-sm text-gray-500;
@@ -137,44 +167,8 @@
     label {
         @apply inline-block whitespace-nowrap bg-gray-200 rounded-lg px-3 py-0.5;
 
-
+        input {
+            @apply bg-gray-100 border-none rounded-md;
+        }
     }
-}
-
-.prose li p,
-.prose-lg li p
-{
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.prose table p,
-.prose-lg table p
-{
-    @apply text-sm;
-    margin-top: 0.25em;
-    margin-bottom: 0.25em;
-}
-
-.prose table,
-.prose-lg table {
-    @apply block border-collapse overflow-x-auto;
-}
-
-/* Style for the header cells (first row) */
-.prose th,
-.prose-lg th {
-    @apply bg-base-200 border border-base-300 px-4 py-2;
-}
-
-/* Style for the body cells */
-.prose td,
-.prose-lg td {
-    @apply border border-base-300 px-4 py-2;
-}
-
-.prose iframe,
-.prose-lg iframe {
-    @apply w-full rounded-lg; /* Make it full-width and add rounded corners */
-    aspect-ratio: 16 / 9;      /* Set a 16:9 aspect ratio for video */
 }

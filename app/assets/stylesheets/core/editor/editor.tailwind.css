@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import "./index.css";
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+    --background: 0 0% 100%;
+    --foreground: oklch(13.7% 0.0360 258.53);
+    --card: 0 0% 100%;
+    --card-foreground: oklch(13.7% 0.0360 258.53);
+    --popover: 0 0% 100%;
+    --popover-foreground: oklch(13.7% 0.0360 258.53);
+    --primary: oklch(54.6% 0.2153 262.87);
+    --primary-foreground: oklch(98.4% 0.0035 247.86);
+    --secondary: oklch(96.8% 0.0068 247.90);
+    --secondary-foreground: oklch(20.8% 0.0399 265.73);
+    --muted: oklch(96.8% 0.0068 247.90);
+    --muted-foreground: oklch(55.5% 0.0407 257.44);
+    --accent: oklch(96.8% 0.0068 247.90);
+    --accent-foreground: oklch(20.8% 0.0399 265.73);
+    --destructive: oklch(63.7% 0.2078 25.33);
+    --destructive-foreground: oklch(98.4% 0.0035 247.86);
+    --border: oklch(92.9% 0.0126 255.53);
+    --input: oklch(92.9% 0.0126 255.53);
+    --ring: oklch(54.6% 0.2153 262.87);
+    --radius: 0.5rem;
+    --chart-1: oklch(67.7% 0.1571 35.19);
+    --chart-2: oklch(63.1% 0.1013 183.49);
+    --chart-3: oklch(37.9% 0.0440 225.54);
+    --chart-4: oklch(83.4% 0.1186 88.15);
+    --chart-5: oklch(78.3% 0.1261 58.75);
+}
+
+@theme {
+    --color-border: #e2e8f0;
+    --color-input: #e2e8f0;
+    --color-input-focus: #5BBEDC;
+    --color-input-focus-ring: #E2F4FA;
+    --color-error: #E56B6B;
+    --color-muted: #f1f5f9;
+    --color-muted-foreground: #64748b,
+}
+
+@theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+}
+
+
+@layer base {
+
+    body {
+        font-family: "Noto Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: normal;
+        font-style: normal;
+        font-variation-settings: "wdth" 100;
+    }
+
+    h1 {
+        @apply text-3xl;
+    }
+
+    h2 {
+        @apply text-2xl;
+    }
+
+    a {
+        @apply font-bold;
+    }
+
+    a.accent {
+        @apply underline decoration-2 decoration-primary;
+    }
+
+    .btn {
+        @apply !h-10 !min-h-10;
+    }
+
+    .input, .select {
+        @apply !h-10 !min-h-10;
+    }
+
+    .file-input {
+        @apply !h-10 !min-h-10
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="url"],
+    textarea {
+        @apply flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm;
+        @apply placeholder:text-muted-foreground;
+        @apply focus:border-input-focus focus-visible:outline-none focus-visible:ring-2 focus:ring-input-focus-ring focus-visible:ring-offset-2;
+        @apply disabled:cursor-not-allowed disabled:opacity-50;
+    }
+
+    /* Adjust height for textarea */
+    textarea {
+        @apply h-auto;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    body {
+        @apply font-sans antialiased bg-background text-foreground;
+    }
+}
+
+input[type="color"] {
+    -webkit-appearance: none;
+    border: none;
+    background: #E2F4FA
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+}

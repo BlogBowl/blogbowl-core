@@ -46,6 +46,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'postmark'
 
   spec.add_dependency 'language_list'
+
+  spec.add_dependency "hotwire-livereload"
 end
 
 
