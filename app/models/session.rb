@@ -10,6 +10,7 @@ class Session < ApplicationRecord
 
   after_create { sudo.mark }
 
-  after_create  { user.events.create! action: "signed_in" }
-  after_destroy { user.events.create! action: "signed_out" }
+  # TODO: PRO
+  # after_create  { user.events.create! action: "signed_in" }
+  # after_destroy { user.events.create! action: "signed_out" }
 end
