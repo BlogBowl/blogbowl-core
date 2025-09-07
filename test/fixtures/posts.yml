@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  content_html: MyText
+  page: one
+  slug: my-string-1
+
+two:
+  title: MyString
+  content_html: MyText
+  page: one
+  slug: my-string-2
+
+post_with_authors:
+  title: Post with authors
+  content_html: MyText
+  page: one
+  slug: post-with-authors

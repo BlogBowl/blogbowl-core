@@ -1,0 +1,51 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  email: email@one.com
+  status: 'pending'
+  active: false
+  verified: false
+  newsletter: one
+
+two:
+  email: email@two.com
+  status: 'pending'
+  active: false
+  verified: false
+  newsletter: one
+
+unverified:
+  email: email@unverified.com
+  status: 'pending'
+  active: false
+  verified: false
+  newsletter: one
+
+verified_1:
+  email: email@verified1.com
+  status: 'active'
+  active: true
+  verified: true
+  newsletter: newsletter_with_subscribers
+
+verified_2:
+  email: email@verified2.com
+  status: 'active'
+  active: true
+  verified: true
+  newsletter: newsletter_with_subscribers
+
+#TODO: PRO
+#pro_verified_subscriber:
+#  email: email@verified2.com
+#  status: 'active'
+#  active: true
+#  verified: true
+#  newsletter: pro_workspace_newsletter
+#
+#free_verified_subscriber:
+#  email: email@verified2.com
+#  status: 'active'
+#  active: true
+#  verified: true
+#  newsletter: free_workspace_newsletter

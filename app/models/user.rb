@@ -17,7 +17,7 @@ class User < ApplicationRecord
   has_many :members, dependent: :destroy
   has_many :workspaces, through: :members, source: :workspace
 
-  # validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   # validates :password, allow_nil: false, length: { minimum: 8 }
 
   # TODO: PRO
@@ -30,24 +30,24 @@ class User < ApplicationRecord
   #   self.verified = false
   # end
 
-  # after_create do
-  #   workspace = Workspace.new(title: "My Workspace")
-  #   members.create!(workspace:, permissions: ["owner"])
-  #   author = members.first.create_or_activate_author!
-  #
-  #   # This creates default published post
-  #   # first_page = workspace.pages.first
-  #   # unless first_page.nil?
-  #   #   first_page.create_default_first_post(author.id)
-  #   # end
-  #
-  #   # TODO: PRO
-  #   # if verified? && provider.present?
-  #   #   # start journey for oauth users
-  #   #   # TODO: enable later
-  #   #   # Journeys::NewRegistration.new(user_id: self.id).start
-  #   # end
-  # end
+  after_create do
+    workspace = Workspace.new(title: "My Workspace")
+    members.create!(workspace:, permissions: ["owner"])
+    author = members.first.create_or_activate_author!
+
+    # This creates default published post
+    first_page = workspace.pages.first
+    unless first_page.nil?
+      first_page.create_default_first_post(author.id)
+    end
+
+    # TODO: PRO
+    # if verified? && provider.present?
+    #   # start journey for oauth users
+    #   # TODO: enable later
+    #   # Journeys::NewRegistration.new(user_id: self.id).start
+    # end
+  end
 
   # TODO: PRO
   # after_update if: :password_digest_previously_changed? do

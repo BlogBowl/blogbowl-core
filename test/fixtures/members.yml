@@ -1,0 +1,55 @@
+one:
+  user: editor_without_blog
+  workspace: one
+  permissions: ["posts:create", "posts:edit", "posts:destroy"]
+
+two:
+  user: writer_without_blog
+  workspace: one
+  permissions: ["posts:create", "posts:edit_own", "posts:destroy_own"]
+
+three:
+  user: member_without_blog
+  workspace: one
+  permissions: []
+
+four:
+  user: lazaro_nixon
+  workspace: one
+  permissions: ["owner"]
+
+five:
+  user: alex_gonzalez
+  workspace: two
+  permissions: ["owner"]
+
+six:
+  user: alex_gonzalez
+  workspace: workspace_blog_with_domain_1
+  permissions: ["owner"]
+
+seven:
+  user: member_without_blog
+  workspace: workspace_blog_with_domain_1
+  permissions: []
+
+eight:
+  user: member_without_blog
+  workspace: two
+  permissions: []
+
+member_workspace_owner:
+  user: workspace_owner
+  workspace: one
+  permissions: ["owner"]
+
+# TODO: PRO
+#free_workspace_owner:
+#  user: free_user
+#  workspace: free_workspace
+#  permissions: ["owner"]
+#
+#pro_workspace_owner:
+#  user: pro_user
+#  workspace: pro_workspace
+#  permissions: ["owner"]

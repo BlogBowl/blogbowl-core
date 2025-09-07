@@ -1,0 +1,28 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("DATABASE_POOL_SIZE", 5) %>
+  timeout: 5000
+  database: blogbowl
+
+development:
+  <<: *default
+  username: development
+  password: development
+  host: localhost
+  port: 5435
+
+test:
+  <<: *default
+  database: test
+  username: test
+  password: test
+  host: <%= ENV.fetch('DB_HOST', 'localhost') %>
+  port: <%= ENV.fetch('DB_PORT', 5434) %>
+
+production:
+  <<: *default
+  username: <%= ENV.fetch('DB_USERNAME', Rails.application.credentials[Rails.env.to_sym][:db][:username]) %>
+  password: <%= ENV.fetch('DB_PASSWORD', Rails.application.credentials[Rails.env.to_sym][:db][:password]) %>
+  host: <%= ENV.fetch('DB_HOST', Rails.application.credentials[Rails.env.to_sym][:db][:host]) %>
+  port: <%= ENV.fetch('DB_PORT', Rails.application.credentials[Rails.env.to_sym][:db][:port]) %>

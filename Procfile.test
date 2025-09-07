@@ -1,0 +1,2 @@
+infra: docker compose -f docker-compose.test.yaml up
+run migrations: RAILS_ENV=test rails db:migrate

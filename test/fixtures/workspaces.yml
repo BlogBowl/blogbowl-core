@@ -1,0 +1,18 @@
+one:
+  title: one
+two:
+  title: two
+
+workspace_blog_with_domain_1:
+  title: workspace blog with domain 1
+
+workspace_with_subscribers:
+  title: workspace blog with subscribers
+
+#TODO: PRO
+#free_workspace:
+#  title: free workspace
+#
+#pro_workspace:
+#    title: pro workspace
+#    stripe_customer_id: cus_0000000

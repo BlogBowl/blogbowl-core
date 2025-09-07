@@ -13,3 +13,15 @@ gem "propshaft"
 gem "rubocop-rails-omakase", require: false
 
 gem "cancancan", "~> 3.6"
+
+gem "bootsnap", require: false
+
+gem "rack-cors", "~> 3.0"
+
+gem "pagy"
+
+gem "sidekiq"
+
+gem 'truemail'
+
+gem "bcrypt"
