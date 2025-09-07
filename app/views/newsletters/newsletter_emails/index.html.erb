@@ -1,0 +1,40 @@
+<% content_for :title, "Newsletter" %>
+<div class="pt-10">
+  <div class="">
+    <!-- Header Section -->
+    <div class="flex justify-between items-center mb-8">
+      <h1>Newsletter</h1>
+
+      <div class="flex items-center gap-4">
+        <%= link_to "New e-mail", new_newsletters_newsletter_email_path, class: "btn btn-primary text-white" %>
+      </div>
+    </div>
+
+    <div class="mb-10">
+      <%= render partial: 'shared/flashes' %>
+    </div>
+
+    <!-- Header -->
+    <div class="grid grid-cols-10 py-2 border-b font-medium text-gray-600 text-xs px-5">
+      <div class="col-span-4 uppercase">Title</div>
+      <div class="col-span-2 uppercase">Status</div>
+      <div class="col-span-1 uppercase">Sends</div>
+      <div class="col-span-1 uppercase">Open Rate</div>
+      <div class="col-span-1 uppercase">Bounce Rate</div>
+      <div class="col-span-1 uppercase"></div>
+    </div>
+
+    <div class="divide-y border-b">
+      <% if @emails.any? %>
+        <%= render partial: "newsletters/newsletter_emails/email", collection: @emails %>
+      <% else %>
+        <div class="grid grid-cols-12 py-4 items-center hover:bg-gray-100 transition-colors px-5">
+          <div class="col-span-12 font-medium flex items-center justify-center">There are no emails yet. Please, add
+            new
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <%= pagy_navigation %>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%= render "layouts/common_head", is_editor: true %>
+
+  <body>
+    <%= render "shared/masquerade_banner" %>
+    <div class="<%= 'pt-12' if session[:admin_id] %>">
+      <%= yield %>
+    </div>
+  </body>
+</html>

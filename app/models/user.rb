@@ -17,35 +17,37 @@ class User < ApplicationRecord
   has_many :members, dependent: :destroy
   has_many :workspaces, through: :members, source: :workspace
 
-  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :password, allow_nil: true, length: { minimum: 8 }
-  validates :first_name, length: { maximum: 25, allow_nil: true }
-  validates :last_name, length: { maximum: 25, allow_nil: true }
+  # validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  # validates :password, allow_nil: false, length: { minimum: 8 }
 
-  normalizes :email, with: -> { _1.strip.downcase }
+  # TODO: PRO
+  # validates :first_name, length: { maximum: 25, allow_nil: true }
+  # validates :last_name, length: { maximum: 25, allow_nil: true }
 
-  before_validation if: :email_changed?, on: :update do
-    self.verified = false
-  end
+  # normalizes :email, with: -> { _1.strip.downcase }
 
-  after_create do
-    workspace = Workspace.new(title: "My Workspace")
-    members.create!(workspace:, permissions: ["owner"])
-    author = members.first.create_or_activate_author!
+  # before_validation if: :email_changed?, on: :update do
+  #   self.verified = false
+  # end
 
-    # This creates default published post
-    # first_page = workspace.pages.first
-    # unless first_page.nil?
-    #   first_page.create_default_first_post(author.id)
-    # end
-
-    # TODO: PRO
-    # if verified? && provider.present?
-    #   # start journey for oauth users
-    #   # TODO: enable later
-    #   # Journeys::NewRegistration.new(user_id: self.id).start
-    # end
-  end
+  # after_create do
+  #   workspace = Workspace.new(title: "My Workspace")
+  #   members.create!(workspace:, permissions: ["owner"])
+  #   author = members.first.create_or_activate_author!
+  #
+  #   # This creates default published post
+  #   # first_page = workspace.pages.first
+  #   # unless first_page.nil?
+  #   #   first_page.create_default_first_post(author.id)
+  #   # end
+  #
+  #   # TODO: PRO
+  #   # if verified? && provider.present?
+  #   #   # start journey for oauth users
+  #   #   # TODO: enable later
+  #   #   # Journeys::NewRegistration.new(user_id: self.id).start
+  #   # end
+  # end
 
   # TODO: PRO
   # after_update if: :password_digest_previously_changed? do
@@ -66,14 +68,14 @@ class User < ApplicationRecord
   # end
 
   def formatted_name
-    return email if first_name.blank? && last_name.blank?
-    "#{first_name} #{last_name}"
+    email
+    # "#{first_name} #{last_name}"
   end
 
   def avatar(size: 1)
     return avatar_placeholder(size: size, initials: "AA") if email.blank?
     initials = email[0].upcase + email[1].upcase
-    initials = [first_name, last_name].map { _1[0].upcase }.join if first_name.present? && last_name.present?
+    # initials = [first_name, last_name].map { _1[0].upcase }.join if first_name.present? && last_name.present?
 
     avatar_placeholder(size: size, initials: initials)
   end

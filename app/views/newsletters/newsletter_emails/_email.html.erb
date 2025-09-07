@@ -1,0 +1,28 @@
+<div class="relative">
+  <%= link_to edit_newsletters_newsletter_email_path(@newsletter, email) do %>
+    <div class="grid grid-cols-10 py-4 items-center hover:bg-gray-100 transition-colors px-5">
+      <div class="col-span-4 flex flex-col">
+        <p class="font-medium"><%= email.subject %></p>
+        <p class="text-gray-500 text-sm">By <span class="font-medium"><%= email.author.present? ? email.author.formatted_name : '' %></span>
+          - <%= time_ago_in_words(email.updated_at) %> ago</p>
+      </div>
+      <div class="col-span-2 text-xs font-medium w-fit px-3 py-1 rounded-full capitalize border <%= email_status_badge(email.status) %>"><%= email.status %></div>
+      <div class="col-span-1 text-gray-400 text-sm"><%= email.deliver_count %></div>
+      <div class="col-span-1 text-gray-400 text-sm"><%= email.open_rate %></div>
+      <div class="col-span-1 text-gray-400 text-sm"><%= email.bounce_rate %></div>
+      <div class="col-span-1 text-gray-400 text-sm"></div>
+    </div>
+  <% end %>
+  <div class="dropdown dropdown-end absolute right-5 top-1/2 transform -translate-y-1/2 z-10">
+    <div tabindex="0" role="button" class="p-1">
+      <div class="btn btn-ghost btn-square">
+        <i class="iconoir-more-vert text-xl"></i>
+      </div>
+    </div>
+    <ul tabindex="0" class="dropdown-content menu dropdown-list min-w-52">
+      <li>
+        <%= link_to "Edit", edit_newsletters_newsletter_email_path(@newsletter, email) %>
+      </li>
+    </ul>
+  </div>
+</div>

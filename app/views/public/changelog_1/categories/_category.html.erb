@@ -1,0 +1,18 @@
+<div>
+  <%= link_to dynamic_prefix(public_category_path(category)), class: 'block overflow-hidden bg-base-200 rounded-xl p-10 md:p-20 flex items-center justify-center pressable' do %>
+    <% if category.image_url.present? %>
+      <img alt="<%= category.name %>" src="<%= category.image_url %>" class="object-cover object-center transition-all duration-200 hover:scale-110 w-16 h-16">
+    <% elsif category.image.attached? %>
+      <%= image_tag category.image, alt: category.name, class: "object-cover object-center transition-all duration-200 hover:scale-110 w-16 h-16" %>
+    <% else %>
+      <!-- Optional: Display a placeholder image -->
+      <div class="object-cover object-center transition-all duration-200 hover:scale-110 w-16 h-16 rounded-lg border border-dashed flex items-center justify-center">
+        <i class="iconoir-mask-square text-xl opacity-80"></i>
+      </div>
+    <% end %>
+  <% end %>
+  <p class="text-xl font-semibold mt-4 hover:opacity-60">
+    <%= link_to category.name, dynamic_prefix(public_category_path(category)), class: 'pressable' %>
+  </p>
+  <p class="text-base font-normal opacity-80 mt-2"><%= pluralize(category.posts.count, 'update') %></p>
+</div>

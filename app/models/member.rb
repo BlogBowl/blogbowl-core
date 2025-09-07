@@ -9,7 +9,7 @@ class Member < ApplicationRecord
 
   def create_or_activate_author!
     author.update!(active: true) and return if author.present?
-    Author.create!(member: self, email: user.email, first_name: user.first_name, last_name: user.last_name, active: true)
+    Author.create!(member: self, email: user.email, first_name: user.email.split("@").first, active: true)
   end
 
   def deactivate_author!

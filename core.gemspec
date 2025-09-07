@@ -34,8 +34,18 @@ Gem::Specification.new do |spec|
   spec.add_dependency "active_storage_validations", "~> 2.0"
 
   spec.add_dependency "rack-mini-profiler", "~> 3.3"
+
   spec.add_dependency "memory_profiler", "~> 1.1"
+
   spec.add_dependency "stackprof", "~> 0.2.27"
+
+  spec.add_dependency "truemail"
+
+  spec.add_dependency 'countries'
+
+  spec.add_dependency 'postmark'
+
+  spec.add_dependency 'language_list'
 end
 
 

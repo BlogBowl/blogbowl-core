@@ -1,6 +1,5 @@
 class Workspace < ApplicationRecord
   include AvatarHelper
-  include HasPlan
   include Rails.application.routes.url_helpers
 
   has_many :pages, dependent: :destroy

@@ -73,7 +73,8 @@ class Newsletter < ApplicationRecord
 
   rescue => e
     Rails.logger.error "Failed to create postmark server: #{e.message}"
-    Sentry.capture_exception(e, extra: { newsletter_id: id, name: name })
+    # TODO: PRO
+    # Sentry.capture_exception(e, extra: { newsletter_id: id, name: name })
   end
 
   def generate_slug

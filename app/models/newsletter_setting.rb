@@ -10,7 +10,7 @@ class NewsletterSetting < ApplicationRecord
   removable_attachment_for :logo
 
   before_validation :generate_sender_email
-  validates :logo, processable_image: true, size: { less_than: 1.megabyte, message: 'is too large' }
+  validates :logo, processable_file: true, size: { less_than: 1.megabyte, message: 'is too large' }
 
   def settings_filled
     domain.present? && sender_email.present?

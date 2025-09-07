@@ -1,0 +1,82 @@
+<% content_for :title, "Newsletter settings" %>
+
+<div class="mx-auto py-10" data-controller="newsletter_domain">
+  <%= form_with(model: @newsletter_settings, url: newsletters_settings_newsletter_domain_path, method: :patch, html: { multipart: true }) do |form| %>
+    <div class="max-w-3xl mx-auto">
+      <%= link_to newsletters_settings_path do %>
+        <div class="flex gap-x-2 items-center text-sm opacity-70 cursor-pointer hover:opacity-50 active:opacity-40">
+          <i class="iconoir-arrow-left"></i>
+          <p>Back to settings</p>
+        </div>
+      <% end %>
+      <div class="flex justify-between mb-5 mt-2 max-w-3xl mx-auto">
+        <div>
+          <h1 class="font-bold">Newsletter Settings</h1>
+        </div>
+        <%= form.submit 'Save settings', class: 'btn btn-primary' %>
+      </div>
+
+      <%= render partial: 'shared/flashes' %>
+    </div>
+
+    <div class="mt-10 flex flex-col gap-y-10 max-w-3xl mx-auto">
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="flex justify-between">
+          <div class="">
+            <div class="flex items-center gap-x-2">
+              <i class="iconoir-quote-message text-primary text-xl"></i>
+              <h3 class="font-bold">Own domain (Recommended)</h3>
+            </div>
+            <p class="opacity-70 mt-2">Domain from which we'll send your newsletter.</p>
+          </div>
+          <%= form.check_box :own_domain, class: "toggle toggle-xl toggle-primary checked:bg-primary checked:text-white checked:border-primary", disabled: false, checked: @has_own_domain, "data-newsletter_domain-target": "ownDomainCheckbox", "data-action": "change->newsletter_domain#onOwnDomainChange" %>
+        </div>
+
+        <div class="flex flex-col gap-y-4 mt-5">
+          <div>
+            <%= form.label :domain, "Domain", class: "" %>
+            <div class="flex items-center">
+              <%= form.text_field :domain, class: "w-full text-sm", placeholder: "example.com", "data-newsletter_domain-target": "domainInput", required: true, "data-action": "change->newsletter_domain#onDomainChange" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="flex justify-between">
+          <div class="">
+            <div class="flex items-center gap-x-2">
+              <i class="iconoir-quote-message text-primary text-xl"></i>
+              <h3 class="font-bold">Sender information</h3>
+            </div>
+            <p class="opacity-70 mt-2">Sender name, email and reply to information.</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-y-4 mt-5">
+          <div>
+            <%= form.label :sender_name, "Sender name", class: "block text-sm font-medium mb-1" %>
+            <div class="flex items-center">
+              <%= form.text_field :sender_name, class: "w-full text-sm", placeholder: "Blog Bowl Newsletter", required: true %>
+            </div>
+          </div>
+          <div>
+            <%= form.label :sender, "Sender email", class: "block text-sm font-medium mb-1" %>
+            <div class="flex items-center relative">
+              <%= form.text_field :sender, class: "w-full text-sm", required: true %>
+              <p class="absolute text-xs text-gray-500 right-5" data-newsletter_domain-target="domainDisplay">@<%= @newsletter_settings.domain.present? ? @newsletter_settings.domain : "example.com" %></p>
+            </div>
+          </div>
+          <div>
+            <%= form.label :reply_to_email, "Reply To", class: "block text-sm font-medium mb-1", required: true %>
+            <div class="flex items-center">
+              <%= form.text_field :reply_to_email, class: "w-full text-sm", placeholder: "reply@example.com" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <% if @domain_details.present? %>
+    <%= render 'newsletters/settings/newsletter/domain/dns_documentation', domain_details: @domain_details, newsletter_setting: @newsletter_settings %>
+  <% end %>
+</div>

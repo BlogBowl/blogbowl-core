@@ -1,0 +1,22 @@
+<div class="relative bg-base-100 shadow transition-all duration-200 rounded-xl border border-transparent hover:-translate-y-1 hover:border-stone-900">
+  <div class="px-4 py-5 sm:p-6">
+    <% if category.image_url.present? %>
+      <img alt="<%= category.name %>" src="<%= category.image_url %>" class="h-12 w-12 object-cover mx-auto">
+    <% elsif category.image.attached? %>
+      <%= image_tag category.image, alt: category.name, class: "h-12 w-12 object-cover mx-auto" %>
+    <% else %>
+      <!-- Optional: Display a placeholder image -->
+      <div class="h-12 w-12 object-cover mx-auto border rounded-lg border-dashed flex items-center justify-center">
+        <i class="iconoir-mask-square text-xl text-gray-300"></i>
+      </div>
+    <% end %>
+    <h3 class="text-xl font-bold tracking-tight text-stone-900 mt-5">
+      <%= link_to dynamic_prefix(public_category_path(category)) do %>
+        <%= category.name %>
+        <div class="absolute inset-0" aria-hidden="true"></div>
+      <% end %>
+    </h3>
+    <p class="text-base font-normal text-stone-600 mt-2"><%= category.description %></p>
+    <p class="text-base font-medium text-stone-900 mt-5"><%= pluralize(category.posts.count, 'post') %></p>
+  </div>
+</div>

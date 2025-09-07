@@ -1,0 +1,40 @@
+<% content_for :title, "Reset password" %>
+<div class="flex min-h-screen w-full items-center justify-center">
+  <!-- Left side - Auth form -->
+  <div class="card w-full md:w-fit md:min-w-[500px] p-10 drop-shadow-lg bg-white">
+    <div class="w-full max-w-md">
+      <div class="mb-8 flex items-center justify-center">
+        <%= image_tag("logo-with-text.png", width: 120) %>
+      </div>
+
+      <div class="w-full">
+
+        <!-- Sign In Content -->
+        <div class="space-y-6">
+          <div>
+            <h1 class="text-3xl font-bold text-center">Reset password</h1>
+          </div>
+
+          <%= render partial: 'shared/flashes' %>
+
+          <%= form_with(url: identity_password_reset_path, class: 'space-y-2') do |form| %>
+            <div class="space-y-2">
+              <%= form.label :email, class: "block text-sm font-medium mb-1" %>
+              <%= form.email_field :email,  required: true, autofocus: true, autocomplete: "email", placeholder: "E-mail", class: "w-full" %>
+            </div>
+            <%= form.submit "Send reset link", class: 'btn btn-neutral w-full btn-lg mt-5' %>
+          <% end %>
+
+        </div>
+
+        <div class="mt-6 text-center text-sm flex flex-col space-y-2">
+          <div>
+            <span>Remembered your password?</span>
+            <%= link_to "Sign in!", sign_in_path, class: "cursor-pointer hover:underline ml-1 font-medium text-primary" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

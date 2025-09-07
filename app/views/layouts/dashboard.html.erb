@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<%= render "layouts/common_head" %>
+
+<body>
+<%= render "shared/masquerade_banner" %>
+<%= render "shared/dashboard_navbar" %>
+<main class="ml-[364px] mr-16 <%= 'pt-12' if session[:admin_id] %>">
+  <%= turbo_frame_tag :flash %>
+  <%= yield %>
+</main>
+</body>
+</html>

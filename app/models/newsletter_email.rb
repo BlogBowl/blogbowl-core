@@ -8,7 +8,7 @@ class NewsletterEmail < ApplicationRecord
 
   belongs_to :author, optional: true
 
-  enum status: { draft: 'draft', scheduled: 'scheduled', sent: 'sent', failed: 'failed' }
+  enum :status, { draft: 'draft', scheduled: 'scheduled', sent: 'sent', failed: 'failed' }
 
   def to_param
     slug

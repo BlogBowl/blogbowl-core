@@ -1,0 +1,19 @@
+<% content_for :head do %>
+  <%= render "public/shared/head/categories", author: @author, page_settings: @page_settings %>
+<% end %>
+
+<section class="py-12 relative border">
+  <div class="flex gap-x-10 justify-center">
+    <div>
+      <div class="py-5">
+        <p class="font-bold">Breadcrumbs:</p>
+        <%= render_breadcrumbs(default_breadcrumbs("Categories")) %>
+      </div>
+      <h1 class="font-bold">Find all categories</h1>
+      <div class="wrapper grid grid-cols-4 gap-y-16 mt-10 gap-x-5">
+        <%= render partial: "public/barebone/categories/category", collection: @categories %>
+      </div>
+      <%= pagy_navigation %>
+    </div>
+  </div>
+</section>

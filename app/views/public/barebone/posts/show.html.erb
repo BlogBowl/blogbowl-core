@@ -1,0 +1,121 @@
+<% content_for :head do %>
+  <%= render "public/shared/head/post", post: @post, breadcrumbs: default_breadcrumbs(@post.title) %>
+<% end %>
+
+<div>
+  <section class="text-center py-12 relative border-b">
+    <div class="wrapper px-10">
+      <% if @category.present? %>
+        <p class="uppercase font-bold text-xs mb-5 hover:underline">
+          <%= link_to @category.name, dynamic_prefix(public_category_path(@category)), class: "font-medium" %>
+        </p>
+      <% end %>
+      <h1 class="font-extrabold text-5xl"><%= @post.title %></h1>
+      <div class="mt-10 flex items-center justify-center gap-x-5">
+        <div class="flex items-center">
+          <p>By
+            <% @authors.each_with_index do |author, index| %>
+              <%= link_to author_name(author), dynamic_prefix(public_author_path(author)), class: "font-medium underline inline" %>
+              <%= ',' unless index == @authors.size - 1 %>
+            <% end %>
+          </p>
+        </div>
+        <% if @reviewers.any? %>
+          <p>Reviewed by
+            <% @reviewers.each_with_index do |author, index| %>
+              <%= link_to author_name(author), dynamic_prefix(public_author_path(author)), class: "font-medium underline inline" %>
+              <%= ',' unless index == @authors.size - 1 %>
+            <% end %>
+          </p>
+        <% end %>
+      </div>
+      <div class="flex items-center justify-center mt-5 gap-x-5">
+        <p>Updated at <%= format_date(@post.created_at) %></p>
+        <p>■</p>
+        <p>10 min read</p>
+      </div>
+    </div>
+  </section>
+  <div class="mt-5 relative w-[1200px] px-60 mx-auto">
+    <div class="my-10 border-b py-5">
+      <p class="font-bold">Breadcrumbs:</p>
+      <%= render_breadcrumbs(default_breadcrumbs(@post.title)) %>
+    </div>
+    <div class="my-10 border-b py-5">
+      <p class="font-bold">Contents</p>
+      <div class="flex flex-col gap-y-2 mt-3">
+        <%= generate_toc(@post.content_html) %>
+      </div>
+    </div>
+    <div class="my-10 border-b py-5">
+      <ul class="flex items-center gap-x-5">
+        <li class="" data-controller="clipboard">
+          <span class="w-10 h-10 rounded-full border flex items-center justify-center cursor-pointer hover:opacity-70 active:opacity-50" onClick="copy()">
+            <i class="iconoir-link" aria-hidden="true"></i>
+          </span>
+          <div data-clipboard-target="notification"
+               class="hidden fixed bottom-4 right-4 px-4 py-2 rounded text-sm bg-green-100 shadow-lg">
+            Link copied!
+          </div>
+        </li>
+        <li class="">
+          <a class="w-10 h-10 rounded-full border flex items-center justify-center cursor-pointer hover:opacity-70 active:opacity-50" href="https://twitter.com/intent/tweet?text=<%= @post.title %>&url=<%= get_full_url(dynamic_prefix(public_post_path(@post))) %>" target="_blank">
+            <i class="iconoir-x" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li class="">
+          <a class="w-10 h-10 rounded-full border flex items-center justify-center cursor-pointer hover:opacity-70 active:opacity-50" href="https://www.facebook.com/sharer/sharer.php?u=<%= get_full_url(dynamic_prefix(public_post_path(@post))) %>" target="_blank">
+            <i class="iconoir-facebook" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li class="">
+          <a class="w-10 h-10 rounded-full border flex items-center justify-center cursor-pointer hover:opacity-70 active:opacity-50" href="https://www.linkedin.com/shareArticle?mini=true&url=<%= get_full_url(dynamic_prefix(public_post_path(@post))) %>" target="_blank">
+            <i class="iconoir-linkedin" aria-hidden="true"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <article class="prose lg:prose-xl prose-img:rounded border-b">
+      <%= sanitize @post.content_html, scrubber: CustomScrubber.new %>
+    </article>
+
+    <div class="mt-10 bg-gray-100 p-6 rounded">
+      <h3 class="text-xl font-bold mb-4">Subscribe to Our Newsletter</h3>
+      <div>
+        <%= form_with(url: public_subscribe_path, model: Subscriber.new, class: 'flex items-center',
+                      data: { subscription_target: 'form', turbo_stream: true }, remote: true) do |f| %>
+          <%= f.email_field :email,
+                            placeholder: 'Enter your email',
+                            required: true,
+                            class: 'flex-grow px-4 py-2 border rounded-l',
+                            data: { subscription_target: 'email' }
+          %>
+          <%= f.submit 'Subscribe', class: 'bg-blue-500 text-white px-4 py-2 rounded-r hover:bg-blue-600' %>
+        <% end %>
+        <div id="subscription_message"></div>
+      </div>
+    </div>
+
+    <div class="flex w-full px-4 py-6 bg-gray-100 rounded-sm gap-x-10 items-start mt-10">
+      <div class="w-2/6">
+        <% if @main_author.avatar.present? %>
+          <%= @main_author.avatar(size: 4).html_safe %>
+        <% else %>
+          <!-- Provide a fallback static image URL or default -->
+          <%= image_tag "#", alt: author_name(@main_author), width: "150px", height: "150px", class: "rounded-full" %>
+        <% end %>
+      </div>
+      <div class="flex flex-col">
+        <p class="text-sm text-gray-600">Article by</p>
+        <%= link_to author_name(@main_author), dynamic_prefix(public_author_path(@main_author)), class: "font-bold text-lg mt-2" %>
+        <p class="text-xs mb-5"><%= @main_author.position %></p>
+        <p class="text-sm">
+          <%= @main_author.long_description %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<%= @page_settings.body_html&.html_safe %>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8" onload="window.checkTweets()"></script>

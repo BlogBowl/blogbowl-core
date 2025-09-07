@@ -1,45 +1,25 @@
 class SessionsController < ApplicationController
   layout "authentication"
 
-  skip_before_action :authenticate, only: %i[ new create ]
-
-  before_action :set_session, only: :destroy
-
-  def index
-    @sessions = current_user.sessions.order(created_at: :desc)
-  end
+  allow_unauthenticated_access only: %i[ new create ]
+  rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_session_path, alert: "Try again later." }
 
   def new
+    redirect_to after_authentication_path if authenticated?
   end
 
   def create
-    if user = User.authenticate_by(email: params[:email], password: params[:password])
-      @session = user.sessions.create!
-      set_session_cookie(@session)
-
-      if params[:invitation_token].present?
-        redirect_to invitation_path(token: params[:invitation_token]) and return
-      end
-
-      redirect_to root_path
+    user = User.authenticate_by(params.permit(:email, :password))
+    if user.present?
+      start_new_session_for user
+      redirect_to after_authentication_path
     else
-      flash[:alert] = "That email or password is incorrect"
-      redirect_to sign_in_path(email_hint: params[:email])
+      redirect_to new_session_path, alert: "That email or password is incorrect"
     end
   end
 
   def destroy
-    @session.destroy
-    cookies.delete(:session_token)
-    session[:workspace_id] = nil
-    Current.workspace_id = nil
-    flash[:notice] = "That session has been logged out"
-    redirect_to(sessions_path)
-  end
-
-  private
-
-  def set_session
-    @session = current_user.sessions.find(params[:id])
+    terminate_session
+    redirect_to new_session_path
   end
 end

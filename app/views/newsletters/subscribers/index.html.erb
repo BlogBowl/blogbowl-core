@@ -1,0 +1,39 @@
+<% content_for :title, "Authors" %>
+<div class="pt-10">
+  <div class="">
+    <!-- Header Section -->
+    <div class="flex justify-between items-center mb-8">
+      <h1>Subscribers</h1>
+
+      <div class="flex items-center gap-4">
+        <%#= link_to "Import subscribers", new_blogs_category_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+
+    <div class="mb-10">
+      <%= render partial: 'shared/flashes' %>
+    </div>
+
+    <!-- Header -->
+    <div class="grid grid-cols-10 py-2 border-b font-medium text-gray-600 text-xs px-5">
+      <div class="col-span-4 uppercase"><%= pluralize(@subscribers_count, 'subscriber') %></div>
+      <div class="col-span-2 uppercase">Status</div>
+      <div class="col-span-1 uppercase">Sends</div>
+      <div class="col-span-1 uppercase">Open Rate</div>
+      <div class="col-span-1 uppercase">Click Rate</div>
+      <div class="col-span-1 uppercase">Location</div>
+    </div>
+
+    <div class="divide-y border-b">
+      <% if @subscribers.any? %>
+        <%= render partial: "newsletters/subscribers/subscriber", collection: @subscribers %>
+      <% else %>
+        <div class="grid grid-cols-12 py-4 items-center hover:bg-gray-100 transition-colors px-5">
+          <div class="col-span-12 font-medium flex items-center justify-center">There are no subscribers yet
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <%= pagy_navigation %>
+  </div>
+</div>

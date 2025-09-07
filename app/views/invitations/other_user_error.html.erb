@@ -1,0 +1,12 @@
+<% content_for :title, "Error" %>
+<div class="flex items-center justify-center p-10 w-[435px] bg-white rounded-lg">
+  <div>
+    <p class="text-center mb-5">This invitation was sent to a user with a different email. Try to sign out and repeat.</p>
+    <div class="flex justify-center gap-2">
+      <%= button_to session_path(Current.session), method: :delete, class: 'btn btn-neutral' do %>
+        Sign out
+      <% end %>
+      <%= link_to "Go home", root_path, class: 'btn btn-neutral btn-outline' %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+class NewslettersController < ApplicationController
+  layout 'dashboard'
+
+  def show
+    redirect_to newsletters_newsletter_emails_url(@workspace.newsletters.find_by(name_slug: params[:id]))
+  end
+
+  def index
+    @newsletters = @workspace.newsletters
+  end
+
+  def new
+    @newsletter = @workspace.newsletters.build
+  end
+
+  def create
+    # TODO: PRO
+    # if @workspace.free? && @workspace.newsletters.count >= 1
+    #   flash.now[:alert] = "To add new newsletter, please, upgrade to a paid plan!"
+    #   render :new, status: :unprocessable_entity and return
+    # end
+
+    @newsletter = @workspace.newsletters.build(newsletter_param)
+
+    if @newsletter.save
+      flash[:notice] = 'New page was created successfully.'
+      redirect_to newsletters_newsletter_emails_path(@newsletter)
+    else
+      flash.now[:alert] = @newsletter.errors.full_messages.to_sentence
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def newsletter_param
+    params.require(:newsletter).permit(:name)
+  end
+
+end

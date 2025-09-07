@@ -1,0 +1,78 @@
+<% content_for :title, "Newsletter settings" %>
+
+<div class="mx-auto py-10" data-controller="newsletter_domain">
+  <%= form_with(model: @newsletter_settings, url: newsletters_settings_newsletter_domain_path, method: :patch) do |form| %>
+    <div class="max-w-3xl mx-auto">
+      <%= link_to newsletters_settings_path do %>
+        <div class="flex gap-x-2 items-center text-sm opacity-70 cursor-pointer hover:opacity-50 active:opacity-40">
+          <i class="iconoir-arrow-left"></i>
+          <p>Back to settings</p>
+        </div>
+      <% end %>
+      <div class="flex justify-between mb-5 mt-2 max-w-3xl mx-auto">
+        <div>
+          <h1 class="font-bold">General Newsletter Settings</h1>
+        </div>
+        <%= form.submit 'Save settings', class: 'btn btn-primary' %>
+      </div>
+
+      <%= render partial: 'shared/flashes' %>
+    </div>
+
+    <div class="mt-10 flex flex-col gap-y-10 max-w-3xl mx-auto">
+
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-globe text-primary text-xl"></i>
+            <h3 class="font-bold">General</h3>
+          </div>
+          <p class="opacity-70 mt-2">General information about your newsletter</p>
+        </div>
+
+        <div class="flex flex-col gap-y-4 mt-5">
+          <%= form.fields_for :newsletter do |newsletter_form| %>
+            <div>
+              <div class="flex justify-between">
+                <%= newsletter_form.label :name, "Newsletter name", class: "block text-sm font-medium mb-1" %>
+                <p class="text-xs text-gray-400">Just for you! This name won’t appear on the actual site.</p>
+              </div>
+              <%= newsletter_form.text_field :name, placeholder: 'My great newsletter', class: "w-full text-sm" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="flex justify-between">
+          <div class="">
+            <div class="flex items-center gap-x-2">
+              <i class="iconoir-quote-message text-primary text-xl"></i>
+              <h3 class="font-bold">Newsletter personalization</h3>
+            </div>
+            <p class="opacity-70 mt-2">Customize your newsletter emails</p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-y-4 mt-5">
+          <%= render "shared/file_input",
+                     form: form,
+                     image: @newsletter_settings.logo,
+                     field: :logo,
+                     field_label: "Logo",
+                     size: 'w-[140px] h-[45px]',
+                     recommendation: "Recommended size: 140x45px. We will resize it to fit the email."
+          %>
+          <div>
+            <div class="flex justify-between mt-4">
+              <%= form.label :footer, "Email footer", class: "block text-sm font-medium mb-1" %>
+              <p class="text-xs text-gray-400">Address, copyright, etc.. Can include multiple lines.</p>
+            </div>
+            <div class="flex items-center">
+              <%= form.text_area :footer, class: "w-full h-20 text-sm", placeholder: "Copyright\nYour Address, City, Postal Code\nYou're subscribed to BlogBowl's Newsletter" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

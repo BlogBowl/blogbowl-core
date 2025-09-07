@@ -5,7 +5,7 @@ class PostAuthor < ApplicationRecord
   validate :author_is_member_of_page
   validates :role, presence: true
 
-  enum role: { author: 0, reviewer: 1 }
+  enum :role, { author: 0, reviewer: 1 }
 
   private
 

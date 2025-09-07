@@ -23,8 +23,8 @@ class Category < ApplicationRecord
   validates :name, presence: true, uniqueness: { scope: [:page_id, :parent_id] }
   validates :slug, presence: true, uniqueness: { scope: [:page_id, :parent_id] }
 
-  validates :image, processable_image: true, size: { less_than: 5.megabytes, message: 'is too large' }
-  validates :og_image, processable_image: true, size: { less_than: 5.megabytes, message: 'is too large' }
+  validates :image, processable_file: true, size: { less_than: 5.megabytes, message: 'is too large' }
+  validates :og_image, processable_file: true, size: { less_than: 5.megabytes, message: 'is too large' }
 
   def to_param
     slug

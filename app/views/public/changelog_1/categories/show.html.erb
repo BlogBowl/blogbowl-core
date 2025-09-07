@@ -1,0 +1,38 @@
+<% content_for :head do %>
+  <%= render "public/shared/head/category", category: @category, breadcrumbs: category_breadcrumbs %>
+<% end %>
+
+<div class="min-h-screen">
+  <section class="pt-5 md:pt-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="hero-header">
+        <div class="breadcrumbs mb-5">
+          <% category_breadcrumbs.each do |breadcrumb| %>
+            <% if breadcrumb[:url].present? %>
+              <%= link_to(breadcrumb[:title], breadcrumb[:url]) %>
+              <i class="iconoir-nav-arrow-right"></i>
+            <% else %>
+              <p class="">
+                <%= breadcrumb[:title] %>
+              </p>
+            <% end %>
+          <% end %>
+        </div>
+        <h1 class="text-left"><%= @category.name %></h1>
+        <% if @category.description.present? %>
+          <p class="md:text-xl leading-8 opacity-80 text-md mt-4 text-left max-w-3xl"><%= @category.description %></p>
+        <% end %>
+      </div>
+    </div>
+  </section>
+  <section class="mt-5 mb-10 md:mb-20 relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="space-y-10 w-full">
+      <% if @posts.count > 0 %>
+        <%= render partial: "public/changelog_1/pages/post", collection: @posts %>
+      <% else %>
+      <p>There are no articles in this category yet 😢</p>
+      <% end %>
+    </div>
+    <%= pagy_navigation %>
+  </section>
+</div>

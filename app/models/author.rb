@@ -25,8 +25,8 @@ class Author < ApplicationRecord
   convert_to_webp_for :og_image
   removable_attachment_for :og_image
 
-  validates :avatar_picture, processable_image: true, size: { less_than: 5.megabytes, message: 'is too large' }
-  validates :og_image, processable_image: true, size: { less_than: 5.megabytes, message: 'is too large' }
+  validates :avatar_picture, processable_file: true, size: { less_than: 5.megabytes, message: 'is too large' }
+  validates :og_image, processable_file: true, size: { less_than: 5.megabytes, message: 'is too large' }
 
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 

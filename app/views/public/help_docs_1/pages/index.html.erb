@@ -1,0 +1,52 @@
+<% content_for :head do %>
+  <%= render "public/shared/head/page" %>
+<% end %>
+
+<div class="">
+  <section class="pt-10 md:pt-20 px-4 sm:px-6 lg:px-8">
+    <div class="hero-header ">
+      <h1 class="text-center"><%= @page_settings.title %></h1>
+      <p class="mt-10 text-center max-w-2xl text-lg mx-auto"><%= @page_settings.description %></p>
+      <!-- HERE WILL ALSO BE SEARCH -->
+      <div class="relative w-full max-w-xl transform overflow-hidden bg-base-100 mx-auto mt-8 rounded-lg border p-2 focus-within:ring-1 focus-within:ring-gray-500 focus-within:border-gray-500 py-3" data-controller="search">
+        <label for="search" class="sr-only">Search</label>
+        <div class="relative" data-search-target="searchContainer">
+          <div class="absolute flex items-center inset-y-0 left-0 p-3">
+            <svg class="h-5 w-5 text-base" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z">
+              </path>
+            </svg>
+          </div>
+          <input
+            type="search"
+            data-search-target="input"
+            data-action="keyup->search#submitSearch"
+            placeholder="Search..."
+            class="input block w-full border-none rounded-sm md:pl-10 focus:outline-none focus:ring-0 shadow-none"
+            aria-label="Search"
+          >
+        </div>
+        <div class="flex items-center p-2 sm:absolute sm:inset-y-0 sm:right-0 mt-2 md:mt-0">
+          <button type="submit" class="btn btn-neutral rounded-sm w-full md:w-fit" data-action="click->search#submitSearchClick">
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="mt-10 flex flex-col gap-y-5 md:gap-y-10">
+      <h2 class="text-center">Browse by category</h2>
+      <div class="grid grid-cols-1 gap-6 mt-8 text-center sm:grid-cols-2 sm:mt-12 lg:grid-cols-3">
+        <%= render partial: "public/help_docs_1/pages/category", collection: @categories %>
+      </div>
+    </section>
+    <section class="py-10 md:py-20 flex flex-col gap-y-5 md:gap-y-10">
+      <h2 class="text-center mb-5 md:mb-10 ">Featured posts</h2>
+      <div class="max-w-4xl mx-auto space-y-16 w-full">
+          <%= render partial: "public/help_docs_1/pages/post", collection: @latest_posts %>
+      </div>
+      <%= link_to "View all", dynamic_prefix(public_archive_path), class: "btn btn-sm w-fit mx-auto" %>
+    </section>
+  </div>
+</div>

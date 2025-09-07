@@ -1,0 +1,33 @@
+<ol>
+  <li>
+    <b>Save settings</b> if you haven't already
+  </li>
+  <li>
+    <b>Create</b> <code>next.config.js</code> file in application root, if you haven't already.<br />
+  </li>
+  <li>
+    <b>Add the following code</b> to <code>next.config.js</code>, so it looks like this:
+    <pre>
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  rewrites: () => {
+    return [
+      {
+        source: "/<%= @page.slug %>",
+        destination: "https://<span data-domain-target="ownDomainLabel"></span>",
+      },
+      {
+        source: "/<%= @page.slug %>/:any*",
+        destination: "https://<span data-domain-target="ownDomainLabel"></span>/:any*",
+      },
+    ];
+  },
+};
+
+export default nextConfig;</pre>
+    <p>If you already have this file, add only <code>rewrites</code> section accordingly.</p>
+  </li>
+  <li>
+    <b>Deploy</b> your application and try to access blog on <code>/<%= @page.slug %></code>
+  </li>
+</ol>

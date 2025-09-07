@@ -1,0 +1,17 @@
+<article class="even:pl-8 even:border-l">
+  <div class="flex font-medium text-sm">
+    <p class="uppercase"><a href="#">Technical SEO</a></p>
+    <p class="mx-2">/</p>
+    <p><%= format_date(post.created_at) %></p>
+  </div>
+  <h2 class="mt-2 font-bold"><%= link_to post.title, dynamic_prefix(public_post_path(post)), class: "text-neutral"  %></h2>
+  <p class="mt-2"><%= post.title %></p>
+  <% if post.authors.any? %>
+    <%= link_to dynamic_prefix(public_author_path(post.authors.first)), class: "text-neutral" do %>
+      <div class="flex items-center mt-5">
+        <%= post.authors.first.avatar(size: 0.5).html_safe %>
+        <p class="inline-block align-middle pl-2"><%= post.authors.first.formatted_name %></p>
+      </div>
+    <% end %>
+  <% end %>
+</article>

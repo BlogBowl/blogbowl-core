@@ -1,0 +1,43 @@
+<% content_for :title, "Authors" %>
+<div class="pt-10">
+  <div class="">
+    <!-- Header Section -->
+    <div class="flex justify-between items-center mb-8">
+      <h1>Authors</h1>
+
+      <div class="flex items-center gap-x-2">
+        <%= link_to @can_manage_members ? "Manage members" : "See members", members_path, class: "btn btn-neutral btn-outline mr-2" %>
+
+        <%= link_to "Invite author", new_member_path, class: "btn btn-primary" if @can_manage_members %>
+<!--        TODO: PRO-->
+        <%# if @workspace.pro? %>
+          <%#= link_to "Invite author", new_member_path, class: "btn btn-primary" if @can_manage_members %>
+        <%# else  %>
+<!--          <button type="button" class="btn btn-primary" onclick="upgrade_plan_modal.showModal()">Invite author</button>-->
+        <%# end %>
+      </div>
+    </div>
+
+    <div class="mb-10">
+      <%= render partial: 'shared/flashes' %>
+    </div>
+
+    <!-- Posts List -->
+    <% if @authors.any? %>
+      <div class="">
+        <!-- Post Item -->
+        <%= render partial: "authors/author", collection: @authors, locals: { can_manage_members: @can_manage_members } %>
+
+        <%= pagy_navigation %>
+
+      </div>
+    <% else %>
+      <div class="flex items-center flex-col gap-y-5 justify-center h-64">
+        <p class="font-bold text-lg">There are no authors 🥲</p>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!--Upgrade modal-->
+<%= render partial: 'modals/upgrade-modal', locals: { title: 'Upgrade to Add More Authors', description: 'The Free Plan supports only 1 author. To collaborate with teammates or invite other contributors, you’ll need to upgrade to a paid plan.' } %>

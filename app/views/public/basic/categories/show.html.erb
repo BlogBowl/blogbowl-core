@@ -1,0 +1,18 @@
+<article>
+  <section class="hero text-center py-12 bg-primary text-white relative">
+    <div class="wrapper px-10">
+      <img class="mx-auto mb-10" src="https://ahrefs.com/blog/wp-content/uploads/2020/12/blog-%D1%81ompetitive-analysis-400x200.png" alt="Category name"/>
+      <h1 class="font-extrabold text-5xl"><%= @category.name %></h1>
+      <p class="mt-10 text-xl leading-8"><%= @category.description %></p>
+    </div>
+    <i class="iconoir-bookmark-solid text-3xl md:text-4xl text-red-400 absolute -bottom-3 left-1/2 -translate-x-1/2"></i>
+  </section>
+  <% if @posts.length > 0 %>
+    <div class="w-[1000px] mx-auto mt-5 flex flex-col items-center">
+      <h2 class="font-bold mt-10">Our Best Articles on <%= @category.name %></h2>
+      <div class="wrapper grid grid-cols-3 gap-y-16 mt-10 gap-x-5 text-left">
+        <%= render partial: "public/basic/authors/post", collection: @posts %>
+      </div>
+    </div>
+  <% end %>
+</article>

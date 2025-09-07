@@ -1,0 +1,56 @@
+<% content_for :title, "All Newsletters" %>
+<div class="py-10">
+  <div class="">
+    <!-- Header Section -->
+    <div class="flex justify-between items-center mb-8">
+      <h1>Workspace newsletters</h1>
+    </div>
+
+    <div class="mb-10">
+      <%= render partial: 'shared/flashes' %>
+    </div>
+
+    <!-- Posts List -->
+    <div class="grid grid-cols-3 gap-4">
+      <!-- Post Item -->
+      <%= render partial: "newsletters/newsletter", collection: @newsletters %>
+
+      <%= link_to new_newsletter_path, class: "relative rounded-xl border-2 border-dashed border-gray-300 p-6 hover:border-blue-400 transition-colors min-h-32" do %>
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+          <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-100 transition-colors mb-2">
+            <i class="iconoir-plus text-3xl text-blue-500"></i>
+          </div>
+          <span class="text-sm font-medium text-gray-900">Create New Newsletter</span>
+          <span class="text-sm text-gray-500">Create New Newsletter Group</span>
+        </div>
+      <% end %>
+
+<!--      TODO: PRO-->
+      <%# if @workspace.pro? %>
+        <%#= link_to new_newsletter_path, class: "relative rounded-xl border-2 border-dashed border-gray-300 p-6 hover:border-blue-400 transition-colors min-h-32" do %>
+<!--          <div class="absolute inset-0 flex flex-col items-center justify-center">-->
+<!--            <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-100 transition-colors mb-2">-->
+<!--              <i class="iconoir-plus text-3xl text-blue-500"></i>-->
+<!--            </div>-->
+<!--            <span class="text-sm font-medium text-gray-900">Create New Newsletter</span>-->
+<!--            <span class="text-sm text-gray-500">Create New Newsletter Group</span>-->
+<!--          </div>-->
+        <%# end %>
+      <%# else %>
+<!--        <button type="button" class="relative cursor-pointer rounded-xl border-2 border-dashed border-gray-300 p-6 hover:border-blue-400 transition-colors min-h-32" onclick="upgrade_plan_modal.showModal()">-->
+<!--          <span class="absolute inset-0 flex flex-col items-center justify-center">-->
+<!--            <span class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-100 transition-colors mb-2">-->
+<!--              <i class="iconoir-plus text-3xl text-blue-500"></i>-->
+<!--            </span>-->
+<!--            <span class="text-sm font-medium text-gray-900">Create New Newsletter</span>-->
+<!--            <span class="text-sm text-gray-500">Create New Newsletter Group</span>-->
+<!--          </span>-->
+<!--        </button>-->
+      <%# end %>
+
+    </div>
+  </div>
+</div>
+
+<!--Upgrade modal-->
+<%= render partial: 'modals/upgrade-modal', locals: { title: 'Upgrade to Add New Newsletter', description: 'Creating and sending newsletters is only available on paid plans. Upgrade to unlock built-in email tools, manage subscribers, and send updates directly from BlogBowl—no third-party tools needed.' } %>

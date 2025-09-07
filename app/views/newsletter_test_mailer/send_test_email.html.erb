@@ -1,0 +1,8 @@
+<%= render template: 'layouts/newsletter', locals: {
+  subject: @email.subject,
+  content: @email.content_html,
+  preview: @email.preview,
+  send_date: Date.today,
+  author: @email.author,
+  footer: @settings.footer
+} %>

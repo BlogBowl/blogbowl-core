@@ -1,0 +1,28 @@
+<div class="mt-10 card card-border border-base-300 bg-white p-6" data-domain-target="subfolderDocsSection">
+  <div class="flex items-center gap-x-2">
+    <i class="iconoir-code text-primary text-xl"></i>
+    <h3 class="font-bold">Configure your application</h3>
+  </div>
+  <div role="tablist" class="tabs tabs-border mt-5">
+    <input type="radio" name="application_type" role="tab" class="tab" aria-label="Next.js" />
+    <div role="tabpanel" class="tab-content">
+      <div class="prose mt-5">
+        <%= render partial: 'pages/settings/domain/subfolder/nextjs' %>
+      </div>
+    </div>
+
+    <input type="radio" name="application_type" role="tab" class="tab" aria-label="nginx" />
+    <div role="tabpanel" class="tab-content">
+      <div class="prose mt-5">
+        <%= render partial: 'pages/settings/domain/subfolder/nginx' %>
+      </div>
+    </div>
+
+    <input type="radio" name="application_type" role="tab" class="tab" aria-label="Caddy" checked="checked" />
+    <div role="tabpanel" class="tab-content">
+      <div class="prose mt-5">
+        <%= render partial: 'pages/settings/domain/subfolder/caddy' %>
+      </div>
+    </div>
+  </div>
+</div>

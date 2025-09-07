@@ -1,0 +1,26 @@
+<title><%= category.name %></title>
+
+<!-- Structured data for article-->
+<%= category_structured_data(category, breadcrumbs) if category.present? %>
+
+<!-- Canonical url -->
+<link rel="canonical" href="<%= get_category_url(category) %>" />
+
+<!-- Tags -->
+<meta name="description" content="<%= category.description %>" />
+
+<!-- OG -->
+<meta name="og:locale" content="<%= @workspace_settings.locale %>" />
+<meta name="og:type" content="website" />
+<meta name="og:title" content="<%= category.name %>" />
+<meta name="og:description" content="<%= category.description %>" />
+<meta name="og:url" content="<%= get_category_url(category) %>" />
+<meta name="og:site_name" content="<%= @page_settings.name %>" />
+<meta name="og:image" content="<%= category.og_image.present? ? Rails.application.routes.url_helpers.url_for(category.og_image) : '' %>" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="<%= get_full_url(dynamic_prefix("/category/#{ category.slug}")) %>" />
+
+<!--Umami Analytics -->
+<%= render "public/shared/head/analytics" %>

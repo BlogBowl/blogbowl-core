@@ -1,0 +1,95 @@
+<% content_for :head do %>
+  <%= render "public/shared/head/post", post: @post, breadcrumbs: default_breadcrumbs(@post.title) %>
+<% end %>
+
+<div class="md:min-h-screen">
+  <section class="pt-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <div class="breadcrumbs border w-fit px-6 mx-auto">
+        <% default_breadcrumbs(@post.title).each do |breadcrumb| %>
+          <% if breadcrumb[:url].present? %>
+            <%= link_to(breadcrumb[:title], breadcrumb[:url]) %>
+            <i class="iconoir-nav-arrow-right"></i>
+          <% else %>
+            <p class="breadcrumb-item">
+              <%= breadcrumb[:title] %>
+            </p>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="mt-5">
+        <div class="flex flex-col gap-y-5 md:gap-y-5">
+          <!-- Title and metadata container -->
+          <div class="flex items-start justify-between">
+            <!-- Title -->
+            <div class="mb-5 md:mb-10 w-full">
+              <h1 class="text-center">
+                <%= @post.title %>
+              </h1>
+              <p class="text-lg opacity-80 text-center mt-3 max-w-2xl mx-auto"><%= @post.description %></p>
+
+              <div class="flex items-center justify-center gap-x-5 opacity-80 flex-col md:flex-row mt-4">
+                <p>Last updated on <%= format_date(@post.updated_at) %></p>
+                <p class="hidden md:flex">■</p>
+                <p class="hidden md:flex"><%= get_read_time(@post) %> read</p>
+              </div>
+              <!-- Tag -->
+              <% if @post.category.present? %>
+                <div class="flex items-center justify-center mt-3 gap-x-5 text-black">
+                  <%= link_to @post.category.name, dynamic_prefix(public_category_path(@post.category)), class: "px-4 py-1 rounded-full w-fit font-medium hover:opacity-70 active:opacity-50 text-sm", style: "background-color: #{@post.category.color}" %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <!-- Featured image -->
+          <div class="max-w-4xl mx-auto">
+            <% if @post.cover_image.attached? %>
+              <%= image_tag @post.cover_image, class: "w-full h-auto rounded-2xl object-cover", alt: @post.title %>
+            <% else %>
+              <div class="w-full h-full flex items-center justify-center">
+                <p>No image provided</p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="h-px w-full my-5 md:my-10 bg-base-300"></div>
+</div>
+
+<div class="max-w-5xl mx-auto px-5 md:px-10 pb-20">
+  <!-- Content Area -->
+  <article class="prose prose-lg lg:prose-lg prose-img:rounded pb-10 max-w-none">
+    <%= sanitize @post.content_html, scrubber: CustomScrubber.new %>
+  </article>
+
+  <div class="h-px w-full my-10 bg-base-300"></div>
+  <div class="flex items-center justify-between flex-col md:flex-row gap-y-2">
+    <h3>Share this post</h3>
+    <%= render "public/shared/post/social-share" %>
+  </div>
+  <div class="h-px w-full my-10 bg-base-300"></div>
+
+  <!-- CTA -->
+  <%= render "public/shared/post/main_cta", custom_class: 'mb-10' %>
+
+  <h3 class="text-center md:text-left">Written by</h3>
+  <section class="bg-base-100 rounded-3xl p-5 flex items-center justify-between border mt-5 flex-col md:flex-row gap-y-4">
+    <div class="rounded">
+      <%= image_tag @main_author.avatar_picture, class: "w-28 h-28 rounded-full object-cover", alt: @main_author.formatted_name if @main_author.avatar_picture.attached? %>
+    </div>
+    <div class="flex-1 md:pl-8"> <!-- Added right padding for spacing -->
+      <%= link_to @main_author.formatted_name, dynamic_prefix(public_author_path(@main_author)), class: 'font-bold text-xl hover:opacity-70 active:opacity-50' %>
+      <p class="opacity-80 mt-2">
+        <%= @main_author.long_description %>
+      </p>
+    </div>
+  </section>
+</div>
+
+
+<%= @page_settings.body_html&.html_safe %>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8" onload="window.checkTweets()"></script>

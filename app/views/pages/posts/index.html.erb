@@ -1,0 +1,86 @@
+<% content_for :title, "Posts" %>
+<div class="py-10">
+  <div class="">
+    <!-- Header Section -->
+    <div class="flex justify-between items-center mb-8">
+      <h1>Posts</h1>
+
+      <div class="flex items-center gap-4">
+        <!-- All posts dropdown -->
+        <%= render "filter_dropdown",
+                   selected_text: @selected_status || 'All posts',
+                   selected_value: @selected_status,
+                   all_text: "All posts",
+                   param_key: :status,
+                   items: %w[published draft archived],
+                   item_text: ->(status) { "#{status.titleize} posts" },
+                   item_value: ->(status) { status },
+                   path: ->(params) { pages_posts_path(params) }
+
+        %>
+
+        <!-- All authors dropdown -->
+        <%= render "filter_dropdown",
+                   selected_text: @selected_author&.formatted_name || 'All authors',
+                   selected_value: @selected_author&.slug,
+                   all_text: "All authors",
+                   param_key: :author_slug,
+                   items: @page.authors,
+                   item_text: ->(author) { author.formatted_name },
+                   item_value: ->(author) { author.slug },
+                   path: ->(params) { pages_posts_path(params) }
+        %>
+
+        <!-- All tags dropdown -->
+        <%= render "filter_dropdown",
+                   selected_text: @selected_category&.name || 'All tags',
+                   selected_value: @selected_category&.slug,
+                   all_text: "All tags",
+                   param_key: :category_slug,
+                   items: @page.categories,
+                   item_text: ->(category) { category.name },
+                   item_value: ->(category) { category.slug },
+                   path: ->(params) { pages_posts_path(params) }
+        %>
+
+        <!-- Sort dropdown -->
+        <%= render "filter_dropdown",
+                   selected_text: sort_text(@selected_sort),
+                   selected_value: @selected_sort,
+                   all_text: "Newest first",
+                   param_key: :sort,
+                   items: %w[oldest title_asc title_desc],
+                   item_text: ->(sort) { sort_text(sort) },
+                   item_value: ->(sort) { sort },
+                   path: ->(params) { pages_posts_path(params) }
+        %>
+
+        <%= link_to "New post", new_pages_post_path, class: "btn btn-primary text-white" %>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <%= render partial: 'shared/flashes' %>
+    </div>
+
+    <!-- Posts List -->
+    <% if @posts.any? %>
+      <div class="">
+        <!-- Post Item -->
+        <%= render partial: "pages/posts/post", collection: @posts %>
+
+        <%= pagy_navigation %>
+      </div>
+    <% else %>
+      <div class="flex items-center flex-col gap-y-5 justify-center h-64">
+        <% if request.query_parameters.present? %>
+          <p class="font-bold text-lg">No posts matches your filters</p>
+          <%= link_to "View all posts", request.path, class: "btn btn-outline" %>
+        <% else %>
+          <p class="font-bold text-lg">Start creating articles</p>
+          <%= link_to "New post", new_pages_post_path, class: "btn btn-outline" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

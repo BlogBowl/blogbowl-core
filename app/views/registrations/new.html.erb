@@ -1,0 +1,101 @@
+<% content_for :title, "Sign up" %>
+
+<div class="flex min-h-screen w-full">
+  <!-- Left side - Auth form -->
+  <div class="flex w-full flex-col items-center justify-center px-4 sm:w-1/2 sm:px-8 md:px-12 lg:px-16">
+    <div class="w-full max-w-md">
+      <div class="mb-8 flex items-center justify-center md:justify-start">
+        <%= image_tag("logo-with-text.png", width: 120) %>
+      </div>
+
+      <div class="w-full">
+
+        <!-- Sign In Content -->
+        <div class="space-y-6">
+          <div>
+            <h1 class="text-3xl font-bold text-center md:text-left">Welcome to BlogBowl!</h1>
+          </div>
+
+          <% if Rails.env.development? %>
+            <%= form_tag('/auth/developer', method: 'post', data: { turbo: false }) do %>
+              <button class="btn bg-white btn-lg w-full text-black border-[#e5e5e5]">
+                <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                  <g>
+                    <path d="m0 0H512V512H0" fill="#fff"></path>
+                    <path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path>
+                    <path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path>
+                    <path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path>
+                    <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path>
+                  </g>
+                </svg>
+                Continue with Google
+              </button>
+            <% end %>
+          <% else %>
+            <%= form_tag('/auth/google_oauth2', method: 'post', data: { turbo: false }) do %>
+              <button class="btn bg-white btn-lg w-full text-black border-[#e5e5e5]">
+                <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                  <g>
+                    <path d="m0 0H512V512H0" fill="#fff"></path>
+                    <path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path>
+                    <path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path>
+                    <path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path>
+                    <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path>
+                  </g>
+                </svg>
+                Continue with Google
+              </button>
+            <% end %>
+          <% end %>
+
+          <div class="relative my-6">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-gray-200"></div>
+            </div>
+            <div class="relative flex justify-center text-xs uppercase">
+              <span class="bg-white px-2 text-gray-500">Or continue with</span>
+            </div>
+          </div>
+
+          <%= render partial: 'shared/flashes' %>
+
+          <%= form_with(url: sign_up_path, class: 'space-y-2') do |form| %>
+            <div class="space-y-2">
+              <%= form.label :email, class: "block text-sm font-medium mb-1" %>
+              <%= form.email_field :email, value: @user.email, required: true, autofocus: true, readonly: @user.email.present?, autocomplete: "email", placeholder: "E-mail", class: "w-full" %>
+            </div>
+            <div class="space-y-2">
+              <%= form.label :password, class: "block text-sm font-medium mb-1" %>
+              <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Password", class: "w-full" %>
+            </div>
+            <%= form.hidden_field :invitation_token, value: params[:invitation_token] if params[:invitation_token].present? %>
+            <%= form.submit "Sign up", class: 'btn btn-neutral w-full btn-lg mt-5' %>
+          <% end %>
+
+        </div>
+
+        <div class="mt-6 text-center text-sm flex flex-col space-y-2">
+          <div>
+            <span>Already have an acocunt?</span>
+            <%= link_to "Sign in!", sign_in_path, class: "cursor-pointer hover:underline ml-1 font-medium text-primary" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right side - Preview -->
+  <div class="hidden sm:block sm:w-1/2 bg-primary">
+    <div class="flex h-full items-center justify-center p-15 flex-col text-white text-center">
+
+      <div class="space-y-5">
+        <h2 class="text-2xl">Launch blog for Your SaaS in 60 seconds! 🚀</h2>
+        <p class="text-sm">Blogbowl gives you everything you need — fast SEO-optimized templates, built-in newsletter, and analytics. No setup headaches. No code. Just sign up and focus on content.</p>
+        <%= image_tag("sign-up-cta.webp") %>
+        <p class="text-xs text-base-300/80">No credit card required. Start for free.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+

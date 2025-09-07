@@ -1,7 +1,7 @@
 class PostRevision < ApplicationRecord
   belongs_to :post
 
-  enum kind: { draft: 0, history: 1 }
+  enum :kind, { draft: 0, history: 1 }
 
   scope :drafts, -> { where(kind: :draft) }
   scope :history, -> { where(kind: :history) }

@@ -1,0 +1,82 @@
+<% content_for :title, "CTA settings" %>
+<div class="mx-auto max-w-3xl py-10">
+  <%= form_with(model: @page_settings, url: pages_settings_newsletter_path, method: :patch) do |form| %>
+    <%= link_to pages_settings_path do %>
+      <div class="flex gap-x-2 items-center text-sm opacity-70 cursor-pointer hover:opacity-50 active:opacity-40">
+        <i class="iconoir-arrow-left"></i>
+        <p>Back to settings</p>
+      </div>
+    <% end %>
+    <div class="flex justify-between mb-5 mt-2">
+      <div>
+        <h1 class="font-bold">Page Newsletter Settings</h1>
+      </div>
+      <%= form.submit 'Save settings', class: 'btn btn-primary' %>
+    </div>
+
+    <%= render partial: 'shared/flashes' %>
+
+    <div class="mt-10 flex flex-col gap-y-10">
+
+      <div class="card card-border border-base-300 bg-white">
+        <div class="p-6">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-send-mail text-primary text-xl"></i>
+            <h3 class="font-bold">Choose a newsletter</h3>
+          </div>
+          <p class="opacity-70 mt-2">Select which newsletter you'd like new subscribers to be added to.</p>
+        </div>
+        <div class="flex flex-col gap-y-4 px-6 pb-6">
+
+          <div>
+            <div class="flex items-center justify-between">
+              <%= form.label :newsletter_id, "Newsletter", class: "block text-sm font-medium mb-1" %>
+            </div>
+            <%= form.select :newsletter_id, @newsletter_options,
+                            { include_blank: 'Select a newsletter' },
+                            { class: "select select-primary w-full" } %>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-border border-base-300 bg-white">
+        <div class="p-6">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-globe text-primary text-xl"></i>
+            <h3 class="font-bold">Newsletter CTA title, description & button</h3>
+          </div>
+          <p class="opacity-70 mt-2">Title and description of the CTA component</p>
+        </div>
+        <div class="flex justify-between items-center border-y px-6 py-6">
+          <div>
+            <%= form.label :newsletter_cta_enabled, "Show newsletter CTA component", class: "text-sm font-medium" %>
+            <p class="text-xs text-gray-400">You can show and hide CTA component</p>
+          </div>
+          <%= form.check_box :newsletter_cta_enabled, class: "toggle toggle-xl toggle-primary checked:bg-primary checked:text-white checked:border-primary" %>
+        </div>
+        <div class="flex flex-col gap-y-4 p-6">
+          <div>
+            <%= form.label :newsletter_cta_title, "Title", class: "block text-sm font-medium mb-1" %>
+            <%= form.text_field :newsletter_cta_title, placeholder: 'Stay in the Loop!', class: "w-full text-sm mr-5", disabled: @disable_controls %>
+          </div>
+
+          <div>
+            <%= form.label :newsletter_cta_description, "Description", class: "block text-sm font-medium mb-1" %>
+            <%= form.text_area :newsletter_cta_description, placeholder: 'Subscribe to our newsletter for the latest updates, tips, and stories.', class: 'w-full h-20 bg-white', disabled: @disable_controls %>
+          </div>
+
+          <div>
+            <%= form.label :newsletter_cta_button, "Button text", class: "block text-sm font-medium mb-1" %>
+            <%= form.text_field :newsletter_cta_button, placeholder: 'Subscribe Now!', class: "w-full text-sm mr-5", disabled: @disable_controls %>
+          </div>
+
+          <div>
+            <%= form.label :newsletter_cta_disclaimer, "Disclaimer", class: "block text-sm font-medium mb-1" %>
+            <%= form.text_field :newsletter_cta_disclaimer, placeholder: 'No spam, unsubscribe anytime', class: "w-full text-sm mr-5" %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,17 @@
+<!--TODO: PRO-->
+<%#= turbo_stream_from ["flashes", current_user] %>
+<%= turbo_frame_tag :flashes do %>
+  <% if flash[:notice] %>
+    <div role="alert" class="alert alert-success mt-5">
+      <i class="iconoir-check-circle"></i>
+      <span><%= flash[:notice] %></span>
+    </div>
+  <% end %>
+
+  <% if flash[:alert] %>
+    <div role="alert" class="alert alert-error mt-5">
+      <i class="iconoir-warning-triangle"></i>
+      <span><%= flash[:alert] %></span>
+    </div>
+  <% end %>
+<% end %>

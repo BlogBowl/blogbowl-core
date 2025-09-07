@@ -1,0 +1,35 @@
+<% content_for :title, "Newsletter Settings" %>
+<div class="py-10">
+  <div class="">
+    <h1>Newsletter Settings</h1>
+    <p class="text-base opacity-80 mt-2">Manage your newsletter settings and preferences.</p>
+  </div>
+
+  <div class="mt-10 flex flex-col gap-y-12">
+
+    <div>
+      <div class="flex items-center gap-x-2 text-xl">
+        <i class="iconoir-globe text-primary"></i>
+        <h2 class="">Newsletter Settings</h2>
+      </div>
+      <div class="w-ful h-px bg-base-300 mt-2 mb-4"></div>
+      <div class="grid grid-cols-3 gap-x-4 gap-y-8">
+        <%= render "shared/setting_card",
+                   path: edit_newsletters_settings_general_path,
+                   title: 'General',
+                   description: 'General newsletter settings such as name, logo & footer',
+                   button_title: 'Customize newsletter',
+                   icon: 'iconoir-send-mail'
+        %>
+        <%= render "shared/setting_card",
+                   path: edit_newsletters_settings_newsletter_domain_path,
+                   title: 'Domain & Sender',
+                   description: 'Configure your domain & sender of newsletter',
+                   button_title: 'Configure newsletter',
+                   icon: 'iconoir-send-mail'
+        %>
+      </div>
+    </div>
+
+  </div>
+</div>

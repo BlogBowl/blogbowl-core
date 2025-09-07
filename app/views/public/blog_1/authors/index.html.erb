@@ -1,0 +1,27 @@
+<% content_for :head do %>
+  <%= render "public/shared/head/authors", author: @author %>
+<% end %>
+
+<div class="wrapper">
+  <section class="hero-header">
+    <h1>Meet our authors</h1>
+    <div class="breadcrumbs">
+      <% default_breadcrumbs("Authors").each do |breadcrumb| %>
+        <% if breadcrumb[:url].present? %>
+          <%= link_to(breadcrumb[:title], breadcrumb[:url]) %>
+          <i class="iconoir-nav-arrow-right"></i>
+        <% else %>
+          <p>
+            <%= breadcrumb[:title] %>
+          </p>
+        <% end %>
+      <% end %>
+    </div>
+  </section>
+  <section class="mt-5 md:mt-10 relative">
+    <div class="posts">
+      <%= render partial: "public/blog_1/authors/author", collection: @authors %>
+    </div>
+    <%= pagy_navigation %>
+  </section>
+</div>

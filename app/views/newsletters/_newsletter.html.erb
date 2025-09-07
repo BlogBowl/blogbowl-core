@@ -1,0 +1,45 @@
+<div class="relative">
+  <%= link_to newsletter_path(newsletter) do %>
+    <div
+      class="h-full group bg-white rounded-xl border border-gray-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all cursor-pointer"
+    >
+      <div class="flex items-start justify-between mb-4">
+        <div class="flex items-center space-x-3">
+          <% if newsletter.settings.logo.attached? %>
+            <%= image_tag newsletter.settings.logo, class: "h-6 rounded object-cover" %>
+          <% else %>
+            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+              <i class="iconoir-book-stack text-xl text-blue-500"></i>
+            </div>
+          <% end %>
+          <div>
+            <h3 class="font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+              <%= newsletter.name %>
+            </h3>
+            <p class="text-sm text-gray-500"><%= pluralize(newsletter.newsletter_emails.count, 'newsletter') %></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-px w-full bg-base-300 my-5"></div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-x-2">
+          <i class="iconoir-group text-2xl text-gray-500"></i>
+          <div class="flex flex-col">
+            <p class="text-sm font-medium"><%= newsletter.subscribers.active_and_verified.count %></p>
+            <p class="text text-gray-500 text-xs mt-px">Subscribers</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-x-2">
+          <i class="iconoir-calendar text-2xl text-gray-500"></i>
+          <div class="flex flex-col">
+            <p class="text-sm font-medium"><%= newsletter.newsletter_emails.any? ? distance_of_time_in_words(newsletter.newsletter_emails.maximum(:updated_at), Time.now) + ' ago' : '-' %></p>
+            <p class="text text-gray-500 text-xs mt-px">Last updated</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  <% end %>
+</div>

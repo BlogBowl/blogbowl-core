@@ -1,0 +1,25 @@
+<% content_for :head do %>
+  <%= render "public/shared/head/category", category: @category, breadcrumbs: category_breadcrumbs %>
+<% end %>
+
+<article>
+  <section class="hero text-center py-12 relative border-b">
+    <div class="wrapper px-10">
+      <div class="py-5 flex flex-col items-center justify-center">
+        <p class="font-bold">Breadcrumbs:</p>
+        <%= render_breadcrumbs(category_breadcrumbs) %>
+      </div>
+      <h1 class="font-extrabold text-5xl"><%= @category.name %></h1>
+      <p class="mt-10 text-xl leading-8"><%= @category.description %></p>
+    </div>
+  </section>
+  <% if @posts.length > 0 %>
+    <div class="w-[1000px] mx-auto mt-5 flex flex-col items-center">
+      <h2 class="font-bold mt-10">Our Best Articles in <%= @category.name %> category</h2>
+      <div class="wrapper grid grid-cols-3 gap-y-16 mt-10 gap-x-5 text-left">
+        <%= render partial: "public/barebone/authors/post", collection: @posts %>
+      </div>
+      <%= pagy_navigation %>
+    </div>
+  <% end %>
+</article>

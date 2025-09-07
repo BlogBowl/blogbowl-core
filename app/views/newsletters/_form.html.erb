@@ -1,0 +1,50 @@
+<div class="mx-auto max-w-3xl py-10">
+  <%= form_with(model: newsletter, url: newsletters_path, method: :post) do |form| %>
+    <%= link_to newsletters_path do %>
+      <div class="flex gap-x-2 items-center text-sm opacity-70 cursor-pointer hover:opacity-50 active:opacity-40">
+        <i class="iconoir-arrow-left"></i>
+        <p>Back to newsletters</p>
+      </div>
+    <% end %>
+    <div class="flex justify-between mb-5 mt-2">
+      <div>
+        <h1 class="font-bold">Create new Newsletter</h1>
+      </div>
+      <!--      TODO: PRO-->
+      <%= form.submit 'Create newsletter', class: 'btn btn-primary' %>
+      <%# if @workspace.pro? %>
+        <%#= form.submit 'Create newsletter', class: 'btn btn-primary' %>
+      <%# else  %>
+<!--        <button type="button" class="btn btn-primary" onclick="upgrade_plan_modal.showModal()">Create newsletter</button>-->
+      <%# end %>
+    </div>
+
+    <%= render partial: 'shared/flashes' %>
+
+    <div class="mt-10 flex flex-col gap-y-10">
+
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-mail text-primary text-xl"></i>
+            <h3 class="font-bold">Primary information</h3>
+          </div>
+          <p class="opacity-70 mt-2">General information about your newsletter.</p>
+        </div>
+
+        <div class="flex flex-col gap-y-4 mt-5">
+          <div>
+            <div class="flex justify-between">
+              <%= form.label :name, "Newsletter name", class: "block text-sm font-medium mb-1" %>
+              <p class="text-xs text-gray-400">Just for you! This name won’t appear on the actual newsletter!</p>
+            </div>
+            <%= form.text_field :name, placeholder: 'My great newsletter', class: "w-full text-sm" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<!--Upgrade modal-->
+<%= render partial: 'modals/upgrade-modal', locals: { title: 'Upgrade to Add New Newsletter', description: 'Creating and sending newsletters is only available on paid plans. Upgrade to unlock built-in email tools, manage subscribers, and send updates directly from BlogBowl—no third-party tools needed.' } %>

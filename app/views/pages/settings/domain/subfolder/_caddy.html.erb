@@ -1,0 +1,21 @@
+<ol>
+  <li>
+    <b>Save settings</b> if you haven't already
+  </li>
+  <li>
+    <b>Add the following redir & handle_path code</b> to <code>Caddyfile</code>, so it looks like this:
+    <pre>
+https://yoursite.com {
+  redir /<%= @page.slug %> /<%= @page.slug %>/
+  handle_path /<%= @page.slug %>/* {
+    reverse_proxy https://<span data-domain-target="ownDomainLabel"></span> {
+      header_up Host {http.reverse_proxy.upstream.hostport}
+    }
+    rewrite /<%= @page.slug %>/* /{path}/
+  }
+}</pre>
+  </li>
+  <li>
+    <b>Restart</b> Caddy server and try to access blog on <code>/blog</code>
+  </li>
+</ol>

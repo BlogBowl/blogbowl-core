@@ -1,0 +1,92 @@
+<div class="card card-border border-base-300 bg-white p-6 mt-10" data-newsletter_domain-target="verifyDocumentation">
+  <div class="flex justify-between">
+    <div class="">
+      <div class="flex items-center gap-x-2">
+        <i class="iconoir-check-square text-primary text-xl"></i>
+        <h3 class="font-bold">Verify your domain:</h3>
+      </div>
+      <p class="opacity-70 mt-2">Head over to your DNS provider and add <span class="underline">DKIM</span> and
+        <span class="underline">Return-Path</span> DNS records to verify your domain and ensure effective delivery.</p>
+    </div>
+  </div>
+
+  <div class="overflow-x-auto mt-2">
+    <table class="w-full border-collapse bg-white">
+      <thead>
+      <tr class="text-left text-gray-500 border-t border-gray-100">
+        <th class="p-4" colspan="3"></th>
+        <th class="p-4 text-xs">Hostname</th>
+        <th class="p-4 text-xs">Type</th>
+        <th class="p-4 text-xs" colspan="4">Add this value</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="border-t border-gray-100">
+        <td class="p-4" colspan="3">
+          <div class="flex items-center gap-3">
+            <% if domain_details[:dkim_verified] %>
+              <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                <i class="iconoir-check text-white text-xl font-bold"></i>
+              </div>
+            <% else %>
+              <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                <span class="text-gray-400 text-xl">×</span>
+              </div>
+            <% end %>
+            <div>
+              <div class="font-bold">DKIM</div>
+              <div class="text-sm <%= domain_details[:dkim_verified] ? "text-green-500" : "text-gray-400" %>"><%= domain_details[:dkim_verified] ? "Verified" : "Inactive" %></div>
+            </div>
+          </div>
+        </td>
+        <td class="p-4 text-sm text-gray-600">
+          <%= (domain_details[:dkim_verified] ? domain_details[:dkim_host] : domain_details[:dkim_pending_host]).gsub(".#{domain_details[:name]}", '') %>
+        </td>
+        <td class="p-4 text-sm text-gray-600">
+          TXT
+        </td>
+        <td class="p-4 text-sm break-all text-gray-600" colspan="4">
+          <%= (domain_details[:dkim_verified] ? domain_details[:dkim_text_value] : domain_details[:dkim_pending_text_value]).gsub(".#{domain_details[:name]}", '') %>
+        </td>
+        <% unless domain_details[:dkim_verified] %>
+          <td class="p-4">
+            <%= button_to "Verify", verify_dkim_settings_newsletter_domain_path(newsletter_setting), method: :put, class: 'btn btn-primary btn-sm' %>
+          </td>
+        <% end %>
+      </tr>
+      <tr class="border-y border-gray-100">
+        <td class="p-4" colspan="3">
+          <div class="flex items-center gap-3">
+            <% if domain_details[:return_path_domain_verified] %>
+              <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                <i class="iconoir-check text-white text-xl font-bold"></i>
+              </div>
+            <% else %>
+              <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                <span class="text-gray-400 text-xl">×</span>
+              </div>
+            <% end %>
+            <div>
+              <div class="truncate font-bold">Return-Path</div>
+              <div class="text-sm <%= domain_details[:return_path_domain_verified] ? "text-green-500" : "text-gray-400" %>"><%= domain_details[:return_path_domain_verified] ? "Verified" : "Inactive" %></div>
+            </div>
+          </div>
+        </td>
+        <td class="p-4 text-sm text-gray-600">
+          <%= domain_details[:return_path_domain].gsub(".#{domain_details[:name]}", '') %>
+        </td>
+        <td class="p-4 text-sm text-gray-600">
+          CNAME
+        </td>
+        <td class="p-4 text-sm text-gray-600 break-all" colspan="4"><%= domain_details[:return_path_domain_cname_value] %></td>
+        <% unless domain_details[:return_path_domain_verified] %>
+          <td class="p-4">
+            <%= button_to "Verify", verify_return_path_settings_newsletter_domain_path(newsletter_setting), method: :put, class: 'btn btn-primary btn-sm' %>
+          </td>
+        <% end %>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="mt-5"><b>Be patient:</b> DNS propagation can take some time (usually under 2 hours).</p>
+</div>

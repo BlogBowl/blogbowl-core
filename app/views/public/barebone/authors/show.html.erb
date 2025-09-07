@@ -1,0 +1,39 @@
+<% content_for :head do %>
+  <%= render "public/shared/head/author", author: @author, breadcrumbs: author_breadcrumbs %>
+<% end %>
+
+<article class="max-w-7xl mx-auto">
+  <section class="py-12 relative border">
+    <div class="flex gap-x-10 justify-center">
+      <div>
+        <div class="py-5">
+          <p class="font-bold">Breadcrumbs:</p>
+          <%= render_breadcrumbs(author_breadcrumbs) %>
+        </div>
+        <p class="uppercase text-xs font-medium">Authors</p>
+        <h1 class="font-bold text-5xl mt-5"><%= @author.formatted_name %></h1>
+        <p class="text-slate-400 mt-3">Position: <%= @author.position %></p>
+        <p class="mt-10 text-xl leading-8 max-w-[500px]">
+          Description: <%= @author.long_description %>
+        </p>
+      </div>
+      <div>
+        <%= @author.avatar(size: 10, css_class: 'rounded-none').html_safe %>
+        <div class="flex items-center mt-4 gap-x-3">
+          <% @author.author_links.each do |link| %>
+            <a class="w-10 h-10 rounded bg-black flex items-center justify-center" href="<%= link.url %>" target="_blank" rel="noopener noreferrer">
+              <i class="<%= social_media_icon(link.title) %> text-white"></i>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="max-w-7xl mx-auto mt-5">
+    <h2 class="font-bold text-center mt-16">Author's articles</h2>
+    <div class="wrapper grid grid-cols-3 gap-y-16 mt-10 gap-x-5">
+      <%= render partial: "public/barebone/authors/post", collection: @posts %>
+    </div>
+    <%= pagy_navigation %>
+  </div>
+</article>

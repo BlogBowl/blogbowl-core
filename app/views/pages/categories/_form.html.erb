@@ -1,0 +1,99 @@
+<div class="mx-auto max-w-3xl py-10">
+  <%= form_with(model: category,
+                url: category.persisted? ? pages_category_path : pages_categories_path,
+                method: category.persisted? ? :patch : :post) do |form| %>
+    <%= link_to pages_categories_path do %>
+      <div class="flex gap-x-2 items-center text-sm opacity-70 cursor-pointer hover:opacity-50 active:opacity-40">
+        <i class="iconoir-arrow-left"></i>
+        <p>Back to categories</p>
+      </div>
+    <% end %>
+    <div class="flex justify-between mb-5 mt-2">
+      <div>
+        <h1 class="font-bold">Category</h1>
+      </div>
+      <%= form.submit 'Save settings', class: 'btn btn-primary' %>
+    </div>
+
+    <%= render partial: 'shared/flashes' %>
+
+    <div class="mt-10 flex flex-col gap-y-10">
+
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-user-square text-primary text-xl"></i>
+            <h3 class="font-bold">Primary information</h3>
+          </div>
+          <p class="opacity-70 mt-2">General information about category</p>
+        </div>
+
+        <div class="flex flex-col gap-y-4 mt-5">
+          <div>
+            <%= form.label :name, class: "block text-sm font-medium mb-1" %>
+            <%= form.text_field :name, placeholder: "E.g. News" %>
+          </div>
+
+          <div>
+            <%= form.label :description, class: "block text-sm font-medium mb-1" %>
+            <%= form.text_area :description, class: "w-full", placeholder: "Enter overall information about category" %>
+          </div>
+
+          <div>
+            <div class="flex justify-between mt-4">
+              <%= form.label :slug, class: "block text-sm font-medium mb-1" %>
+              <p class="text-xs text-gray-400">If left blank, we'll parametrize name</p>
+            </div>
+            <%= form.text_field :slug, class: "", placeholder: "E.g. News" %>
+          </div>
+
+          <div>
+            <%= form.label :color, class: "block text-sm font-medium mb-1" %>
+            <%= form.color_field :color, class: 'cursor-pointer' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-border border-base-300 bg-white p-6">
+        <div class="">
+          <div class="flex items-center gap-x-2">
+            <i class="iconoir-media-image text-primary text-xl"></i>
+            <h3 class="font-bold">Images</h3>
+          </div>
+          <p class="opacity-70 mt-2">Category image & OG image</p>
+        </div>
+
+        <div class="flex flex-col gap-y-4 mt-5">
+
+          <%= render "shared/file_input",
+                     form: form,
+                     image: category.image,
+                     field: :image,
+                     field_label: "Category image",
+                     size: 'w-64 h-32',
+                     recommendation: 'You can provide image or URL to image'
+          %>
+
+          <div>
+            <div class="flex justify-between mt-2">
+              <%= form.label :image_url, class: "block text-sm font-medium mb-1" %>
+              <p class="text-xs text-gray-400">You can provide image or URL to image</p>
+            </div>
+            <%= form.text_field :image_url, class: "", placeholder: "https://fav.farm/🌐" %>
+          </div>
+
+          <%= render "shared/file_input",
+                     form: form,
+                     image: category.og_image,
+                     field: :og_image,
+                     field_label: "Category page OG image",
+                     size: 'w-64 h-32',
+                     recommendation: 'Recommended size: 1200x630px'
+          %>
+
+        </div>
+      </div>
+
+    </div>
+  <% end %>
+</div>

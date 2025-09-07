@@ -1,0 +1,87 @@
+<div>
+  <section class="hero text-center py-12 bg-primary text-white relative">
+    <div class="wrapper px-10">
+      <img class="mx-auto mb-10" src="https://ahrefs.com/blog/wp-content/uploads/2020/12/blog-%D1%81ompetitive-analysis-400x200.png" alt="<%= @post.title %>" />
+      <% if @category.present? %>
+        <p class="uppercase font-bold text-xs mb-5 hover:underline">
+          <%= link_to @category.name, dynamic_prefix(public_category_path(@category)), class: "font-medium text-white" %>
+        </p>
+      <% end %>
+      <h1 class="font-extrabold text-5xl"><%= @post.title %></h1>
+      <div class="mt-10 flex items-center justify-center gap-x-5">
+        <div class="flex items-center">
+          <p>By
+            <% @authors.each_with_index do |author, index| %>
+              <%= link_to author_name(author), dynamic_prefix(public_author_path(author)), class: "font-medium underline text-white inline" %>
+              <%= ',' unless index == @authors.size - 1 %>
+            <% end %>
+          </p>
+        </div>
+        <p>Reviewed by
+          <% @reviewers.each_with_index do |author, index| %>
+            <%= link_to author_name(author), dynamic_prefix(public_author_path(author)), class: "font-medium underline text-white inline" %>
+            <%= ',' unless index == @authors.size - 1 %>
+          <% end %>
+        </p>
+      </div>
+      <div class="flex items-center justify-center mt-5 gap-x-5">
+        <p>Updated at <%= @post.created_at.strftime("%b %d, %Y") %></p>
+        <p>■</p>
+        <p>10 min read</p>
+      </div>
+    </div>
+    <i class="iconoir-bookmark-solid text-3xl md:text-4xl text-red-400 absolute -bottom-3 left-1/2 -translate-x-1/2"></i>
+  </section>
+  <div class="mt-5 relative w-[1200px] px-60 mx-auto">
+    <div class="absolute top-0 left-0 bottom-0 block">
+      <div class="sticky top-14 left-0 overflow-y-auto pr-2 py-4 max-w-[200px] border-r">
+        <p class="font-bold">Contents</p>
+        <div class="flex flex-col gap-y-2 mt-3">
+          <%= generate_toc(@post.content_html) %>
+        </div>
+      </div>
+    </div>
+    <div class="absolute top-0 right-0 bottom-0 block">
+      <% if @main_author.avatar.present? %>
+        <%= @main_author.avatar.html_safe %>
+      <% else %>
+        <!-- Provide a fallback static image URL or default -->
+        <%= image_tag "#", alt: author_name(@main_author), width: "85px", height: "85px", class: "rounded-full" %>
+      <% end %>
+      <div class="pl-1 py-4 max-w-[210px]">
+        <%= link_to author_name(@main_author), dynamic_prefix(public_author_path(@main_author)), class: "font-bold hover:text-orange-400" %>
+        <p class="mt-2 text-sm">
+          <%= @main_author.long_description %>
+        </p>
+      </div>
+      <div class="sticky top-14 left-0 max-w-[210px]">
+        <p class="text-sm font-bold">Get the week's best marketing content</p>
+        <input type="text" class="border rounded p-2 text-sm mt-1 w-full" placeholder="Enter your email" />
+        <button class="w-full rounded items-center justify-center flex text-sm font-bold bg-blue-100 text-blue-600 hover:opacity-70 active:opacity-50 p-2 mt-2">Subscribe</button>
+      </div>
+    </div>
+    <article class="prose lg:prose-xl prose-img:rounded">
+      <%= sanitize @post.content_html, scrubber: CustomScrubber.new %>
+    </article>
+    <div class="flex w-full px-4 py-6 bg-gray-100 rounded-sm gap-x-10 items-start mt-10">
+      <div class="w-2/6">
+        <% if @main_author.avatar.present? %>
+          <%= @main_author.avatar(size: 4).html_safe %>
+        <% else %>
+          <!-- Provide a fallback static image URL or default -->
+          <%= image_tag "#", alt: author_name(@main_author), width: "150px", height: "150px", class: "rounded-full" %>
+        <% end %>
+      </div>
+      <div class="flex flex-col">
+        <p class="text-sm text-gray-600">Article by</p>
+        <%= link_to author_name(@main_author), dynamic_prefix(public_author_path(@main_author)), class: "font-bold text-lg mt-2" %>
+        <p class="text-xs mb-5"><%= @main_author.position %></p>
+        <p class="text-sm">
+          <%= @main_author.long_description %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8" onload="window.checkTweets()"></script>

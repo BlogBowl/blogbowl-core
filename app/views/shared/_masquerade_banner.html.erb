@@ -1,0 +1,10 @@
+<% if session[:admin_id] %>
+  <% admin = User.find_by(id: session[:admin_id]) %>
+  <% if admin %>
+    <div class="bg-yellow-400 text-black text-center p-2 fixed top-0 w-full z-50 flex items-center justify-center gap-x-2">
+      <span>You are currently logged in as <b><%= current_user.email %></b>.</span>
+      <%= button_to "Stop Impersonating", destroy_user_masquerade_path, method: :delete, class: 'font-bold underline' %>
+      <span>and return to your account (<b><%= admin.email %></b>).</span>
+    </div>
+  <% end %>
+<% end %>
