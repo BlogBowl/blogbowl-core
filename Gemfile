@@ -25,3 +25,5 @@ gem "sidekiq"
 gem 'truemail'
 
 gem "bcrypt"
+
+gem "active_storage_validations", "~> 2.0"

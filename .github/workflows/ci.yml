@@ -22,36 +22,72 @@ jobs:
         run: bin/rubocop -f github
 
   test:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    # Use a Docker container to run the job
+    container: ruby:3.2.2
+
+    # Docker services to run alongside the job
     services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: test
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+        # Options to wait for the service to be healthy
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
       redis:
-        image: redis
-        ports:
-          - 6381:6379
-        options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
+        image: redis:latest
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    # Environment variables available to all steps
+    env:
+      RAILS_ENV: test
+      DB_HOST: postgres
+      DB_PORT: 5432
+      REDIS_URL: redis://redis:6379/0
+
     steps:
-      - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config google-chrome-stable
-
-      - name: Checkout code
+      # 1. Check out repository code
+      - name: Check out code
         uses: actions/checkout@v4
+        with:
+          submodules: true # Equivalent to GIT_SUBMODULE_STRATEGY: normal
 
-      - name: Set up Ruby
+      # 2. Set up Ruby, gems, and caching
+      - name: Set up Ruby and install gems
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.2
+          ruby-version: '3.2.2'
+          # This runs 'bundle install' and caches gems automatically
           bundler-cache: true
 
-      - name: Run tests
-        env:
-          RAILS_ENV: test
-          REDIS_URL: redis://localhost:6381/0
-        run: bin/rails db:test:prepare test
+      # 4. Install system dependencies
+      - name: Install system dependencies
+        run: |
+          apt-get update -yqq
+          apt-get install -yqq --no-install-recommends nodejs npm postgresql-client libvips-dev
 
-      - name: Keep screenshots from failed system tests
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: screenshots
-          path: ${{ github.workspace }}/tmp/screenshots
-          if-no-files-found: ignore
+      # 5. Install JavaScript dependencies
+      - name: Install JS dependencies
+        run: |
+          npm install -g bun
+          bun install
+
+      # 6. Set up the database
+      # The 'until pg_isready' loop is no longer needed due to the service health check.
+      - name: Set up database
+        run: bundle exec rake db:create db:schema:load
+
+      # 7. Run Rails tests
+      - name: Run tests
+        run: bundle exec rails test
