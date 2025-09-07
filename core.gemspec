@@ -48,6 +48,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'language_list'
 
   spec.add_dependency "hotwire-livereload"
+
+  spec.add_dependency 'sidekiq', "~> 8.0.7"
+
 end
 
 
