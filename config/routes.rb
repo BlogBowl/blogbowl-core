@@ -4,7 +4,7 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
-  mount Sidekiq::Web => "/sidekiq"
+  mount Sidekiq::Web => "/sidekiq", as: :sidekiq_admin
 
   constraints host: [Rails.application.routes.default_url_options[:host], ENV.fetch('APP_DOCKER_HOST', 'app')] do
     get 'preview/:share_id', to: 'previews#show', as: :preview
