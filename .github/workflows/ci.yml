@@ -82,7 +82,7 @@ jobs:
       # 6. Set up the database
       # The 'until pg_isready' loop is no longer needed due to the service health check.
       - name: Set up database
-        run: bundle exec rake db:create db:schema:load
+        run: RAILS_ENV=test rails db:test:prepare
 
       # 7. Run Rails tests
       - name: Run tests
