@@ -41,6 +41,6 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to sessions_url
 
     follow_redirect!
-    assert_redirected_to sign_up_url
+    assert_redirected_to sign_in_url
   end
 end

@@ -27,3 +27,5 @@ gem 'truemail'
 gem "bcrypt"
 
 gem "active_storage_validations", "~> 2.0"
+
+gem "turbo-rails"

@@ -1,5 +1,5 @@
 <!--TODO: PRO-->
-<%#= turbo_stream_from ["flashes", current_user] %>
+<%= turbo_stream_from ["flashes", current_user] %>
 <%= turbo_frame_tag :flashes do %>
   <% if flash[:notice] %>
     <div role="alert" class="alert alert-success mt-5">

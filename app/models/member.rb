@@ -8,7 +8,10 @@ class Member < ApplicationRecord
   validate :writer_must_have_active_author
 
   def create_or_activate_author!
-    author.update!(active: true) and return if author.present?
+    if author.present?
+      author.update!(active: true)
+      return author
+    end
     Author.create!(member: self, email: user.email, first_name: user.email.split("@").first, active: true)
   end
 

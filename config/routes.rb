@@ -41,10 +41,11 @@ Rails.application.routes.draw do
       patch :dismiss_notice, on: :member
     end
 
-    # namespace :sessions do
-    #   resource :passwordless, only: [:new, :edit, :create]
-    #   resource :sudo, only: [:new, :create]
-    # end
+    namespace :sessions do
+      # TODO: PRO
+      # resource :passwordless, only: [:new, :edit, :create]
+      resource :sudo, only: [:new, :create]
+    end
     get "invitations/:token", to: "invitations#show", as: :invitation
     post "invitations/:token", to: "invitations#accept", as: :accept_invitation
 

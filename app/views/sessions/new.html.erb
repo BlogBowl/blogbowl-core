@@ -58,7 +58,7 @@
 
           <%= render partial: 'shared/flashes' %>
 
-          <%= form_with(url: session_path, class: 'space-y-2') do |form| %>
+          <%= form_with(url: sign_in_path, class: 'space-y-2') do |form| %>
             <div class="space-y-2">
               <%= form.label :email, class: "block text-sm font-medium mb-1" %>
               <%= form.email_field :email, value: params[:email_hint], required: true, autofocus: true, autocomplete: "email", placeholder: "E-mail", class: "w-full" %>
