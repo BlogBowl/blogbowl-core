@@ -14,12 +14,12 @@ class SessionsController < ApplicationController
       start_new_session_for user
       redirect_to after_authentication_path
     else
-      redirect_to new_session_path, alert: "That email or password is incorrect"
+      redirect_to sign_in_path, alert: "That email or password is incorrect"
     end
   end
 
   def destroy
     terminate_session
-    redirect_to new_session_path
+    redirect_to sign_in_path
   end
 end

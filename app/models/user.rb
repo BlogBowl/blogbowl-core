@@ -18,13 +18,12 @@ class User < ApplicationRecord
   has_many :workspaces, through: :members, source: :workspace
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  # validates :password, allow_nil: false, length: { minimum: 8 }
+  validates :password, allow_nil: false, length: { minimum: 8 }
 
-  # TODO: PRO
-  # validates :first_name, length: { maximum: 25, allow_nil: true }
-  # validates :last_name, length: { maximum: 25, allow_nil: true }
+  validates :first_name, length: { maximum: 25, allow_nil: true }
+  validates :last_name, length: { maximum: 25, allow_nil: true }
 
-  # normalizes :email, with: -> { _1.strip.downcase }
+  normalizes :email, with: -> { _1.strip.downcase }
 
   # before_validation if: :email_changed?, on: :update do
   #   self.verified = false
@@ -68,14 +67,14 @@ class User < ApplicationRecord
   # end
 
   def formatted_name
-    email
-    # "#{first_name} #{last_name}"
+    return email if first_name.blank? && last_name.blank?
+    "#{first_name} #{last_name}"
   end
 
   def avatar(size: 1)
     return avatar_placeholder(size: size, initials: "AA") if email.blank?
     initials = email[0].upcase + email[1].upcase
-    # initials = [first_name, last_name].map { _1[0].upcase }.join if first_name.present? && last_name.present?
+    initials = [first_name, last_name].map { _1[0].upcase }.join if first_name.present? && last_name.present?
 
     avatar_placeholder(size: size, initials: initials)
   end

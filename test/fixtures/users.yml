@@ -7,6 +7,8 @@ workspace_owner:
   password_digest: <%= BCrypt::Password.create("Secret1*3*5*") %>
 
 alex_gonzalez:
+  first_name: Alex
+  last_name: Gonzalez
   email: alexgonzalez@hotmail.com
   password_digest: <%= BCrypt::Password.create("Secret1*3*5*") %>
 

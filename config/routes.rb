@@ -4,15 +4,14 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
-  unless Rails.env.test?
-    mount Sidekiq::Web => "/sidekiq"
-  end
+  mount Sidekiq::Web => "/sidekiq"
 
   constraints host: [Rails.application.routes.default_url_options[:host], ENV.fetch('APP_DOCKER_HOST', 'app')] do
     get 'preview/:share_id', to: 'previews#show', as: :preview
 
-    get "sign_in", to: "sessions#new", as: :new_session
-    post "sign_in", to: "sessions#create", as: :session
+    get "sign_in", to: "sessions#new"
+    post "sign_in", to: "sessions#create"
+    resources :sessions, only: [:index, :show, :destroy]
 
     # get "sign_up", to: "registrations#new"
     # post "sign_up", to: "registrations#create"

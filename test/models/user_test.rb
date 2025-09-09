@@ -21,14 +21,13 @@ class UserTest < ActiveSupport::TestCase
     assert user.save
   end
 
-  # TODO: PRO
-  # test "should not save user with first_name or last_name longer than 25 characters" do
-  #   long_first_name = User.create(email: "with_name@example.com", password: "Secret 1*3*5*")
-  #   assert_not long_first_name.save, "Saved user with first_name longer than 25 characters"
-  #
-  #   long_last_name = User.create(email: "with_name@example.com", password: "Secret 1*3*5*")
-  #   assert_not long_last_name.save, "Saved user with last_name longer than 25 characters"
-  # end
+  test "should not save user with first_name or last_name longer than 25 characters" do
+    long_first_name = User.create(email: "with_name@example.com", password: "Secret 1*3*5*", first_name: "Abcdefghijklmnopqrstuvwxyz", last_name: "Doe")
+    assert_not long_first_name.save, "Saved user with first_name longer than 25 characters"
+
+    long_last_name = User.create(email: "with_name@example.com", password: "Secret 1*3*5*", first_name: "John", last_name: "Abcdefghijklmnopqrstuvwxyz")
+    assert_not long_last_name.save, "Saved user with last_name longer than 25 characters"
+  end
 
   # TODO: PRO NAME FORMATTING
   test "should return correct formatted name (w/o names)" do
@@ -38,7 +37,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "should return correct formatted name (w/ names)" do
     user = users(:alex_gonzalez)
-    assert_equal "alexgonzalez@hotmail.com", user.formatted_name
+    assert_equal "Alex Gonzalez", user.formatted_name
   end
 
   test "should create a page in workspace with default post when user is created" do

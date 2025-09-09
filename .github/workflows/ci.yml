@@ -80,7 +80,6 @@ jobs:
         run: bundle install
 
       # 6. Set up the database
-      # The 'until pg_isready' loop is no longer needed due to the service health check.
       - name: Set up database
         run: RAILS_ENV=test rails db:test:prepare
 
