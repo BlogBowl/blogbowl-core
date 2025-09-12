@@ -21,7 +21,12 @@ class Workspace < ApplicationRecord
     # unless Rails.env.test?
     #   create_umami_team
     # end
-    newsletters.create!(workspace: self, name: 'Default Newsletter', name_slug: 'default-newsletter', uuid: uuid)
+
+    # We create newsletter only if Postmark account token is present
+    if FeatureGuard.enabled?(:postmark)
+      newsletters.create!(workspace: self, name: 'Default Newsletter', name_slug: 'default-newsletter', uuid: uuid)
+    end
+
     pages.create!(workspace: self, slug: 'blog', name: 'My blog')
 
     create_default_setting
