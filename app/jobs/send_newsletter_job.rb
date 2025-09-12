@@ -1,4 +1,5 @@
 require 'net/http'
+require 'postmark'
 
 class SendNewsletterJob < ApplicationJob
 
@@ -26,7 +27,7 @@ class SendNewsletterJob < ApplicationJob
       Messages: subscribers.map { |subscriber| { To: subscriber } }
     }
 
-    response = postmark_client.post('/email/bulk', payload.to_json)
+    response = postmark_client.post('email/bulk', payload.to_json)
 
     id = response["Id"]
     email.update(postmark_bulk_id: id)

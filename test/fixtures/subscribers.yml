@@ -7,6 +7,13 @@ one:
   verified: false
   newsletter: one
 
+one_verified:
+  email: email@one.com
+  status: 'active'
+  active: true
+  verified: true
+  newsletter: one
+
 two:
   email: email@two.com
   status: 'pending'

@@ -54,6 +54,7 @@ class API::Public::PostmarkControllerTest < ActionDispatch::IntegrationTest
 
     post api_public_postmark_event_url,
          params: get_subscription_change_params(@newsletter.postmark_server_id, verified_subscriber_2.email, false),
+         as: :json,
          headers: { 'X-Api-Key': @api_key }
 
     assert_response :success

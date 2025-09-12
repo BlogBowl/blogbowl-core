@@ -29,3 +29,9 @@ gem "bcrypt"
 gem "active_storage_validations", "~> 2.0"
 
 gem "turbo-rails"
+
+gem "postmark"
+
+group :test do
+  gem 'webmock'
+end

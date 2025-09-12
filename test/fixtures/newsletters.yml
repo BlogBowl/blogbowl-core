@@ -2,6 +2,9 @@ one:
   name: 'Default Newsletter'
   name_slug: 'default-newsletter'
   workspace: one
+  # should work because we just mock responses
+  postmark_server_id: 100000
+  postmark_server_token: test-token-one
 two:
   name: 'Default Newsletter'
   name_slug: 'default-newsletter'
