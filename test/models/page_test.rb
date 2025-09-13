@@ -1,4 +1,5 @@
 require_relative "../test_helper"
+require "minitest/mock"
 
 class PageTest < ActiveSupport::TestCase
   test "should get authors" do
@@ -144,4 +145,23 @@ class PageTest < ActiveSupport::TestCase
     assert post.cover_image.attached?, true
   end
 
+  test "should set newsletter_cta_enabled to true in settings after create if Postmark is enabled" do
+    FeatureGuard.stub(:enabled?, true) do
+      workspace = workspaces(:one)
+      new_blog = workspace.pages.create(name: 'new-blog', slug: 'blog')
+      assert new_blog.save
+
+      assert_equal new_blog.settings.newsletter_cta_enabled, true
+    end
+  end
+
+  test "should set newsletter_cta_enabled to false in settings after create if Postmark is disabled" do
+    FeatureGuard.stub(:enabled?, false) do
+      workspace = workspaces(:one)
+      new_blog = workspace.pages.create(name: 'new-blog', slug: 'blog')
+      assert new_blog.save
+
+      assert_equal new_blog.settings.newsletter_cta_enabled, false
+    end
+  end
 end

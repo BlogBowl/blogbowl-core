@@ -52,7 +52,7 @@ class Page < ApplicationRecord
       cta_title: 'Ready to get started?',
       cta_description: 'Sign up today and explore everything we have to offer!',
       cta_button: 'Sign up!',
-      newsletter_cta_enabled: true,
+      newsletter_cta_enabled: FeatureGuard.enabled?(:postmark),
       newsletter_cta_title: 'Stay in the Loop!',
       newsletter_cta_description: 'Subscribe to our newsletter for the latest updates, tips and stories.',
       newsletter_cta_button: 'Subscribe now!',

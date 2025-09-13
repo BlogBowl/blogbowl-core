@@ -52,6 +52,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sidekiq', "~> 8.0.7"
 
   spec.add_dependency "webmock"
+
+  spec.add_dependency "redis"
 end
 
 

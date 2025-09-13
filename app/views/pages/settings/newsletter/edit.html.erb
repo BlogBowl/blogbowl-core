@@ -18,6 +18,12 @@
 
     <div class="mt-10 flex flex-col gap-y-10">
 
+      <% unless FeatureGuard.enabled?(:postmark) %>
+        <%= render 'shared/notices/disabled_feature_notice',
+                   title: "Newsletter Feature is Disabled",
+                   message: "To enable newsletters, the Postmark service must be configured in the ENV with a valid API token." %>
+      <% end %>
+
       <div class="card card-border border-base-300 bg-white">
         <div class="p-6">
           <div class="flex items-center gap-x-2">
@@ -34,7 +40,7 @@
             </div>
             <%= form.select :newsletter_id, @newsletter_options,
                             { include_blank: 'Select a newsletter' },
-                            { class: "select select-primary w-full" } %>
+                            { class: "select select-primary w-full", disabled: !FeatureGuard.enabled?(:postmark) } %>
           </div>
         </div>
       </div>

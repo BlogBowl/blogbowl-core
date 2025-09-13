@@ -35,3 +35,5 @@ gem "postmark"
 group :test do
   gem 'webmock'
 end
+
+gem 'redis'
