@@ -23,13 +23,15 @@ class User < ApplicationRecord
   validates :first_name, length: { maximum: 25, allow_nil: true }
   validates :last_name, length: { maximum: 25, allow_nil: true }
 
+  attr_accessor :skip_workspace_creation
+
   normalizes :email, with: -> { _1.strip.downcase }
 
   # before_validation if: :email_changed?, on: :update do
   #   self.verified = false
   # end
 
-  after_create do
+  after_create unless: :skip_workspace_creation do
     workspace = Workspace.new(title: "My Workspace")
     members.create!(workspace:, permissions: ["owner"])
     author = members.first.create_or_activate_author!
@@ -77,6 +79,10 @@ class User < ApplicationRecord
     initials = [first_name, last_name].map { _1[0].upcase }.join if first_name.present? && last_name.present?
 
     avatar_placeholder(size: size, initials: initials)
+  end
+
+  def using_default_password?
+    BCrypt::Password.new(password_digest) == 'changeme'
   end
 
   def notice_dismissed?(key)

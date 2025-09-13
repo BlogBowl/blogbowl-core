@@ -9,6 +9,9 @@ workspace_blog_with_domain_1:
 workspace_with_subscribers:
   title: workspace blog with subscribers
 
+default_user_workspace:
+  title: 'default_user_workspace'
+
 #TODO: PRO
 #free_workspace:
 #  title: free workspace

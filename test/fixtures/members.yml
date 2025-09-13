@@ -43,6 +43,11 @@ member_workspace_owner:
   workspace: one
   permissions: ["owner"]
 
+default_user_member:
+  user: default_user
+  workspace: default_user_workspace
+  permissions: ["owner"]
+
 # TODO: PRO
 #free_workspace_owner:
 #  user: free_user

@@ -10,6 +10,16 @@
       <%= render partial: 'shared/flashes' %>
     </div>
 
+    <% if current_user.using_default_password? %>
+      <div class="mb-10">
+        <%= render 'shared/notices/disabled_feature_notice',
+                   title: "Change default user password",
+                   message: "You’re still using the default password. For your account's security, please " +
+                     link_to("update your password now", edit_member_path(@workspace.members.first), class: "font-bold text-blue-600 hover:underline") + "."
+        %>
+      </div>
+    <% end %>
+
     <!-- Posts List -->
     <div class="grid grid-cols-3 gap-4">
       <!-- Post Item -->

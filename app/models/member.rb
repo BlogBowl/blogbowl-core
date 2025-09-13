@@ -6,6 +6,7 @@ class Member < ApplicationRecord
   has_many :posts, through: :author
 
   validate :writer_must_have_active_author
+  accepts_nested_attributes_for :user
 
   def create_or_activate_author!
     if author.present?

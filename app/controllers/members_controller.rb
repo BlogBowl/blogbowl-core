@@ -26,23 +26,35 @@ class MembersController < ApplicationController
     end
 
     @member = @workspace.members.build
-    @member.user = user if user.present?
-
     authorize! :manage, @member
+    Member.transaction do
+      if user.nil?
+        validate_password
+        user = User.create!(
+          email: params[:email],
+          password: params[:password],
+          skip_workspace_creation: true
+        )
+      end
+      @member.user = user
+      set_permissions
+      create_author_if_requested
+      @member.save!
 
-    set_permissions
+      # TODO: PRO
+      # if @workspace.free? && @workspace.members.count >= 1
+      #   flash.now[:alert] = "To invite new member, please, upgrade to a paid plan!"
+      #   render :new, status: :unprocessable_entity and return
+      # end
+      # send_existing_user_invite_email if user.present?
+      # send_new_user_invite_email unless user.present?
 
-    # TODO: PRO
-    # if @workspace.free? && @workspace.members.count >= 1
-    #   flash.now[:alert] = "To invite new member, please, upgrade to a paid plan!"
-    #   render :new, status: :unprocessable_entity and return
-    # end
-
-    send_existing_user_invite_email if user.present?
-    send_new_user_invite_email unless user.present?
-
-    flash[:notice] = "Invitation was sent successfully."
-    redirect_to members_path
+      flash[:notice] = "User was successfully created."
+      redirect_to members_path
+    end
+  rescue ActiveRecord::RecordInvalid => e
+    flash.now[:alert] = e.record.errors.full_messages.to_sentence
+    render :new, status: :unprocessable_entity
   end
 
   def edit
@@ -52,7 +64,9 @@ class MembersController < ApplicationController
   def update
     authorize! :manage, @member
     Member.transaction do
-      update_posts!
+      update_password!
+
+      create_author_if_requested
 
       set_permissions
       @member.save!
@@ -67,11 +81,26 @@ class MembersController < ApplicationController
 
   private
 
+  def validate_password
+    if params[:password] != params[:password_confirmation]
+      @member.errors.add(:password_confirmation, "doesn't match Password")
+      raise ActiveRecord::RecordInvalid, @member
+    end
+  end
+
+  def update_password!
+    return if params[:password].blank?
+
+    validate_password
+
+    @member.user.update!(password: params[:password])
+  end
+
   def current_ability
     @current_ability ||= MemberAbility.new(current_user)
   end
 
-  def update_posts!
+  def create_author_if_requested
     has_own_author = params[:posts_has_own_author] == "true"
 
     if has_own_author
@@ -92,7 +121,7 @@ class MembersController < ApplicationController
       render :edit, status: :bad_request and return
     end
 
-    unless params[:posts_role].in?(%w[owner editor writer])
+    unless params[:posts_role].in?(%w[owner admin editor writer])
       flash.now[:alert] = "Posts role is invalid"
       render :edit, status: :bad_request and return
     end
@@ -109,7 +138,7 @@ class MembersController < ApplicationController
       redirect_to new_member_path and return
     end
 
-    unless params[:posts_role].in?(%w[owner editor writer])
+    unless params[:posts_role].in?(%w[owner admin editor writer])
       flash[:alert] = "Posts role is invalid"
       redirect_to new_member_path and return
     end
@@ -124,15 +153,16 @@ class MembersController < ApplicationController
     @member = @workspace.members.build(permissions: Post::WRITER_PERMISSIONS)
   end
 
-  def send_existing_user_invite_email
-    InvitationMailer.with(token: InvitationService.instance.generate_token(@member, email: params[:email], from: current_user, posts_has_own_author: params[:posts_has_own_author]),
-                          email: params[:email],
-                          workspace_title: @workspace.title).invite_existing_user.deliver_later
-  end
-
-  def send_new_user_invite_email
-    InvitationMailer.with(token: InvitationService.instance.generate_token(@member, email: params[:email], from: current_user, posts_has_own_author: params[:posts_has_own_author]),
-                          email: params[:email],
-                          workspace_title: @workspace.title).invite_new_user.deliver_later
-  end
+  # TODO: PRO
+  # def send_existing_user_invite_email
+  #   InvitationMailer.with(token: InvitationService.instance.generate_token(@member, email: params[:email], from: current_user, posts_has_own_author: params[:posts_has_own_author]),
+  #                         email: params[:email],
+  #                         workspace_title: @workspace.title).invite_existing_user.deliver_later
+  # end
+  #
+  # def send_new_user_invite_email
+  #   InvitationMailer.with(token: InvitationService.instance.generate_token(@member, email: params[:email], from: current_user, posts_has_own_author: params[:posts_has_own_author]),
+  #                         email: params[:email],
+  #                         workspace_title: @workspace.title).invite_new_user.deliver_later
+  # end
 end

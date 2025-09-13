@@ -19,6 +19,24 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "should show warning to change password for default user" do
+    sign_in_as_pas(users(:default_user), 'changeme')
+
+    get pages_path
+    assert_response :success
+
+    assert_select "h3", "Change default user password"
+  end
+
+  test "should not show warning to change password for default user" do
+    sign_in_as(users(:lazaro_nixon))
+
+    get pages_path
+    assert_response :success
+
+    assert_select "h3", text: "Change default user password", count: 0
+  end
+
   # TODO: PRO
   # test "allow creating new pages on PRO plans" do
   #   sign_in_as(users(:pro_user))

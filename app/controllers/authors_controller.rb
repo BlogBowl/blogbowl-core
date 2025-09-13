@@ -2,7 +2,7 @@ class AuthorsController < ApplicationController
   layout 'dashboard'
   include Pagy::Backend
 
-  before_action :set_author, only: [:edit, :update, :deactivate]
+  before_action :set_author, only: %i[edit update deactivate]
 
   def index
     @pagy, @authors = pagy(@workspace.authors.where(active: true).order(created_at: :asc), page: params[:page] || 1, limit: 10)

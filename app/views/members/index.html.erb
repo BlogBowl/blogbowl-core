@@ -1,41 +1,52 @@
 <% content_for :title, "Members" %>
-<div class="mx-auto mt-20 min-w-[600px] max-w-[800px] w-full">
-  <div class="flex justify-between">
-    <h1>Members</h1>
-    <%= link_to "Invite member", new_member_path, class: "btn btn-neutral" if @can_manage_members %>
+<div class="mx-auto max-w-3xl py-10">
+  <%= link_to authors_path do %>
+    <div class="flex gap-x-2 items-center text-sm opacity-70 cursor-pointer hover:opacity-50 active:opacity-40">
+      <i class="iconoir-arrow-left"></i>
+      <p>Back to authors</p>
+    </div>
+  <% end %>
+  <div class="flex justify-between mb-5 mt-2">
+    <div>
+      <h1 class="font-bold">Members</h1>
+    </div>
+    <%= link_to "Create new member", new_member_path, class: "btn btn-primary" if @can_manage_members %>
   </div>
 
   <%= render partial: 'shared/flashes' %>
 
-  <section class="bg-white min-h-80 mt-10 border-gray-200 border-2 rounded-md">
-    <ul>
-      <% @members.each do |member| %>
-        <li class="flex justify-between items-center h-16 px-5 border-b-gray-200 border-b-2">
-          <div class="flex items-center">
-            <%= member.avatar.html_safe %>
-            <div class="pl-5">
-              <p><%= member.formatted_name %></p>
-              <% if member.user == current_user %>
-                <div class="badge badge-sm badge-outline">you</div>
-              <% end %>
-              <% if @workspace.owner?(member.user) %>
-                <div class="badge badge-sm badge-neutral">owner</div>
-              <% else %>
-                <% member.roles.each do |role| %>
-                  <div class="badge badge-sm badge-accent"><%= role %></div>
+  <div class="mt-10 flex flex-col gap-y-10">
+
+    <div class="card card-border border-base-300 bg-white">
+      <ul class="divide-y">
+        <% @members.each do |member| %>
+          <li class="flex justify-between items-center px-5 py-5">
+            <div class="flex items-center">
+              <%= member.avatar.html_safe %>
+              <div class="pl-5">
+                <p><%= member.formatted_name %></p>
+                <% if member.user == current_user %>
+                  <div class="badge badge-sm badge-outline">you</div>
                 <% end %>
-              <% end %>
+                <% if @workspace.owner?(member.user) %>
+                  <div class="badge badge-sm badge-neutral">owner</div>
+                <% else %>
+                  <% member.roles.each do |role| %>
+                    <div class="badge badge-sm badge-accent"><%= role %></div>
+                  <% end %>
+                <% end %>
+              </div>
             </div>
-          </div>
-          <% if @can_manage_members %>
-            <div class="mt-2">
-              <%= link_to edit_member_path(member) do %>
-                <i class="iconoir-edit-pencil text-2xl"></i>
-              <% end %>
-            </div>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
-  </section>
+            <% if @can_manage_members %>
+              <div class="mt-2">
+                <%= link_to edit_member_path(member) do %>
+                  <i class="iconoir-edit-pencil text-2xl"></i>
+                <% end %>
+              </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
 </div>
