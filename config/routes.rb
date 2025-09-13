@@ -59,7 +59,8 @@ Rails.application.routes.draw do
     end
 
     resources :members
-    resources :workspaces, only: [:index, :show, :create]
+    # TODO: PRO
+    # resources :workspaces, only: [:index, :show, :create]
 
     resources :analytics, only: [:index]
 

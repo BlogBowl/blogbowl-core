@@ -18,12 +18,13 @@
         </div>
       </div>
       <ul tabindex="0" class="dropdown-content menu dropdown-list min-w-52 w-full border border-base-300">
-        <li>
-          <%= link_to workspaces_path, class: "" do %>
-            <p>Switch workspace</p>
-            <i class="iconoir-nav-arrow-right"></i>
-          <% end %>
-        </li>
+<!--        TODO: PRO-->
+<!--        <li>-->
+          <%#= link_to workspaces_path, class: "" do %>
+<!--            <p>Switch workspace</p>-->
+<!--            <i class="iconoir-nav-arrow-right"></i>-->
+          <%# end %>
+<!--        </li>-->
         <li>
           <%= button_to session_path(Current.session), method: :delete, form_class: 'block font-normal rounded-none' do %>
             <p>Sign out</p>
