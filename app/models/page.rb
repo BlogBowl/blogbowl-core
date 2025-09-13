@@ -172,7 +172,8 @@ class Page < ApplicationRecord
   end
 
   def generate_domain
-    self.domain ||= "#{('a'..'z').to_a.shuffle[0, 10].join}.blogbowl.app"
+    base_domain = ENV.fetch('BASE_DOMAIN', Rails.application.credentials[Rails.env.to_sym][:base_domain])
+    self.domain ||= "#{('a'..'z').to_a.shuffle[0, 10].join}.#{base_domain}"
   end
 
   def create_default_links

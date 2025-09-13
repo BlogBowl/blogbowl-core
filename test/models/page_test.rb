@@ -47,7 +47,7 @@ class PageTest < ActiveSupport::TestCase
     workspace = workspaces(:one)
     new_blog = workspace.pages.create(name: 'test name', slug: '/blog-domain')
     assert new_blog.save
-    assert_includes new_blog.domain, ".blogbowl.app"
+    assert_includes new_blog.domain, ".example.com"
   end
 
   test "should generate name_slug on page create" do

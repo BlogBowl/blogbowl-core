@@ -1,5 +1,5 @@
 <% content_for :title, "Domain & subfolder settings" %>
-<div class="mx-auto max-w-3xl py-10" data-controller="domain">
+<div class="mx-auto max-w-3xl py-10" data-controller="domain" data-domain-base-domain-value="<%= @base_domain %>">
   <%= form_with(model: @page_settings, url: pages_settings_domain_path, method: :patch) do |form| %>
     <%= link_to pages_settings_path do %>
       <div class="flex gap-x-2 items-center text-sm opacity-70 cursor-pointer hover:opacity-50 active:opacity-40">
@@ -55,8 +55,8 @@
             <div>
               <%= page_form.label :domain, "Domain", class: "block text-sm font-medium mb-1" %>
               <div class="flex items-center">
-                <%= page_form.text_field :domain, placeholder: 'blog.blogbowl.app', class: "w-full text-sm", "data-domain-target": "ownDomainValue", "data-action": "change->domain#onOwnDomainValueChange" %>
-                <p class="ml-3 <%= 'hidden' if @has_own_domain %>" data-domain-target="blogbowlSuffixLabel">.blogbowl.app</p>
+                <%= page_form.text_field :domain, placeholder: "blog.#{@base_domain}", class: "w-full text-sm", "data-domain-target": "ownDomainValue", "data-action": "change->domain#onOwnDomainValueChange" %>
+                <p class="ml-3 <%= 'hidden' if @has_own_domain %>" data-domain-target="blogbowlSuffixLabel">.<%= @base_domain %></p>
               </div>
             </div>
             <div data-domain-target="baseDomainWrapper" class="<%= 'hidden' unless @page_settings.subfolder_enabled? %>">

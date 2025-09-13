@@ -6,6 +6,10 @@ export default class extends Controller {
         "subfolder",
         "docsSection", "dnsDocsSection", "subfolderDocsSection"]
 
+    static values = {
+        baseDomain: String // You're expecting a string value
+    }
+
     connect() {
         this.handleSections();
     }
@@ -52,6 +56,6 @@ export default class extends Controller {
         if (this.ownDomainTarget.checked) {
             return this.ownDomainValueTarget.value
         }
-        return `${this.ownDomainValueTarget.value}.blogbowl.app`
+        return `${this.ownDomainValueTarget.value}.${this.baseDomainValue}`
     }
 }

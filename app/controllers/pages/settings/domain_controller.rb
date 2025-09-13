@@ -32,9 +32,13 @@ class Pages::Settings::DomainController < Pages::Settings::ApplicationController
   end
 
   def set_domain_prefix
-    @domain_prefix = '.blogbowl.app' if Rails.env.production?
-    @domain_prefix = '.blogbowl.app' if Rails.env.development?
-    @domain_prefix = '.example.com' if Rails.env.test?
+    @base_domain = ENV.fetch('BASE_DOMAIN', Rails.application.credentials[Rails.env.to_sym][:base_domain])
+
+    @domain_prefix = ".#{@base_domain}"
+    # TODO: PRO
+    # @domain_prefix = '.blogbowl.app' if Rails.env.production?
+    # @domain_prefix = '.blogbowl.app' if Rails.env.development?
+    # @domain_prefix = '.example.com' if Rails.env.test?
   end
 
   def set_toggles
