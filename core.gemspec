@@ -54,6 +54,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "webmock"
 
   spec.add_dependency "redis"
+
+  spec.add_dependency 'rack-cors'
 end
 
 
