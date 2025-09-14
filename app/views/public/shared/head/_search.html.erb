@@ -19,4 +19,4 @@
 <meta name="twitter:site" content="<%= get_full_url(dynamic_prefix("/archive/s=#{search_query}")) %>"/>
 
 <!-- TODO: Umami Analytics -->
-<%= render "public/shared/head/analytics" %>
+<%= render "public/shared/head/analytics" rescue nil %>

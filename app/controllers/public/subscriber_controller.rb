@@ -14,7 +14,7 @@ class Public::SubscriberController < Public::ApplicationController
                         userAgent: request.user_agent.to_s
                       }.to_json)
 
-    validation_result = Truemail.validate(subscriber_params[:email])
+    validation_result = Truemail.validate(params[:subscriber][:email])
 
     if validation_result.result.success == false || params[:subscriber][:comment].present?
       flash[:alert] = 'Subscription failed'

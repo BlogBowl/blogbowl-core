@@ -30,7 +30,8 @@ class Page < ApplicationRecord
   DOMAIN_REGEX = /\A(?!-)(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.){0,3}[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\z/
   validates :domain, presence: true, uniqueness: true, format: { with: DOMAIN_REGEX }
 
-  after_update :on_domain_changed, if: :saved_change_to_domain?
+  # TODO: PRO
+  # after_update :on_domain_changed, if: :saved_change_to_domain?
 
   after_create do
     # TODO: PRO

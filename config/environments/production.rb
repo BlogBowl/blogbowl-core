@@ -100,8 +100,9 @@ Rails.application.configure do
   config.asset_host = "https://app.blogbowl.io"
 
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = Rails.application.credentials[Rails.env.to_sym][:mail][:main]
+  config.action_mailer.smtp_settings = Rails.application.credentials[Rails.env.to_sym][:smtp_mail]
 
-  ActionMailer::Base.add_delivery_method :secondary_smtp, Mail::SMTP,
-                                         Rails.application.credentials[Rails.env.to_sym][:mail][:secondary]
+  # TODO: PRO
+  # ActionMailer::Base.add_delivery_method :secondary_smtp, Mail::SMTP,
+  #                                        Rails.application.credentials[Rails.env.to_sym][:mail][:secondary]
 end
