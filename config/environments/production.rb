@@ -1,4 +1,6 @@
 require "active_support/core_ext/integer/time"
+all_mailer_configs = Rails.application.config_for(:mailers)
+
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -99,8 +101,13 @@ Rails.application.configure do
   Rails.application.routes.default_url_options[:host] = "app.blogbowl.io"
   config.asset_host = "https://app.blogbowl.io"
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = Rails.application.credentials[Rails.env.to_sym][:smtp_mail]
+  smtp_enabled = ENV.fetch('SMTP_MAIL_ADDRESS', Rails.application.credentials[Rails.env.to_sym][:smtp_mail][:address]).present?
+  if smtp_enabled
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = all_mailer_configs[:smtp][:smtp_settings]
+  else
+    config.action_mailer.delivery_method = :test
+  end
 
   # TODO: PRO
   # ActionMailer::Base.add_delivery_method :secondary_smtp, Mail::SMTP,
