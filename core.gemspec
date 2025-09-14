@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "active_storage_validations", "~> 2.0"
 
-  spec.add_dependency "rack-mini-profiler", "~> 3.3"
+  spec.add_dependency "rack-mini-profiler", ">= 3.3", "< 5.0"
 
   spec.add_dependency "memory_profiler", "~> 1.1"
 
