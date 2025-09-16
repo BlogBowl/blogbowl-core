@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "pagy", "~> 9.3"
 
-  spec.add_dependency "active_storage_validations", "~> 2.0"
+  spec.add_dependency "active_storage_validations", ">= 2", "< 4"
 
   spec.add_dependency "rack-mini-profiler", "~> 3.3"
 
