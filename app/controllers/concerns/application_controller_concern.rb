@@ -9,6 +9,10 @@ module ApplicationControllerConcern
     before_action :set_current_request_details
     before_action :authenticate
     before_action :set_workspace, if: -> { Current.session.present? }
+
+    rescue_from CanCan::AccessDenied do
+      render_not_found
+    end
   end
 
   def render_not_found
@@ -26,11 +30,6 @@ module ApplicationControllerConcern
     cookies.signed.permanent[:session_token] =
       { value: session.id, httponly: true, domain: cookie_domain }
   end
-
-  # TODO: PRO (AFTER)
-  # rescue_from CanCan::AccessDenied do
-  #   render_not_found
-  # end
 
   private
 

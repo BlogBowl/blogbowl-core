@@ -35,6 +35,19 @@ module PostModelConcern
     convert_to_webp_for :images
     convert_to_webp_for :cover_image
     convert_to_webp_for :sharing_image
+
+    def self.permissions_of_role(role)
+      case role
+      when "editor"
+        Post::EDITOR_PERMISSIONS
+      when "writer"
+        Post::WRITER_PERMISSIONS
+      when "owner"
+        Post::OWNER_PERMISSIONS
+      else
+        []
+      end
+    end
   end
 
   def to_param
@@ -57,19 +70,6 @@ module PostModelConcern
   def content_sanitized
     tags = %w(a acronym b strong i em li ul ol h1 h2 h3 h4 h5 h6 blockquote br cite sub sup ins p img)
     ActionController::Base.helpers.sanitize(content_html, tags: tags, attributes: %w(href title alt src))
-  end
-
-  def self.permissions_of_role(role)
-    case role
-    when "editor"
-      Post::EDITOR_PERMISSIONS
-    when "writer"
-      Post::WRITER_PERMISSIONS
-    when "owner"
-      Post::OWNER_PERMISSIONS
-    else
-      []
-    end
   end
 
   def new_revision
