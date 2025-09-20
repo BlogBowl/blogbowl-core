@@ -1,0 +1,21 @@
+module SessionModelConcern
+  extend ActiveSupport::Concern
+
+  included do
+    belongs_to :user
+  end
+
+  # kredis_flag :sudo, expires_in: 30.minutes
+  #
+  # before_create do
+  #   self.user_agent = Current.user_agent
+  #   self.ip_address = Current.ip_address
+  # end
+  #
+  # after_create { sudo.mark }
+
+  # TODO: PRO
+  # after_create  { user.events.create! action: "signed_in" }
+  # after_destroy { user.events.create! action: "signed_out" }
+
+end

@@ -1,4 +1,3 @@
 class AuthorLink < ApplicationRecord
-  belongs_to :author
-
+  include AuthorLinkModelConcern
 end
