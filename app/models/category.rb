@@ -1,3 +1,3 @@
 class Category < ApplicationRecord
-  include CategoryModelConcern
+  include Models::CategoryConcern
 end

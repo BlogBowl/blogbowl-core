@@ -1,4 +1,4 @@
-module WorkspaceModelConcern
+module Models::WorkspaceConcern
   extend ActiveSupport::Concern
 
   included do

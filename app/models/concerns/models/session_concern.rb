@@ -1,4 +1,4 @@
-module SessionModelConcern
+module Models::SessionConcern
   extend ActiveSupport::Concern
 
   included do

@@ -1,4 +1,4 @@
-module PageSettingModelConcern
+module Models::PageSettingConcern
   extend ActiveSupport::Concern
 
   included do

@@ -1,3 +1,3 @@
 class NewsletterSetting < ApplicationRecord
-  include NewsletterSettingModelConcern
+  include Models::NewsletterSettingConcern
 end

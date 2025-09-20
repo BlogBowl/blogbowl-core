@@ -1,3 +1,3 @@
 class Author < ApplicationRecord
-  include AuthorModelConcern
+  include Models::AuthorConcern
 end

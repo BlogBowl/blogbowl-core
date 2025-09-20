@@ -1,3 +1,3 @@
 class AuthorLink < ApplicationRecord
-  include AuthorLinkModelConcern
+  include Models::AuthorLinkConcern
 end

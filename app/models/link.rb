@@ -1,3 +1,3 @@
 class Link < ApplicationRecord
-  include LinkModelConcern
+  include Models::LinkConcern
 end

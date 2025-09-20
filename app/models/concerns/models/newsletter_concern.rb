@@ -1,4 +1,4 @@
-module NewsletterModelConcern
+module Models::NewsletterConcern
   extend ActiveSupport::Concern
 
   included do

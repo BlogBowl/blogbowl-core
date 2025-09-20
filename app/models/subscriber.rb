@@ -1,3 +1,3 @@
 class Subscriber < ApplicationRecord
-  include SubscriberModelConcern
+  include Models::SubscriberConcern
 end

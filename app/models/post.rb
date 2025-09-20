@@ -1,3 +1,3 @@
 class Post < ApplicationRecord
-  include PostModelConcern
+  include Models::PostConcern
 end

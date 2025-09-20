@@ -1,3 +1,3 @@
 class Workspace < ApplicationRecord
-  include WorkspaceModelConcern
+  include Models::WorkspaceConcern
 end

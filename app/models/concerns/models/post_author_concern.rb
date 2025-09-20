@@ -1,4 +1,4 @@
-module PostAuthorModelConcern
+module Models::PostAuthorConcern
   extend ActiveSupport::Concern
 
   included do

@@ -1,3 +1,3 @@
 class Member < ApplicationRecord
-  include MemberModelConcern
+  include Models::MemberConcern
 end

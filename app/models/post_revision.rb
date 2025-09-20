@@ -1,3 +1,3 @@
 class PostRevision < ApplicationRecord
-  include PostRevisionModelConcern
+  include Models::PostRevisionConcern
 end

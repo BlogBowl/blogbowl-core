@@ -1,3 +1,3 @@
 class PageSetting < ApplicationRecord
-  include PageSettingModelConcern
+  include Models::PageSettingConcern
 end

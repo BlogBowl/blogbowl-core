@@ -1,3 +1,3 @@
 class Page < ApplicationRecord
-  include PageModelConcern
+  include Models::PageConcern
 end

@@ -1,4 +1,4 @@
-module AuthorLinkModelConcern
+module Models::AuthorLinkConcern
   extend ActiveSupport::Concern
 
 

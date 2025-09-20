@@ -1,3 +1,3 @@
 class PostAuthor < ApplicationRecord
-  include PostAuthorModelConcern
+  include Models::PostAuthorConcern
 end

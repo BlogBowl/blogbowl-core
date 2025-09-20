@@ -1,4 +1,4 @@
-module LinkModelConcern
+module Models::LinkConcern
   extend ActiveSupport::Concern
 
   included do

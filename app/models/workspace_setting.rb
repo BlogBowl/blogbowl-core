@@ -1,3 +1,3 @@
 class WorkspaceSetting < ApplicationRecord
-  include WorkspaceSettingModelConcern
+  include Models::WorkspaceSettingConcern
 end

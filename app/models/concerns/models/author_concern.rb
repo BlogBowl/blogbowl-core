@@ -1,4 +1,4 @@
-module AuthorModelConcern
+module Models::AuthorConcern
   extend ActiveSupport::Concern
 
   included do

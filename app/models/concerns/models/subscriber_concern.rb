@@ -1,4 +1,4 @@
-module SubscriberModelConcern
+module Models::SubscriberConcern
   extend ActiveSupport::Concern
 
   included do

@@ -1,4 +1,4 @@
-module PageModelConcern
+module Models::PageConcern
   extend ActiveSupport::Concern
 
   included do

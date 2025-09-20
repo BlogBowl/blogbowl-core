@@ -1,3 +1,3 @@
 class NewsletterEmail < ApplicationRecord
-  include NewsletterEmailModelConcern
+  include Models::NewsletterEmailConcern
 end

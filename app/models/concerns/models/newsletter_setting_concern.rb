@@ -1,4 +1,4 @@
-module NewsletterSettingModelConcern
+module Models::NewsletterSettingConcern
   extend ActiveSupport::Concern
 
   included do

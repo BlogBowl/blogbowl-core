@@ -1,3 +1,3 @@
 class Session < ApplicationRecord
-  include SessionModelConcern
+  include Models::SessionConcern
 end

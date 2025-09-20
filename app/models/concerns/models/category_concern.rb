@@ -1,4 +1,4 @@
-module CategoryModelConcern
+module Models::CategoryConcern
   extend ActiveSupport::Concern
 
   included do
