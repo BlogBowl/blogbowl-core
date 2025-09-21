@@ -1,6 +1,4 @@
 require 'sidekiq/web'
-# TODO: PRO ONLY FOR AI
-# require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
 
@@ -13,43 +11,13 @@ Rails.application.routes.draw do
     post "sign_in", to: "sessions#create"
     resources :sessions, only: [:index, :show, :destroy]
 
-    # get "sign_up", to: "registrations#new"
-    # post "sign_up", to: "registrations#create"
-
-    resources :sessions, only: [:destroy]
-    # resource :password, only: [:edit, :update]
-    # namespace :identity do
-    #   resource :email, only: [:edit, :update]
-    #   resource :email_verification, only: [:show]
-    #   resource :password_reset, only: [:new, :edit, :create, :update]
-    # end
-    # namespace :authentications do
-    #   resources :events, only: :index
-    # end
-    # TODO: PRO
-    # get "/auth/failure", to: "sessions/omniauth#failure"
-    # get "/auth/:provider/callback", to: "sessions/omniauth#create"
-    # post "/auth/:provider/callback", to: "sessions/omniauth#create"
-    # post "users/:user_id/masquerade", to: "masquerades#create", as: :user_masquerade
-    # delete "masquerade", to: "masquerades#destroy", as: :destroy_user_masquerade
-
-    # TODO: PRO
-    # namespace :admin do
-    #   resources :users, only: [:index]
-    # end
-
     resources :users do
       patch :dismiss_notice, on: :member
     end
 
     namespace :sessions do
-      # TODO: PRO
-      # resource :passwordless, only: [:new, :edit, :create]
       resource :sudo, only: [:new, :create]
     end
-    # TODO: PRO
-    # get "invitations/:token", to: "invitations#show", as: :invitation
-    # post "invitations/:token", to: "invitations#accept", as: :accept_invitation
 
     resources :authors do
       scope module: :authors do
@@ -61,8 +29,6 @@ Rails.application.routes.draw do
     end
 
     resources :members
-    # TODO: PRO
-    # resources :workspaces, only: [:index, :show, :create]
 
     resources :analytics, only: [:index]
 
@@ -80,36 +46,6 @@ Rails.application.routes.draw do
 
         resources :analytics, only: [:index]
 
-        # TODO: PRO
-        # namespace :ai do
-        #   resource :onboarding, only: [:show] do
-        #
-        #     post :submit_url
-        #     post :update_settings
-        #     patch :update_author
-        #     post :update_step
-        #     post :start_trial
-        #     post :regenerate_topics
-        #   end
-        #
-        #   resource :settings, only: [:edit, :update] do
-        #     post :buy_plan
-        #   end
-        #
-        #   resource :content_plan, path: "content-plan", only: [:show] do
-        #     resources :page_topics, path: "topics" do
-        #       member do
-        #         post :generate
-        #         patch :move_to_top
-        #       end
-        #       patch :reorder, on: :collection
-        #     end
-        #   end
-        #
-        #   resources :forum_opportunities, only: [:index, :update, :destroy]
-        #   resources :people_questions, only: [:index, :update, :destroy]
-        # end
-
         resource :settings, only: [:show]
         namespace :settings do
           resource :general, only: [:edit, :update], controller: :general
@@ -118,10 +54,6 @@ Rails.application.routes.draw do
           resource :code, only: [:edit, :update], controller: :code
           resource :layout, only: [:edit, :update], controller: :layout
           resource :cta, only: [:edit, :update], controller: :cta
-          # TODO: PRO
-          # resource :billing, only: [:edit, :update], controller: :billing do
-          #   post :cancel_subscription
-          # end
           resource :domain, only: [:edit, :update], controller: :domain
           resources :links, only: [:new, :create, :edit, :update, :destroy]
           resource :newsletter, only: [:edit, :update], controller: :newsletter
@@ -153,10 +85,6 @@ Rails.application.routes.draw do
     resource :settings, only: [:show]
     namespace :settings do
       resource :general, only: [:edit, :update], controller: :general
-      # resource :billing, only: [:edit, :update], controller: :billing do
-      #   post :checkout
-      #   get 'customer-portal', to: 'billing#customer_portal'
-      # end
     end
 
     namespace :api do
@@ -175,9 +103,6 @@ Rails.application.routes.draw do
                 post 'last/share', on: :collection, to: 'post_revisions#share_last'
               end
             end
-            namespace :ai do
-              post 'webhook/posts', to: 'webhook#create_post', as: :webhook_create_post
-            end
           end
         end
 
@@ -193,9 +118,6 @@ Rails.application.routes.draw do
             end
           end
         end
-
-        # TODO: PRO
-        # post 'stripe/webhook', to: 'stripe#webhook'
       end
       namespace :public do
         post 'postmark/event', to: 'postmark#on_postmark_event'
