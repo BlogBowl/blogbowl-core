@@ -26,16 +26,17 @@ Rails.application.routes.draw do
     # namespace :authentications do
     #   resources :events, only: :index
     # end
-    #
-    get "/auth/failure", to: "sessions/omniauth#failure"
-    get "/auth/:provider/callback", to: "sessions/omniauth#create"
-    post "/auth/:provider/callback", to: "sessions/omniauth#create"
-    post "users/:user_id/masquerade", to: "masquerades#create", as: :user_masquerade
-    delete "masquerade", to: "masquerades#destroy", as: :destroy_user_masquerade
+    # TODO: PRO
+    # get "/auth/failure", to: "sessions/omniauth#failure"
+    # get "/auth/:provider/callback", to: "sessions/omniauth#create"
+    # post "/auth/:provider/callback", to: "sessions/omniauth#create"
+    # post "users/:user_id/masquerade", to: "masquerades#create", as: :user_masquerade
+    # delete "masquerade", to: "masquerades#destroy", as: :destroy_user_masquerade
 
-    namespace :admin do
-      resources :users, only: [:index]
-    end
+    # TODO: PRO
+    # namespace :admin do
+    #   resources :users, only: [:index]
+    # end
 
     resources :users do
       patch :dismiss_notice, on: :member
@@ -46,8 +47,9 @@ Rails.application.routes.draw do
       # resource :passwordless, only: [:new, :edit, :create]
       resource :sudo, only: [:new, :create]
     end
-    get "invitations/:token", to: "invitations#show", as: :invitation
-    post "invitations/:token", to: "invitations#accept", as: :accept_invitation
+    # TODO: PRO
+    # get "invitations/:token", to: "invitations#show", as: :invitation
+    # post "invitations/:token", to: "invitations#accept", as: :accept_invitation
 
     resources :authors do
       scope module: :authors do
