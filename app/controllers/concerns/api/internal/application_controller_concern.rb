@@ -13,12 +13,6 @@ module API::Internal::ApplicationControllerConcern
     session_record = Session.find_by_id(cookies.signed[:session_token])
     if session_record.present?
       Current.session = session_record
-      # TODO: PRO
-      # if session_record.user.verified?
-      #   Current.session = session_record
-      # else
-      #   render json: { error: "Unverified email" }, status: :precondition_required
-      # end
       return
     end
     render json: { errors: "Unauthorized" }, status: :unauthorized
