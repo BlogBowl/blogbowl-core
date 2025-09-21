@@ -10,12 +10,6 @@ module Pages::Settings::DomainControllerConcern
   end
 
   def update
-    # TODO: PRO
-    # if @workspace.free? && params[:page_setting][:own_domain] == '1' && Rails.env.production?
-    #   flash.now[:alert] = "To set custom domain, please upgrade plan!"
-    #   render :edit, status: :unprocessable_entity and return
-    # end
-
     if @page_settings.update(page_setting_params)
       flash[:notice] = "Page settings were updated successfully."
       redirect_to edit_pages_settings_domain_path
@@ -39,10 +33,6 @@ module Pages::Settings::DomainControllerConcern
     @base_domain = ENV.fetch('BASE_DOMAIN', Rails.application.credentials[Rails.env.to_sym][:base_domain])
 
     @domain_prefix = ".#{@base_domain}"
-    # TODO: PRO
-    # @domain_prefix = '.blogbowl.app' if Rails.env.production?
-    # @domain_prefix = '.blogbowl.app' if Rails.env.development?
-    # @domain_prefix = '.example.com' if Rails.env.test?
   end
 
   def set_toggles
