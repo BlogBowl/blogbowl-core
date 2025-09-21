@@ -18,12 +18,6 @@ module PagesControllerConcern
   end
 
   def create
-    # TODO: PRO
-    # if @workspace.free? && @workspace.pages.count >= 1
-    #   flash.now[:alert] = "To add new page, please, upgrade to a paid plan!"
-    #   render :new, status: :unprocessable_entity and return
-    # end
-
     @page = @workspace.pages.build(page_params)
 
     if @page.save
