@@ -12,9 +12,6 @@ module Models::UserConcern
       password_salt.last(10)
     end
     has_many :sessions, dependent: :destroy
-    # TODO: PRO
-    # has_many :sign_in_tokens, dependent: :destroy
-    # has_many :events, dependent: :destroy
 
     has_many :members, dependent: :destroy
     has_many :workspaces, through: :members, source: :workspace
@@ -30,28 +27,6 @@ module Models::UserConcern
 
     after_create :after_create, unless: :skip_workspace_creation
   end
-
-  # before_validation if: :email_changed?, on: :update do
-  #   self.verified = false
-  # end
-
-  # TODO: PRO
-  # after_update if: :password_digest_previously_changed? do
-  #   sessions.where.not(id: Current.session).delete_all
-  # end
-  #
-  # after_update if: :email_previously_changed? do
-  #   events.create! action: "email_verification_requested"
-  # end
-  #
-  # after_update if: :password_digest_previously_changed? do
-  #   events.create! action: "password_changed"
-  # end
-  #
-  # after_update if: [:verified_previously_changed?, :verified?] do
-  #   events.create! action: "email_verified"
-  #   Journeys::NewRegistration.new(user_id: self.id).start
-  # end
 
   def formatted_name
     return email if first_name.blank? && last_name.blank?
@@ -86,12 +61,5 @@ module Models::UserConcern
     unless first_page.nil?
       first_page.create_default_first_post(author.id)
     end
-
-    # TODO: PRO
-    # if verified? && provider.present?
-    #   # start journey for oauth users
-    #   # TODO: enable later
-    #   # Journeys::NewRegistration.new(user_id: self.id).start
-    # end
   end
 end
