@@ -36,39 +36,7 @@ module Models::PageConcern
     # TODO: PRO
     # after_update :on_domain_changed, if: :saved_change_to_domain?
 
-    after_create do
-      # TODO: PRO
-      # create_umami_website
-
-      newsletter = workspace.newsletters.first
-
-      create_settings(
-        logo_text: "My blog",
-        title: "Unlocking your blog's potential",
-        description: "An expert blog about making best SaaS products.",
-        seo_title: "Unlocking your blog's potential",
-        seo_description: "An expert blog about making best SaaS products.",
-        template: 'blog_1',
-        with_sitemap: true,
-        with_search: true,
-        header_cta_button: 'Sign up!',
-        cta_enabled: true,
-        cta_title: 'Ready to get started?',
-        cta_description: 'Sign up today and explore everything we have to offer!',
-        cta_button: 'Sign up!',
-        newsletter_cta_enabled: FeatureGuard.enabled?(:postmark),
-        newsletter_cta_title: 'Stay in the Loop!',
-        newsletter_cta_description: 'Subscribe to our newsletter for the latest updates, tips and stories.',
-        newsletter_cta_button: 'Subscribe now!',
-        newsletter_cta_disclaimer: 'No spam, unsubscribe anytime',
-        newsletter: newsletter
-      )
-
-      # TODO: PRO
-      # create_ai_settings
-
-      create_default_links
-    end
+    after_create :after_create
   end
 
   def create_default_first_post(author_id)
@@ -148,6 +116,37 @@ module Models::PageConcern
   end
 
   private
+  def after_create
+    # TODO: PRO
+    # create_umami_website
+    # create_ai_settings
+
+    newsletter = workspace.newsletters.first
+
+    create_settings(
+      logo_text: "My blog",
+      title: "Unlocking your blog's potential",
+      description: "An expert blog about making best SaaS products.",
+      seo_title: "Unlocking your blog's potential",
+      seo_description: "An expert blog about making best SaaS products.",
+      template: 'blog_1',
+      with_sitemap: true,
+      with_search: true,
+      header_cta_button: 'Sign up!',
+      cta_enabled: true,
+      cta_title: 'Ready to get started?',
+      cta_description: 'Sign up today and explore everything we have to offer!',
+      cta_button: 'Sign up!',
+      newsletter_cta_enabled: FeatureGuard.enabled?(:postmark),
+      newsletter_cta_title: 'Stay in the Loop!',
+      newsletter_cta_description: 'Subscribe to our newsletter for the latest updates, tips and stories.',
+      newsletter_cta_button: 'Subscribe now!',
+      newsletter_cta_disclaimer: 'No spam, unsubscribe anytime',
+      newsletter: newsletter
+    )
+
+    create_default_links
+  end
 
   # TODO: PRO
   # def create_umami_website

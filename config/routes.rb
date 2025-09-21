@@ -78,34 +78,35 @@ Rails.application.routes.draw do
 
         resources :analytics, only: [:index]
 
-        namespace :ai do
-          resource :onboarding, only: [:show] do
-
-            post :submit_url
-            post :update_settings
-            patch :update_author
-            post :update_step
-            post :start_trial
-            post :regenerate_topics
-          end
-
-          resource :settings, only: [:edit, :update] do
-            post :buy_plan
-          end
-
-          resource :content_plan, path: "content-plan", only: [:show] do
-            resources :page_topics, path: "topics" do
-              member do
-                post :generate
-                patch :move_to_top
-              end
-              patch :reorder, on: :collection
-            end
-          end
-
-          resources :forum_opportunities, only: [:index, :update, :destroy]
-          resources :people_questions, only: [:index, :update, :destroy]
-        end
+        # TODO: PRO
+        # namespace :ai do
+        #   resource :onboarding, only: [:show] do
+        #
+        #     post :submit_url
+        #     post :update_settings
+        #     patch :update_author
+        #     post :update_step
+        #     post :start_trial
+        #     post :regenerate_topics
+        #   end
+        #
+        #   resource :settings, only: [:edit, :update] do
+        #     post :buy_plan
+        #   end
+        #
+        #   resource :content_plan, path: "content-plan", only: [:show] do
+        #     resources :page_topics, path: "topics" do
+        #       member do
+        #         post :generate
+        #         patch :move_to_top
+        #       end
+        #       patch :reorder, on: :collection
+        #     end
+        #   end
+        #
+        #   resources :forum_opportunities, only: [:index, :update, :destroy]
+        #   resources :people_questions, only: [:index, :update, :destroy]
+        # end
 
         resource :settings, only: [:show]
         namespace :settings do
@@ -115,9 +116,10 @@ Rails.application.routes.draw do
           resource :code, only: [:edit, :update], controller: :code
           resource :layout, only: [:edit, :update], controller: :layout
           resource :cta, only: [:edit, :update], controller: :cta
-          resource :billing, only: [:edit, :update], controller: :billing do
-            post :cancel_subscription
-          end
+          # TODO: PRO
+          # resource :billing, only: [:edit, :update], controller: :billing do
+          #   post :cancel_subscription
+          # end
           resource :domain, only: [:edit, :update], controller: :domain
           resources :links, only: [:new, :create, :edit, :update, :destroy]
           resource :newsletter, only: [:edit, :update], controller: :newsletter
@@ -190,7 +192,8 @@ Rails.application.routes.draw do
           end
         end
 
-        post 'stripe/webhook', to: 'stripe#webhook'
+        # TODO: PRO
+        # post 'stripe/webhook', to: 'stripe#webhook'
       end
       namespace :public do
         post 'postmark/event', to: 'postmark#on_postmark_event'
