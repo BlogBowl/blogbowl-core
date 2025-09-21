@@ -45,14 +45,6 @@ module MembersControllerConcern
       create_author_if_requested
       @member.save!
 
-      # TODO: PRO
-      # if @workspace.free? && @workspace.members.count >= 1
-      #   flash.now[:alert] = "To invite new member, please, upgrade to a paid plan!"
-      #   render :new, status: :unprocessable_entity and return
-      # end
-      # send_existing_user_invite_email if user.present?
-      # send_new_user_invite_email unless user.present?
-
       flash[:notice] = "User was successfully created."
       redirect_to members_path
     end
@@ -156,18 +148,5 @@ module MembersControllerConcern
   def set_new_member
     @member = @workspace.members.build(permissions: Post::WRITER_PERMISSIONS)
   end
-
-  # TODO: PRO
-  # def send_existing_user_invite_email
-  #   InvitationMailer.with(token: InvitationService.instance.generate_token(@member, email: params[:email], from: current_user, posts_has_own_author: params[:posts_has_own_author]),
-  #                         email: params[:email],
-  #                         workspace_title: @workspace.title).invite_existing_user.deliver_later
-  # end
-  #
-  # def send_new_user_invite_email
-  #   InvitationMailer.with(token: InvitationService.instance.generate_token(@member, email: params[:email], from: current_user, posts_has_own_author: params[:posts_has_own_author]),
-  #                         email: params[:email],
-  #                         workspace_title: @workspace.title).invite_new_user.deliver_later
-  # end
 
 end
