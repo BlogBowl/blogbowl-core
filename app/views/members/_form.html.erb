@@ -10,7 +10,7 @@
       <div>
         <h1 class="font-bold"><%= is_new ? "Create member" : "Edit member #{@member.formatted_name}" %></h1>
       </div>
-      <%= submit_tag is_new ? "Create new user" : "Save changes", class: "btn btn-primary" %>
+      <%= submit_tag is_new ? "Create new member" : "Save changes", class: "btn btn-primary" %>
     </div>
 
     <%= render partial: 'shared/flashes' %>
