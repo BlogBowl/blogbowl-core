@@ -10,13 +10,7 @@
       <div>
         <h1 class="font-bold">Create new Newsletter</h1>
       </div>
-      <!--      TODO: PRO-->
       <%= form.submit 'Create newsletter', class: 'btn btn-primary' %>
-      <%# if @workspace.pro? %>
-        <%#= form.submit 'Create newsletter', class: 'btn btn-primary' %>
-      <%# else  %>
-<!--        <button type="button" class="btn btn-primary" onclick="upgrade_plan_modal.showModal()">Create newsletter</button>-->
-      <%# end %>
     </div>
 
     <%= render partial: 'shared/flashes' %>
@@ -45,6 +39,3 @@
     </div>
   <% end %>
 </div>
-
-<!-- TODO: PRO Upgrade modal-->
-<%#= render partial: 'modals/upgrade-modal', locals: { title: 'Upgrade to Add New Newsletter', description: 'Creating and sending newsletters is only available on paid plans. Upgrade to unlock built-in email tools, manage subscribers, and send updates directly from BlogBowl—no third-party tools needed.' } %>

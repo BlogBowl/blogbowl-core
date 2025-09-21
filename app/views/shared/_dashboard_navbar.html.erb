@@ -18,13 +18,6 @@
         </div>
       </div>
       <ul tabindex="0" class="dropdown-content menu dropdown-list min-w-52 w-full border border-base-300">
-<!--        TODO: PRO-->
-<!--        <li>-->
-          <%#= link_to workspaces_path, class: "" do %>
-<!--            <p>Switch workspace</p>-->
-<!--            <i class="iconoir-nav-arrow-right"></i>-->
-          <%# end %>
-<!--        </li>-->
         <li>
           <%= button_to session_path(Current.session), method: :delete, form_class: 'block font-normal rounded-none' do %>
             <p>Sign out</p>
@@ -74,23 +67,6 @@
       </div>
     </div>
 
-<!--    TODO: PRO-->
-<!--    <div class="mt-4">-->
-<!--      <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">-->
-<!--        Insights-->
-<!--      </div>-->
-<!--      <div class="font-medium text-base flex items-center flex-col gap-y-1">-->
-        <%#= link_to analytics_path, class: "w-full" do %>
-<!--          <div class="flex items-center space-x-2 p-2 cursor-pointer rounded-lg text-neutral hover:bg-gray-50 active:opacity-50 <%#= "bg-primary-content hover:bg-primary-content" if controller_name == 'analytics' %>">-->
-<!--            <i class="iconoir-graph-up text-2xl"></i>-->
-<!--            <p>-->
-<!--              Analytics-->
-<!--            </p>-->
-<!--          </div>-->
-        <%# end %>
-<!--      </div>-->
-<!--    </div>-->
-
     <div class="mt-4">
       <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
         Workspace Settings
@@ -106,25 +82,5 @@
         <% end %>
       </div>
     </div>
-
-<!--    TODO: PRO-->
-    <%# if current_user.email.ends_with?('@blogbowl.io') %>
-<!--    <div class="mt-4">-->
-<!--      <div class="text-xs font-semibold text-red-500 uppercase tracking-wider mb-2">-->
-<!--        Admin-->
-<!--      </div>-->
-<!--      <div class="font-medium text-base flex items-center flex-col gap-y-1">-->
-        <%#= link_to admin_users_path, class: "w-full" do %>
-<!--          <div class="flex items-center space-x-2 p-2 cursor-pointer rounded-lg text-neutral hover:bg-gray-50 active:opacity-50 <%#= "bg-primary-content hover:bg-primary-content" if defined?(controller) && controller.is_a?(Admin::UsersController) %>">-->
-<!--            <i class="iconoir-community text-2xl"></i>-->
-<!--            <p>-->
-<!--              Users-->
-<!--            </p>-->
-<!--          </div>-->
-        <%# end %>
-<!--      </div>-->
-<!--    </div>-->
-    <%# end %>
-
   </div>
 </nav>

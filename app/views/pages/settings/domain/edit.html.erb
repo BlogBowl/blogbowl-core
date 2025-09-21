@@ -34,14 +34,6 @@
 
           <%= form.check_box :own_domain, class: "toggle toggle-xl toggle-primary checked:bg-primary checked:text-white checked:border-primary", disabled: !@can_set_own_domain, checked: @has_own_domain, "data-domain-target": "ownDomain", "data-action": "change->domain#onOwnDomainChange" %>
 
-<!--          TODO: PRO-->
-          <%# if @workspace.pro? %>
-            <%#= form.check_box :own_domain, class: "toggle toggle-xl toggle-primary checked:bg-primary checked:text-white checked:border-primary", disabled: !@can_set_own_domain, checked: @has_own_domain, "data-domain-target": "ownDomain", "data-action": "change->domain#onOwnDomainChange" %>
-          <%# else  %>
-            <%#= form.check_box :own_domain, class: "hidden toggle toggle-xl toggle-primary checked:bg-primary checked:text-white checked:border-primary", disabled: !@can_set_own_domain, checked: @has_own_domain, "data-domain-target": "ownDomain", "data-action": "change->domain#onOwnDomainChange" %>
-<!--            <button type="button" class="toggle toggle-xl toggle-primary checked:bg-primary checked:text-white checked:border-primary" onclick="upgrade_plan_modal.showModal()"></button>-->
-          <%# end %>
-
         </div>
         <div class="flex justify-between items-center border-b px-6 py-6">
           <div>
@@ -62,7 +54,8 @@
             <div data-domain-target="baseDomainWrapper" class="<%= 'hidden' unless @page_settings.subfolder_enabled? %>">
               <div class="flex justify-between">
                 <%= page_form.label :base_domain, "Base URL", class: "block text-sm font-medium mb-1" %>
-                <p class="text-xs text-gray-400">If you use reverse proxy, specify base URL, which is used in sitemap and canonical URLs.</p>
+                <p class="text-xs text-gray-400">If you use reverse proxy, specify base URL, which is used in sitemap
+                  and canonical URLs.</p>
               </div>
               <div class="flex items-center">
                 <%= page_form.text_field :base_domain, placeholder: 'blogbowl.io', class: "w-full text-sm", "data-domain-target": "baseDomainInput" %>
@@ -80,6 +73,3 @@
     <%= render partial: 'subfolder_documentation' %>
   </div>
 </div>
-
-<!--TODO: PRO Upgrade modal-->
-<%#= render partial: 'modals/upgrade-modal', locals: { title: 'Upgrade to Set Custom Domain', description: 'Custom domain support is only available on paid plans. Upgrade to connect your own domain and give your blog a professional, branded look.' } %>

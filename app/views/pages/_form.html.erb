@@ -11,12 +11,6 @@
         <h1 class="font-bold">Create new Page</h1>
       </div>
       <%= form.submit 'Create page', class: 'btn btn-primary' %>
-<!--      TODO: PRO-->
-      <%# if @workspace.pro? %>
-        <%#= form.submit 'Create page', class: 'btn btn-primary' %>
-      <%# else  %>
-<!--        <button type="button" class="btn btn-primary" onclick="upgrade_plan_modal.showModal()">Create page</button>-->
-      <%# end %>
     </div>
 
     <%= render partial: 'shared/flashes' %>
@@ -52,6 +46,3 @@
     </div>
   <% end %>
 </div>
-
-<!--TODO: PRO-->
-<%#= render partial: 'modals/upgrade-modal', locals: { title: 'Upgrade to Add More Pages', description: 'You\'re currently on the free plan, which includes just 1 page. To create additional pages, please upgrade to a paid plan and unlock unlimited blogs, changelogs, and help docs.' } %>
