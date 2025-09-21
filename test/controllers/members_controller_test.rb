@@ -52,7 +52,7 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     sign_in_as(users(:lazaro_nixon))
     member = members(:one)
 
-    patch member_path(member), params: {  }
+    patch member_path(member), params: {}
     assert_response :bad_request
     assert_equal "Posts role can't be blank", flash[:alert]
   end
@@ -147,27 +147,4 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     post(sign_in_url, params: { email: member.user.email, password: "admin1234" })
     assert_redirected_to root_url
   end
-
-  # TODO: PRO
-  # test "should invite new user on PRO plans" do
-  #   sign_in_as(users(:pro_user))
-  #
-  #   workspace = workspaces(:pro_workspace)
-  #   assert workspace.members.count, 1
-  #
-  #   post members_path, params: { email: 'super-test@test.com', posts_role: 'writer' }
-  #   assert_redirected_to members_path
-  #   assert_equal flash[:notice], "Invitation was sent successfully."
-  # end
-  #
-  # test "should not invite new user on free plans" do
-  #   sign_in_as(users(:free_user))
-  #
-  #   workspace = workspaces(:free_workspace)
-  #   assert workspace.members.count, 1
-  #
-  #   post members_path, params: { email: 'super-test@test.com', posts_role: 'writer' }
-  #   assert_response :unprocessable_entity
-  #   assert_equal flash[:alert], "To invite new member, please, upgrade to a paid plan!"
-  # end
 end
