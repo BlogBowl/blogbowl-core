@@ -5,16 +5,6 @@ module Newsletters::Settings::Newsletter::DomainControllerConcern
 
   end
 
-  # TODO: PRO
-  # DOMAIN_PREFIX = 'mail.blogbowl.io'.freeze
-
-  # TODO: PRO
-  # def edit
-  #   is_custom_mail = Rails.application.config.x.application_tier == :open_source || @newsletter_settings.domain.nil? || !@newsletter_settings.domain.ends_with?(DOMAIN_PREFIX)
-  #   @has_own_domain = @newsletter_settings.domain.nil? || is_custom_mail
-  #   @domain_details = @newsletter_settings.postmark_domain_id.nil? || !is_custom_mail ? nil : get_domain_details(@newsletter_settings.postmark_domain_id)
-  # end
-
   def edit
     is_custom_mail = true
     @has_own_domain = @newsletter_settings.domain.nil? || is_custom_mail
@@ -31,12 +21,6 @@ module Newsletters::Settings::Newsletter::DomainControllerConcern
 
     if @newsletter_settings.domain.nil?
       create_new_domain(newsletter_setting_params[:domain])
-      # TODO: PRO
-      # if newsletter_setting_params[:domain] == DOMAIN_PREFIX
-      #   flash[:notice] = "Domain was successfully added"
-      # else
-      #   flash[:notice] = "Domain was successfully added. Now you need to verify it."
-      # end
       flash[:notice] = "Domain was successfully added. Now you need to verify it."
     else
       if @newsletter_settings.domain == newsletter_setting_params[:domain]
@@ -102,10 +86,6 @@ module Newsletters::Settings::Newsletter::DomainControllerConcern
   private
 
   def create_new_domain(domain)
-    # TODO: PRO
-    # if newsletter_setting_params[:domain] == DOMAIN_PREFIX
-    #   @newsletter_settings.update(domain: DOMAIN_PREFIX)
-    # else
     account_token = ENV.fetch('POSTMARK_ACCOUNT_TOKEN', Rails.application.credentials[Rails.env.to_sym][:postmark][:account_token])
     client = Postmark::AccountApiClient.new(account_token)
     created_domain_response = client.create_domain({ name: domain })
