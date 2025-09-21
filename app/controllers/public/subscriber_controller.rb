@@ -91,8 +91,7 @@ class Public::SubscriberController < Public::ApplicationController
 
   def block_ip
     # Log the IP
-    # TODO: PRO
-    # Sentry.capture_message("[SUBSCRIBE] IP blocked: #{request.remote_ip}")
+    notify_message("[SUBSCRIBE] IP blocked: #{request.remote_ip}")
 
     # Optionally add IP to a block list or temporary ban
     flash[:alert] = 'Too many subscription attempts. Please try again later.'

@@ -57,8 +57,7 @@ class API::Internal::Pages::AI::WebhookController < ActionController::Base
     render json: { post_id: post.id }
   rescue => e
     Rails.logger.error "Failed to create post: #{e.message}"
-    # TODO: PRO
-    # Sentry.capture_exception(e, extra: { workspace_id: @page.workspace_id, page_id: @page.id })
+    notify_exception(e, extra_context: { workspace_id: @page.workspace_id, page_id: @page.id })
     render json: { error: "There was an creating post" }
   end
 

@@ -77,8 +77,7 @@ module Models::NewsletterConcern
 
   rescue => e
     Rails.logger.error "Failed to create postmark server: #{e.message}"
-    # TODO: PRO
-    # Sentry.capture_exception(e, extra: { newsletter_id: id, name: name })
+    notify_exception(e, extra_context: { newsletter_id: id, name: name })
   end
 
   def generate_slug

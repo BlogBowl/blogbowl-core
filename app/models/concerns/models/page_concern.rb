@@ -61,8 +61,7 @@ module Models::PageConcern
     post.publish!
   rescue => e
     Rails.logger.error "Failed to create default first post: #{e.message}"
-    # TODO: PRO
-    # Sentry.capture_exception(e, extra: { workspace_id: id, page_id: id })
+    notify_exception(e, extra_context: { workspace_id: id, page_id: id })
   end
 
   def create_post_with_revision(title, content_html, content_json, description, category_id, author_id, cover_image_url, publish = false)

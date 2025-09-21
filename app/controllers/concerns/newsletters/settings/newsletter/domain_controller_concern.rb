@@ -37,8 +37,7 @@ module Newsletters::Settings::Newsletter::DomainControllerConcern
     redirect_to edit_newsletters_settings_newsletter_domain_path
   rescue => e
     Rails.logger.error "Failed to add domain: #{e.message}"
-    # TODO: PRO
-    # Sentry.capture_exception(e, extra: { newsletter: @newsletter.id })
+    notify_exception(e, extra_context: { newsletter: @newsletter.id })
     flash[:alert] = "There was an error updating domain. If the problem persists, please, contact support."
     render :edit, status: :unprocessable_entity
   end
@@ -55,8 +54,7 @@ module Newsletters::Settings::Newsletter::DomainControllerConcern
     redirect_to edit_newsletters_settings_newsletter_domain_path
   rescue => e
     Rails.logger.error "Failed to verify DKIM domain: #{e.message}"
-    # TODO: PRO
-    # Sentry.capture_exception(e, extra: { newsletter: @newsletter.id })
+    notify_exception(e, extra_context: { newsletter: @newsletter.id })
     flash[:alert] = "DKIM is not verified yet"
     redirect_to edit_newsletters_settings_newsletter_domain_path
   end
@@ -73,8 +71,7 @@ module Newsletters::Settings::Newsletter::DomainControllerConcern
     redirect_to edit_newsletters_settings_newsletter_domain_path
   rescue => e
     Rails.logger.error "Failed to verify Return-Path: #{e.message}"
-    # TODO: PRO
-    # Sentry.capture_exception(e, extra: { newsletter: @newsletter.id })
+    notify_exception(e, extra_context: { newsletter: @newsletter.id })
     flash[:alert] = "Return-Path is not verified yet"
     redirect_to edit_newsletters_settings_newsletter_domain_path
   end

@@ -29,7 +29,6 @@ class UserTest < ActiveSupport::TestCase
     assert_not long_last_name.save, "Saved user with last_name longer than 25 characters"
   end
 
-  # TODO: PRO NAME FORMATTING
   test "should return correct formatted name (w/o names)" do
     user = users(:lazaro_nixon)
     assert_equal "lazaronixon@hotmail.com", user.formatted_name

@@ -21,8 +21,7 @@ class ProcessPostmarkEventJob < ApplicationJob
     when "SpamComplaint"
       on_spam(webhook_data)
     else
-      # TODO: PRO
-      # Sentry.capture_message("[Postmark] Webhook triggered - unknown record type", extra: params.as_json)
+      notify_message("[Postmark] Webhook triggered - unknown record type", extra_context: params.as_json)
     end
 
   end
@@ -31,8 +30,7 @@ class ProcessPostmarkEventJob < ApplicationJob
 
   def subscription_change(webhook_data)
     if webhook_data["ServerID"].nil? or webhook_data["Recipient"].nil? or webhook_data["SuppressSending"].nil?
-      # TODO: PRO
-      # Sentry.capture_message("[Postmark] Subscription changed - some webhook_data does not exist", extra: webhook_data.as_json)
+      notify_message("[Postmark] Subscription changed - some webhook_data does not exist", extra_context: webhook_data.as_json)
       return
     end
 
@@ -55,8 +53,7 @@ class ProcessPostmarkEventJob < ApplicationJob
       found_subscriber.verify
     end
   rescue => e
-    # TODO: PRO
-    # Sentry.capture_exception(e, extra: webhook_data.as_json)
+    notify_exception(e, extra_context: webhook_data.as_json)
     raise e
   end
 
@@ -84,8 +81,7 @@ class ProcessPostmarkEventJob < ApplicationJob
     newsletter_email = NewsletterEmail.find_by(postmark_tag: webhook_data["Tag"])
 
     if newsletter_email.nil?
-      # TODO: PRO
-      # Sentry.capture_message("[#{event}] Newsletter email not found for tag: tag:#{webhook_data['Tag']}", extra: webhook_data.as_json)
+      notify_message("[#{event}] Newsletter email not found for tag: tag:#{webhook_data['Tag']}", extra_context: webhook_data.as_json)
       raise ActiveRecord::RecordNotFound, "[#{event}] Newsletter email not found for tag: tag:#{webhook_data['Tag']}"
     end
 
@@ -96,8 +92,7 @@ class ProcessPostmarkEventJob < ApplicationJob
     subscriber = Subscriber.find_by(email: webhook_data[email_field], newsletter_id: newsletter_email.newsletter.id)
 
     if subscriber.nil?
-      # TODO: PRO
-      # Sentry.capture_message("[#{event}] Subscriber not found recipient:#{webhook_data[email_field]} NewsletterID:#{newsletter_email.newsletter.id}", extra: webhook_data.as_json)
+      notify_message("[#{event}] Subscriber not found recipient:#{webhook_data[email_field]} NewsletterID:#{newsletter_email.newsletter.id}", extra_context: webhook_data.as_json)
       raise ActiveRecord::RecordNotFound, "[#{event}] Subscriber not found recipient:#{webhook_data[email_field]} NewsletterID:#{newsletter_email.newsletter.id}"
     end
 
