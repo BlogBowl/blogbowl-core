@@ -12,17 +12,11 @@ module Models::WorkspaceConcern
     has_many :newsletter_emails, dependent: :destroy
     has_one :settings, dependent: :destroy, class_name: 'WorkspaceSetting'
 
-    # TODO: PRO
-    # has_many :stripe_subscriptions, dependent: :destroy
-
     before_validation :generate_uuid, on: :create
 
     validates :title, presence: true
 
     after_create :after_create
-
-    # TODO: PRO
-    # after_update :update_stripe, if: :title_previously_changed?
   end
 
   def member_of_user(user)
@@ -69,38 +63,9 @@ module Models::WorkspaceConcern
     HTML
   end
 
-  # TODO: PRO
-  # def create_umami_team
-  #   umami_api_service = UmamiService.instance
-  #   result = umami_api_service.create_workspace_team(uuid)
-  #   update(
-  #     umami_team_id: result[:team_id],
-  #     umami_user_id: result[:user_id]
-  #   )
-  # rescue => e
-  #   Rails.logger.error "Failed to create Umami website: #{e.message}"
-  #   Sentry.capture_exception(e, extra: { workspace_id: id })
-  # end
-
-  # TODO: PRO
-  # def primary_subscription
-  #   # always should be up to 1 subscription of type workspace
-  #   stripe_subscriptions.workspace.first
-  # end
-
-  # TODO: PRO
-  # def update_stripe
-  #   StripeService::update_customer(self)
-  # end
-
   private
 
   def after_create
-    # TODO: PRO
-    # unless Rails.env.test?
-    #   create_umami_team
-    # end
-
     # We create newsletter only if Postmark account token is present
     if FeatureGuard.enabled?(:postmark)
       newsletters.create!(workspace: self, name: 'Default Newsletter', name_slug: 'default-newsletter', uuid: uuid)
