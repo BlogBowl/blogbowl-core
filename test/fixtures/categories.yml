@@ -12,10 +12,3 @@ two:
   description: Category 2 description
   slug: category-2
   page: one
-
-#TODO: PRO
-#pro_workspace_page_category:
-#  name: Category 1
-#  description: Category 1 description
-#  slug: category-1
-#  page: pro_workspace_page

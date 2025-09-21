@@ -25,18 +25,3 @@ blog_with_subscribers:
   slug: 'blog'
   name_slug: 'blog'
   domain: blog.subscribers.io
-
-#TODO: PRO
-#free_workspace_page:
-#  workspace: free_workspace
-#  name: 'Blog'
-#  slug: 'blog'
-#  name_slug: 'blog'
-#  domain: blog.free.io
-#
-#pro_workspace_page:
-#  workspace: pro_workspace
-#  name: 'Blog'
-#  slug: 'blog'
-#  name_slug: 'blog'
-#  domain: pro.free.io

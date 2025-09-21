@@ -9,7 +9,7 @@ filled:
   slug: email-subject
   preview: email preview
   content_html: <p>Content html</p>
-  content_json: {}
+  content_json: { }
   status: draft
   author: email_author_workspace_owner
 
@@ -45,24 +45,3 @@ sent_email_three:
   status: sent
   postmark_tag: 03adeb89-d372-42b5-b541-1a322401c000
   author: email_author_workspace_owner
-
-#TODO: PRO
-#filled_pro_email:
-#  subject: Email Subject
-#  newsletter: pro_workspace_newsletter
-#  slug: email-subject
-#  preview: email preview
-#  content_html: <p>Content html</p>
-#  content_json: {}
-#  status: draft
-#  author: email_author_pro_workspace_owner
-#
-#filled_free_email:
-#  subject: Email Subject
-#  newsletter: free_workspace_newsletter
-#  slug: email-subject
-#  preview: email preview
-#  content_html: <p>Content html</p>
-#  content_json: {}
-#  status: draft
-#  author: email_author_free_workspace_owner

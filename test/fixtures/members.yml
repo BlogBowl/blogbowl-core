@@ -47,14 +47,3 @@ default_user_member:
   user: default_user
   workspace: default_user_workspace
   permissions: ["owner"]
-
-# TODO: PRO
-#free_workspace_owner:
-#  user: free_user
-#  workspace: free_workspace
-#  permissions: ["owner"]
-#
-#pro_workspace_owner:
-#  user: pro_user
-#  workspace: pro_workspace
-#  permissions: ["owner"]

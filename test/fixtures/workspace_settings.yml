@@ -17,9 +17,3 @@ workspace_with_subscribers:
   workspace: workspace_with_subscribers
   html_lang: 'en'
   locale: 'en-US'
-
-#TODO: PRO
-#free_workspace_settings:
-#  workspace: free_workspace
-#  html_lang: 'en'
-#  locale: 'en-US'

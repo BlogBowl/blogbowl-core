@@ -18,15 +18,3 @@ newsletter_blog_with_domain_1:
   name: 'Default Newsletter'
   name_slug: 'default-newsletter'
   workspace: workspace_blog_with_domain_1
-
-#TODO: PRO
-#free_workspace_newsletter:
-#  name: 'Default Newsletter'
-#  name_slug: 'default-newsletter'
-#  workspace: free_workspace
-#pro_workspace_newsletter:
-#  name: 'Default Newsletter'
-#  name_slug: 'default-newsletter'
-#  workspace: pro_workspace
-#  postmark_server_id: 15013872
-#  postmark_server_token: cf943877-d29b-4813-a7ec-99c74c65efba

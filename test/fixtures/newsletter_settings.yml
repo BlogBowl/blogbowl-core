@@ -20,18 +20,3 @@ workspace_blog_with_domain_1:
   webhook_auth: Bearer xxxx
   domain: mail.blogbowl.io
   sender_email: sender@mail.blogbowl.io
-
-#TODO: PRO
-#pro_newsletter_settings:
-#  webhook_url: https://myblog.com/api/subscribe
-#  webhook_auth: Bearer xxxx
-#  newsletter: pro_workspace_newsletter
-#  domain: pro.blogbowl.io
-#  sender_email: sender@mail.blogbowl.io
-#
-#free_newsletter_settings:
-#  webhook_url: https://myblog.com/api/subscribe
-#  webhook_auth: Bearer xxxx
-#  newsletter: free_workspace_newsletter
-#  domain: free.blogbowl.io
-#  sender_email: sender@mail.blogbowl.io

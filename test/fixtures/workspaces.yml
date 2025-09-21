@@ -11,11 +11,3 @@ workspace_with_subscribers:
 
 default_user_workspace:
   title: 'default_user_workspace'
-
-#TODO: PRO
-#free_workspace:
-#  title: free workspace
-#
-#pro_workspace:
-#    title: pro workspace
-#    stripe_customer_id: cus_0000000

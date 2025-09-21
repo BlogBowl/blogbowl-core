@@ -41,18 +41,3 @@ verified_2:
   active: true
   verified: true
   newsletter: newsletter_with_subscribers
-
-#TODO: PRO
-#pro_verified_subscriber:
-#  email: email@verified2.com
-#  status: 'active'
-#  active: true
-#  verified: true
-#  newsletter: pro_workspace_newsletter
-#
-#free_verified_subscriber:
-#  email: email@verified2.com
-#  status: 'active'
-#  active: true
-#  verified: true
-#  newsletter: free_workspace_newsletter
