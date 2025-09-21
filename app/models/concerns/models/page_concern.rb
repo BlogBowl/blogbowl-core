@@ -2,8 +2,6 @@ module Models::PageConcern
   extend ActiveSupport::Concern
 
   included do
-    # TODO: PRO
-    # include HasPagePlan
     belongs_to :workspace
     has_many :members, through: :workspace
 
@@ -12,12 +10,6 @@ module Models::PageConcern
     has_many :categories
     has_many :links, dependent: :destroy
     has_many :subscribers, dependent: :nullify
-    # TODO: PRO
-    # has_many :page_topics, dependent: :destroy
-    # has_many :forum_opportunities, dependent: :destroy
-    # has_many :people_questions, dependent: :destroy
-    # has_one :ai_settings, dependent: :destroy, class_name: 'PageAISetting'
-    # has_one :stripe_subscription, dependent: :destroy
 
     has_one :settings, dependent: :destroy, class_name: 'PageSetting'
 
@@ -32,9 +24,6 @@ module Models::PageConcern
 
     DOMAIN_REGEX = /\A(?!-)(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.){0,3}[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\z/
     validates :domain, presence: true, uniqueness: true, format: { with: DOMAIN_REGEX }
-
-    # TODO: PRO
-    # after_update :on_domain_changed, if: :saved_change_to_domain?
 
     after_create :after_create
   end
@@ -117,10 +106,6 @@ module Models::PageConcern
 
   private
   def after_create
-    # TODO: PRO
-    # create_umami_website
-    # create_ai_settings
-
     newsletter = workspace.newsletters.first
 
     create_settings(
@@ -147,29 +132,6 @@ module Models::PageConcern
 
     create_default_links
   end
-
-  # TODO: PRO
-  # def create_umami_website
-  #   umami_api_service = UmamiService.instance
-  #   result = umami_api_service.create_workspace_website(domain, workspace.umami_team_id)
-  #   update(
-  #     umami_website_id: result['id']
-  #   )
-  # rescue => e
-  #   Rails.logger.error "Failed to create Umami website: #{e.message}"
-  #   Sentry.capture_exception(e, extra: { workspace_id: id })
-  # end
-  #
-  # def on_domain_changed
-  #   umami_api_service = UmamiService.instance
-  #   umami_api_service.update_website(umami_website_id, domain)
-  #   umami_api_service.update_team(umami_team_id, domain)
-  #   umami_api_service.update_user(umami_user_id, domain)
-  #
-  # rescue => e
-  #   Rails.logger.error "Failed to update Umami on domain changed: #{e.message}"
-  #   Sentry.capture_exception(e, extra: { workspace_id: id, domain: domain })
-  # end
 
   def sanitize_slug
     self.slug = slug&.gsub('/', '') # Remove all `/` characters
