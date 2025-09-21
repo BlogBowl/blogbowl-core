@@ -11,6 +11,7 @@ import DomainController from './domain_controller';
 import ResizableIframeController from './resizable_iframe_controller';
 import NewsletterDomainController from './newsletter_domain_controller';
 import ImageInputController from './image_input_controller';
+import DismissibleController from './dismissible_controller';
 
 application.register('members', MembersController);
 application.register('links', LinksController);
@@ -19,3 +20,4 @@ application.register('domain', DomainController);
 application.register('newsletter_domain', NewsletterDomainController);
 application.register('resizable_iframe', ResizableIframeController);
 application.register('image_input', ImageInputController);
+application.register('dismissible', DismissibleController);
