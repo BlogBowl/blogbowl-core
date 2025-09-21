@@ -151,10 +151,10 @@ Rails.application.routes.draw do
     resource :settings, only: [:show]
     namespace :settings do
       resource :general, only: [:edit, :update], controller: :general
-      resource :billing, only: [:edit, :update], controller: :billing do
-        post :checkout
-        get 'customer-portal', to: 'billing#customer_portal'
-      end
+      # resource :billing, only: [:edit, :update], controller: :billing do
+      #   post :checkout
+      #   get 'customer-portal', to: 'billing#customer_portal'
+      # end
     end
 
     namespace :api do
