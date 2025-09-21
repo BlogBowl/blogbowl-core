@@ -36,13 +36,6 @@ module ApplicationControllerConcern
   def authenticate
     session_record = Session.find_by_id(cookies.signed[:session_token])
     if session_record.present?
-      # TODO: PRO
-      # if session_record.user.verified?
-      #   Current.session = session_record
-      # else
-      #   flash[:alert] = "Please verify your email address before signing in"
-      #   redirect_to sign_in_path
-      # end
       Current.session = session_record
       return
     end
