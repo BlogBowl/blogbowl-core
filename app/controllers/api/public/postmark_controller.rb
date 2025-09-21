@@ -6,7 +6,7 @@ class API::Public::PostmarkController < ActionController::Base
     record_type = params["RecordType"]
 
     if record_type.nil?
-      notify_message("[Postmark] Webhook triggered - Record type does not exist", extra_context: params.as_json)
+      AppLogger.notify_message("[Postmark] Webhook triggered - Record type does not exist", extra_context: params.as_json)
       render json: {}, status: :bad_request
       return
     end

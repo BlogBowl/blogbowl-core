@@ -57,7 +57,7 @@ class API::Internal::Pages::AI::WebhookController < ActionController::Base
     render json: { post_id: post.id }
   rescue => e
     Rails.logger.error "Failed to create post: #{e.message}"
-    notify_exception(e, extra_context: { workspace_id: @page.workspace_id, page_id: @page.id })
+    AppLogger.notify_exception(e, extra_context: { workspace_id: @page.workspace_id, page_id: @page.id })
     render json: { error: "There was an creating post" }
   end
 

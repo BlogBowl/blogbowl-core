@@ -91,7 +91,7 @@ class Public::SubscriberController < Public::ApplicationController
 
   def block_ip
     # Log the IP
-    notify_message("[SUBSCRIBE] IP blocked: #{request.remote_ip}")
+    AppLogger.notify_message("[SUBSCRIBE] IP blocked: #{request.remote_ip}")
 
     # Optionally add IP to a block list or temporary ban
     flash[:alert] = 'Too many subscription attempts. Please try again later.'

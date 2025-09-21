@@ -77,7 +77,7 @@ module Models::NewsletterConcern
 
   rescue => e
     Rails.logger.error "Failed to create postmark server: #{e.message}"
-    notify_exception(e, extra_context: { newsletter_id: id, name: name })
+    AppLogger.notify_exception(e, extra_context: { newsletter_id: id, name: name })
   end
 
   def generate_slug

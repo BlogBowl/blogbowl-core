@@ -36,7 +36,7 @@ class SendNewsletterJob < ApplicationJob
     email = NewsletterEmail.find(email_id)
     email.update(status: :failed)
     Rails.logger.error "Failed to send newsletter: #{e.message}"
-    notify_exception(e, extra_context: { newsletter_id: newsletter_id, email_id: email_id, subscribers_count: subscribers.count })
+    AppLogger.notify_exception(e, extra_context: { newsletter_id: newsletter_id, email_id: email_id, subscribers_count: subscribers.count })
   end
 
   private
