@@ -31,6 +31,25 @@ module ApplicationControllerConcern
       { value: session.id, httponly: true, domain: cookie_domain }
   end
 
+  protected
+
+  def notify_exception(exception, extra_context: {})
+    Rails.logger.error(
+      message: exception.message,
+      backtrace: exception.backtrace.first(5), # Log the first 5 lines of the backtrace
+      context: extra_context
+    )
+  end
+
+  def notify_message(message, extra_context: {})
+    Rails.logger.warn(
+      {
+        message: message,
+        context: extra_context
+      }
+    )
+  end
+
   private
 
   def authenticate
