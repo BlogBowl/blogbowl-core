@@ -22,18 +22,4 @@ class WorkspaceTest < ActiveSupport::TestCase
       assert_equal workspace.newsletters.count, 1
     end
   end
-
-  # TODO: PRO
-  # test "should update stripe customer after title changed" do
-  #   workspace = workspaces(:pro_workspace)
-  #
-  #   mock = Minitest::Mock.new
-  #   mock.expect(:call, true, [workspace])
-  #
-  #   StripeService.stub(:update_customer, mock) do
-  #     workspace.update!(title: "New Title")
-  #   end
-  #
-  #   assert mock.verify
-  # end
 end
