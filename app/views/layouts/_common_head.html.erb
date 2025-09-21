@@ -5,7 +5,6 @@
 
   <%= action_cable_meta_tag %>
   <%# Check https://github.com/kirillplatonov/hotwire-livereload/issues/49 %>
-<!--  TODO: PRO-->
   <%= hotwire_livereload_tags if Rails.env.development? %>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
@@ -13,14 +12,10 @@
   <% if is_editor&.present? or is_editor %>
     <%= stylesheet_link_tag "editor/editor", "data-turbo-track": Rails.env.production? ? "reload" : "reload" %>
   <% else %>
-<!--    TODO: PRO-->
-    <%#= render "layouts/chatwoot" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": Rails.env.production? ? "reload" : "reload" %>
   <% end %>
   <%= javascript_include_tag "submodules/core/javascript/application", "data-turbo-track": Rails.env.production? ? "reload" : "", type: "module" %>
   <%= javascript_include_tag "app/javascript/application", "data-turbo-track": Rails.env.production? ? "reload" : "", type: "module" %>
-
-<!--  TODO: PRO <%#= render "layouts/posthog_recording" %>-->
 
   <%= stylesheet_link_tag "https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css", "data-turbo": "false" %>
   <%= favicon_link_tag unless Rails.env.development? %>
@@ -29,25 +24,4 @@
           host: "https://<%= Rails.application.routes.default_url_options[:host] %>"
       };
   </script>
-
-<!--  TODO: PRO-->
-  <%# unless is_editor %>
-    <%#= render "layouts/chatwoot" %>
-  <%# end %>
-
-<!--  <script>-->
-<!--      // Remove Chatwoot if it exists when transitioning to editor pages-->
-<!--      document.addEventListener('turbo:load', function () {-->
-<!--          const isEditor = <%#= is_editor %>;-->
-<!--          const chatwootDiv = document.getElementById('cw-bubble-holder');-->
-
-<!--          if (chatwootDiv) {-->
-<!--              if (isEditor) {-->
-<!--                  chatwootDiv.style.display = 'none'-->
-<!--              } else {-->
-<!--                  chatwootDiv.style.display = 'block'-->
-<!--              }-->
-<!--          }-->
-<!--      });-->
-<!--  </script>-->
 </head>
