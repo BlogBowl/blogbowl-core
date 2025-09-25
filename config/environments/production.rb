@@ -30,7 +30,7 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
 
-  s3_enabled = ENV.fetch('S3_ACCESS_KEY_ID', Rails.application.credentials[Rails.env.to_sym][:s3][:access_key_id]).present?
+  s3_enabled = ENV.fetch('S3_ACCESS_KEY_ID', Rails.application.credentials.dig(Rails.env.to_sym, :s3, :access_key_id)).present?
   if s3_enabled
     config.active_storage.service = :s3
   else
@@ -101,7 +101,7 @@ Rails.application.configure do
   Rails.application.routes.default_url_options[:host] = "app.blogbowl.io"
   config.asset_host = "https://app.blogbowl.io"
 
-  smtp_enabled = ENV.fetch('SMTP_MAIL_ADDRESS', Rails.application.credentials[Rails.env.to_sym][:smtp_mail][:address]).present?
+  smtp_enabled = ENV.fetch('SMTP_MAIL_ADDRESS', Rails.application.credentials.dig(Rails.env.to_sym, :smtp_mail, :address)).present?
   if smtp_enabled
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = all_mailer_configs[:smtp][:smtp_settings]
