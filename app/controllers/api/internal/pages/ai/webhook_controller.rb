@@ -64,7 +64,7 @@ class API::Internal::Pages::AI::WebhookController < ActionController::Base
   private
 
   def verify_api_key
-    expected_api_key = ENV.fetch('AI_X_API_KEY', Rails.application.credentials[Rails.env.to_sym][:ai][:x_api_key])
+    expected_api_key = ENV.fetch('AI_X_API_KEY', Rails.application.credentials.dig(Rails.env.to_sym, :ai, :x_api_key))
     provided_api_key = request.headers['X-Api-Key']
 
     # Check if the API key matches

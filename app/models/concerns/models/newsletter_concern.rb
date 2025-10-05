@@ -30,13 +30,13 @@ module Models::NewsletterConcern
   private
 
   def create_postmark_server(name)
-    account_token = ENV.fetch('POSTMARK_ACCOUNT_TOKEN', Rails.application.credentials[Rails.env.to_sym][:postmark][:account_token])
+    account_token = ENV.fetch('POSTMARK_ACCOUNT_TOKEN', Rails.application.credentials.dig(Rails.env.to_sym, :postmark, :account_token))
     client = Postmark::AccountApiClient.new(account_token)
 
     result = client.create_server(name: name, color: Rails.env.development? ? 'blue' : 'red', track_opens: true, track_links: "HtmlAndText", delivery_type: Rails.env.development? ? "Sandbox" : 'Live')
 
     server_client = Postmark::ApiClient.new(result[:api_tokens].first)
-    x_api_key = ENV.fetch('POSTMARK_X_API_KEY', Rails.application.credentials[Rails.env.to_sym][:postmark][:x_api_key])
+    x_api_key = ENV.fetch('POSTMARK_X_API_KEY', Rails.application.credentials.dig(Rails.env.to_sym, :postmark, :x_api_key))
     webhook = server_client.create_webhook(
       "Url": api_public_postmark_event_url,
       "MessageStream": "broadcast",

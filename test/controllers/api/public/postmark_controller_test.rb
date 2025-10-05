@@ -5,7 +5,7 @@ class API::Public::PostmarkControllerTest < ActionDispatch::IntegrationTest
   setup do
     @workspace = workspaces(:workspace_with_subscribers)
     @newsletter = newsletters(:newsletter_with_subscribers)
-    @api_key = ENV.fetch('POSTMARK_X_API_KEY', Rails.application.credentials[Rails.env.to_sym][:postmark][:x_api_key])
+    @api_key = ENV.fetch('POSTMARK_X_API_KEY', Rails.application.credentials.dig(Rails.env.to_sym, :postmark, :x_api_key))
     @city = "Novi Sad"
     @country = "Serbia"
   end
