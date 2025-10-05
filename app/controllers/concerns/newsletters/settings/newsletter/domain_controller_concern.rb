@@ -71,7 +71,7 @@ module Newsletters::Settings::Newsletter::DomainControllerConcern
     redirect_to edit_newsletters_settings_newsletter_domain_path
   rescue => e
     Rails.logger.error "Failed to verify Return-Path: #{e.message}"
-    ::AppLogger.notify_exception(e, extra_context: { newsletter: @newsletter.id })
+    AppLogger.notify_exception(e, extra_context: { newsletter: @newsletter.id })
     flash[:alert] = "Return-Path is not verified yet"
     redirect_to edit_newsletters_settings_newsletter_domain_path
   end
