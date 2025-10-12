@@ -21,10 +21,6 @@ module SessionsControllerConcern
       @session = user.sessions.create!
       set_session_cookie(@session)
 
-      if params[:invitation_token].present?
-        redirect_to invitation_path(token: params[:invitation_token]) and return
-      end
-
       redirect_to root_path
     else
       flash[:alert] = "That email or password is incorrect"
