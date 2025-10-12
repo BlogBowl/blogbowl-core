@@ -1,3 +1,4 @@
+require 'uri'
 require "active_support/core_ext/integer/time"
 all_mailer_configs = Rails.application.config_for(:mailers)
 
