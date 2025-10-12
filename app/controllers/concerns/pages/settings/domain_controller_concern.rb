@@ -30,7 +30,7 @@ module Pages::Settings::DomainControllerConcern
   end
 
   def set_domain_prefix
-    @base_domain = ENV.fetch('BASE_DOMAIN', Rails.application.credentials.dig(Rails.env.to_sym, :base_domain))
+    @base_domain = ENV.fetch('PAGES_BASE_DOMAIN', Rails.application.credentials.dig(Rails.env.to_sym, :pages_base_domain))
 
     @domain_prefix = ".#{@base_domain}"
   end

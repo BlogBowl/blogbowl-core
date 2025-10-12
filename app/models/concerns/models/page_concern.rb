@@ -137,7 +137,7 @@ module Models::PageConcern
   end
 
   def generate_domain
-    base_domain = ENV.fetch('BASE_DOMAIN', Rails.application.credentials.dig(Rails.env.to_sym, :base_domain))
+    base_domain = ENV.fetch('PAGES_BASE_DOMAIN', Rails.application.credentials.dig(Rails.env.to_sym, :pages_base_domain))
     self.domain ||= "#{('a'..'z').to_a.shuffle[0, 10].join}.#{base_domain}"
   end
 
