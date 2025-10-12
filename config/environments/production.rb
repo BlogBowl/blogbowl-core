@@ -69,15 +69,9 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
-  asset_host = ENV.fetch('FRONTEND_URL', Rails.application.credentials.dig(Rails.env.to_sym, :frontend_url))
-  asset_uri = URI.parse(asset_host)
-  host_with_port = if asset_uri.port && (asset_uri.port != asset_uri.default_port)
-    "#{asset_uri.host}:#{asset_uri.port}"
-  else
-    asset_uri.host
-  end
+  fronted_url = ENV.fetch('FRONTEND_URL', Rails.application.credentials.dig(Rails.env.to_sym, :frontend_url))
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: host_with_port }
+  config.action_mailer.default_url_options = { host: fronted_url }
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
   # config.action_mailer.smtp_settings = {
@@ -99,8 +93,8 @@ Rails.application.configure do
   config.active_record.attributes_for_inspect = [:id]
 
   config.hosts = nil
-  Rails.application.routes.default_url_options[:host] = host_with_port
-  config.asset_host = asset_host
+  Rails.application.routes.default_url_options = { host: fronted_url }
+  config.asset_host = fronted_url
 
   smtp_enabled = ENV.fetch('SMTP_MAIL_ADDRESS', Rails.application.credentials.dig(Rails.env.to_sym, :smtp_mail, :address)).present?
   if smtp_enabled
