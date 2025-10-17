@@ -19,9 +19,11 @@
     <div class="mt-10 flex flex-col gap-y-10">
 
       <% unless FeatureGuard.enabled?(:postmark) %>
-        <%= render 'shared/notices/disabled_feature_notice',
-                   title: "Newsletter Feature is Disabled",
-                   message: "To enable newsletters, the Postmark service must be configured in the ENV with a valid API token." %>
+        <div class="mb-10">
+          <%= render 'shared/notices/disabled_feature_notice',
+                     title: "Newsletter Feature is Disabled",
+                     message: "To enable newsletters, the Postmark service must be configured in the ENV with a valid API token." %>
+        </div>
       <% end %>
 
       <div class="card card-border border-base-300 bg-white">
