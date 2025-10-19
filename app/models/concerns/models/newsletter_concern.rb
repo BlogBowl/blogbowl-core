@@ -17,7 +17,7 @@ module Models::NewsletterConcern
 
     after_create do
       unless Rails.env.test?
-        create_postmark_server(uuid)
+        create_postmark_server(workspace.uuid)
       end
       create_settings
     end
