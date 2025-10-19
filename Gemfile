@@ -22,6 +22,8 @@ gem "pagy"
 
 gem "sidekiq"
 
+gem "image_processing", "~> 1.2"
+
 gem 'truemail'
 
 gem "bcrypt"
