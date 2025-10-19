@@ -14,7 +14,7 @@ class Public::ApplicationController < ActionController::Base
 
   def set_page
     @page = Page.find_by(domain: request.hostname)
-    render_domain_not_found if @page.nil?
+    render_domain_not_found and return if @page.nil?
 
     @workspace = @page.workspace
     @workspace_settings = @workspace.settings
@@ -40,8 +40,7 @@ class Public::ApplicationController < ActionController::Base
   end
 
   def render_domain_not_found
-    @page_settings = PageSetting.new(template: 'blog_1')
-    render "public/#{@page_settings.template}/404", status: :not_found
+    render "public/404", status: :not_found, layout: false
   end
 
   def resolve_layout
