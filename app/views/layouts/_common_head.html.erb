@@ -21,7 +21,7 @@
   <%= favicon_link_tag unless Rails.env.development? %>
   <script>
       window.cfg = {
-          host: "<%= ENV.fetch('FRONTEND_URL') %>"
+          host: "<%= ENV.fetch('FRONTEND_URL', Rails.application.credentials.dig(Rails.env.to_sym, :fronted_url)) %>"
       };
   </script>
 </head>
