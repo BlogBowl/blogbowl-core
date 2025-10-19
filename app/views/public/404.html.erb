@@ -1,0 +1,17 @@
+<head>
+  <!-- Title should be added per page, not in layout-->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Not found</title>
+
+  <%= stylesheet_link_tag "public/basic", "data-turbo-track": Rails.env.production? ? "reload" : "" %>
+</head>
+
+
+<body>
+  <div class="wrapper min-h-screen">
+    <section class="hero-header">
+      <h1 class="text-center w-full">404 Not Found</h1>
+      <p class="text-xl text-slate-500 text-center mt-5">Oops, this page doesn’t exist 😭</p>
+    </section>
+  </div>
+</body>
