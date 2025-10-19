@@ -37,3 +37,7 @@ group :test do
 end
 
 gem 'redis'
+
+gem "aws-sdk-s3", require: false
+
+gem "non-stupid-digest-assets"
