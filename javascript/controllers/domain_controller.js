@@ -4,7 +4,7 @@ export default class extends Controller {
     static targets = [
         "ownDomain", "ownDomainValue", "ownDomainLabel", "blogbowlSuffixLabel",
         "subfolder",
-        "docsSection", "dnsDocsSection", "subfolderDocsSection"]
+        "docsSection", "dnsDocsSection", "subfolderDocsSection", "baseDomainWrapper"]
 
     static values = {
         baseDomain: String // You're expecting a string value
@@ -47,6 +47,12 @@ export default class extends Controller {
             this.subfolderDocsSectionTarget.classList.remove("hidden")
         } else {
             this.subfolderDocsSectionTarget.classList.add("hidden")
+        }
+
+        if (isSubfolderChecked) {
+            this.baseDomainWrapperTarget.classList.remove("hidden")
+        } else {
+            this.baseDomainWrapperTarget.classList.add("hidden")
         }
 
         this.ownDomainLabelTargets.forEach(l => l.textContent = this.getDomain())

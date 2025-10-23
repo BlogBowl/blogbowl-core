@@ -76,10 +76,14 @@ module PublicHelper
   end
 
   def dynamic_prefix(path)
+    @path_prefix = "/#{@page.slug}" if @page_settings.subfolder_enabled
     @path_prefix.present? ? "#{@path_prefix}#{path}" : path
   end
 
   def get_full_url(path)
+    if @page_settings.subfolder_enabled && @page.base_domain.present?
+      return "#{@page.base_domain}#{path}"
+    end
     "https://#{@page.domain}#{path}"
   end
 
