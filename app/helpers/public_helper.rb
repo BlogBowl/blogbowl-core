@@ -111,7 +111,7 @@ module PublicHelper
   end
 
   def get_category_url(category)
-    get_full_url(dynamic_prefix("/category/#{category.slug}"))
+    get_full_url(dynamic_prefix("/categories/#{category.slug}"))
   end
 
   def get_post_og_image_url(post)

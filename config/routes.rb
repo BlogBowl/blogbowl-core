@@ -170,7 +170,7 @@ Rails.application.routes.draw do
 
       # paginated categories
       get "categories/:id", to: "categories#show", as: :public_category
-      get "categories/:id/page/1", to: redirect('/category/%{id}')
+      get "categories/:id/page/1", to: redirect('/categories/%{id}')
       get "categories/:id/page/:page", to: "categories#show", as: 'public_category_page'
 
       # paginated archive
