@@ -1,11 +1,27 @@
-require 'nokogiri'
+require "nokogiri"
 
 module PublicHelper
   include Pagy::Frontend
 
   def pagy_url_for(pagy, page, absolute: false)
-    params = request.query_parameters.merge(pagy.vars[:page_param] => page, only_path: !absolute)
-    url_for(params)
+    # Get the param name (e.g., "page")
+    param_name = pagy.vars[:page_param].to_s
+
+    # Get the current full path (e.g., "/subfolder/posts/page/2")
+    # Use .sub to strip off the pagination part, giving a clean base.
+    # e.g., "/subfolder/posts/page/2" becomes "/subfolder/posts"
+    # e.g., "/subfolder/posts" (page 1) remains "/subfolder/posts"
+    base_path = request.path.sub(%r{/#{Regexp.escape(param_name)}/.*$}, "")
+
+    # Now, build the new path
+    new_path = "#{base_path.chomp('/')}/#{param_name}/#{page}"
+
+    # Preserve any existing query parameters (like ?search=...)
+    if request.query_string.present?
+      new_path += "?#{request.query_string}"
+    end
+
+    get_full_url(dynamic_prefix(new_path))
   end
 
   def format_date(date)
@@ -17,13 +33,13 @@ module PublicHelper
   end
 
   def contrasting_text_color(hex_color)
-    hex = hex_color.delete('#')
-    return '#000000' unless hex.length == 6
+    hex = hex_color.delete("#")
+    return "#000000" unless hex.length == 6
 
     r, g, b = [hex[0..1], hex[2..3], hex[4..5]].map { |c| c.to_i(16) }
     brightness = (r * 299 + g * 587 + b * 114) / 1000
 
-    brightness > 128 ? 'text-black' : 'text-white'
+    brightness > 128 ? "text-black" : "text-white"
   end
 
   def author_name(author)
@@ -40,18 +56,18 @@ module PublicHelper
 
   def generate_toc(html_content, options = {})
     doc = Nokogiri::HTML.fragment(html_content)
-    headings = doc.css('h2, h3')
+    headings = doc.css("h2, h3")
 
-    return '' if headings.empty?
+    return "" if headings.empty?
 
     default_options = {
-      container_class: 'flex flex-col gap-y-1',
-      item_class: 'rounded-xs text-slate-500 hover:text-slate-700 active:opacity-text-slate-600',
-      link_class: 'block py-1 px-2',
-      active_item_class: '',
-      active_link_class: 'text-slate-700 font-bold',
-      inactive_link_class: 'text-slate-500',
-      indent_class: 'pl-4'
+      container_class: "flex flex-col gap-y-1",
+      item_class: "rounded-xs text-slate-500 hover:text-slate-700 active:opacity-text-slate-600",
+      link_class: "block py-1 px-2",
+      active_item_class: "",
+      active_link_class: "text-slate-700 font-bold",
+      inactive_link_class: "text-slate-500",
+      indent_class: "pl-4"
     }
 
     options = default_options.merge(options)
@@ -59,7 +75,7 @@ module PublicHelper
     toc = "<ul id='table-of-contents' class='#{options[:container_class]}'>"
     headings.each do |heading|
       level = heading.name[1].to_i
-      id = heading['id']
+      id = heading["id"]
       text = heading.text.strip
 
       item_class = level == 3 ? "#{options[:item_class]} #{options[:indent_class]}" : options[:item_class]
@@ -104,12 +120,12 @@ module PublicHelper
     elsif post.cover_image.present?
       Rails.application.routes.url_helpers.url_for(post.cover_image)
     else
-      ''
+      ""
     end
   end
 
   def get_amount_of_words(article)
-    article.content_html.present? ? Nokogiri::HTML.fragment(article.content_html).children.map(&:text).join(' ').split.size : 0
+    article.content_html.present? ? Nokogiri::HTML.fragment(article.content_html).children.map(&:text).join(" ").split.size : 0
   end
 
   def get_read_time(article)
@@ -124,12 +140,12 @@ module PublicHelper
 
   def show_progress_bar?
     # Customize this condition based on your needs
-    controller_name == 'posts' && action_name == 'show'
+    controller_name == "posts" && action_name == "show"
   end
 
   def pagy_navigation
     if @pagy.pages > 1
-      content_tag(:div, class: 'flex items-center justify-center mt-10') do
+      content_tag(:div, class: "flex items-center justify-center mt-10") do
         pagy_nav(@pagy).html_safe
       end
     end
