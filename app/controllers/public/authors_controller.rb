@@ -20,7 +20,11 @@ class Public::AuthorsController < Public::PageApplicationController
 
   def set_author
     @author = @page.authors.find_by(slug: params[:id])
-    @pagy, @posts = pagy(@page.posts.published, page: params[:page] || 1)
+
+    posts_query = @page.posts.published
+    posts_query = posts_query.joins(:post_authors).where(post_authors: { author_id: @author.id, role: "author" })
+
+    @pagy, @posts = pagy(posts_query, page: params[:page] || 1)
   end
 
   def show_view
