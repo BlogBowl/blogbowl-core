@@ -4,6 +4,10 @@ module PublicHelper
   include Pagy::Frontend
 
   def pagy_url_for(pagy, page, absolute: false)
+    if request.host == Rails.application.routes.default_url_options[:host]
+      return super(pagy, page, absolute:)
+    end
+
     # Get the param name (e.g., "page")
     param_name = pagy.vars[:page_param].to_s
 
