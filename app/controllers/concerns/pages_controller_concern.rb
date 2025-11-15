@@ -10,7 +10,7 @@ module PagesControllerConcern
   end
 
   def index
-    @pages = @workspace.pages
+    @pages = @workspace.pages.order(created_at: :desc)
   end
 
   def new
