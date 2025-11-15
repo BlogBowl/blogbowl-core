@@ -11,7 +11,7 @@ module NewslettersControllerConcern
   end
 
   def index
-    @newsletters = @workspace.newsletters.order(created_at: :desc)
+    @newsletters = @workspace.newsletters.order(created_at: :asc)
   end
 
   def new
