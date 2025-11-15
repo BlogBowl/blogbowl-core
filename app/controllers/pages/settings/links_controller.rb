@@ -14,9 +14,9 @@ class Pages::Settings::LinksController < Pages::Settings::ApplicationController
         if link_params[:link_type] == 'social_media'
           format.turbo_stream { render turbo_stream: turbo_stream.append("social_media_list", partial: "pages/settings/links/link", locals: { link: @link }) }
         else
-          format.turbo_stream { render turbo_stream: turbo_stream.append("link_list", partial: "pages/settings/links/link", locals: { link: @link }) }
+          format.turbo_stream { render turbo_stream: turbo_stream.append("links_list", partial: "pages/settings/links/link", locals: { link: @link }) }
         end
-        format.html { redirect_to edit_pages_settings_header_path, notice: 'Link was successfully created.' }
+        # format.html { redirect_to edit_pages_settings_header_path, notice: 'Link was successfully created.' }
       end
     else
       render :new, status: :unprocessable_entity
@@ -31,7 +31,6 @@ class Pages::Settings::LinksController < Pages::Settings::ApplicationController
     if @link.update(link_params)
       respond_to do |format|
         format.turbo_stream { render turbo_stream: turbo_stream.replace(ActionView::RecordIdentifier.dom_id(@link), partial: "pages/settings/links/link", locals: { link: @link }) }
-        format.html { redirect_to edit_pages_settings_header_path, notice: 'Link was successfully updated.' }
       end
     else
       render :edit, status: :unprocessable_entity
@@ -40,9 +39,6 @@ class Pages::Settings::LinksController < Pages::Settings::ApplicationController
 
   def destroy
     @link.destroy
-    respond_to do |format|
-      format.html { redirect_to edit_pages_settings_header_path, notice: 'Link was successfully deleted.' }
-    end
   end
 
   private

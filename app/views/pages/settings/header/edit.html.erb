@@ -87,7 +87,7 @@
         <div class="flex flex-col gap-y-4 mt-5">
           <div>
             <div class="rounded-md w-full bg-primary-content/40 border-2 border-gray-200">
-              <div id="links_list" class="flex flex-col justify-between w-full" data-controller="links" data-links-slug-value="<%= @page.slug %>">
+              <div id="links_list" class="flex flex-col justify-between w-full" data-controller="links" data-links-slug-value="<%= @page.name_slug %>">
                 <%= render partial: "pages/settings/links/link", collection: @links, as: :link %>
               </div>
             </div>
