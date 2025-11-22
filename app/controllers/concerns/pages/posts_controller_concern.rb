@@ -106,6 +106,8 @@ module Pages::PostsControllerConcern
       else
         @posts = @posts.order(created_at: :desc)
       end
+    else
+      @posts = @posts.order(created_at: :desc)
     end
 
   end

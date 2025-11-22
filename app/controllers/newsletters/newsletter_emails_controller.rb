@@ -6,7 +6,7 @@ class Newsletters::NewsletterEmailsController < Newsletters::ApplicationControll
   layout :determine_layout
 
   def index
-    newsletter_emails = @newsletter.newsletter_emails
+    newsletter_emails = @newsletter.newsletter_emails.order(created_at: :desc)
     # apply_filters
     @pagy, @emails = pagy(newsletter_emails, page: params[:page] || 1, limit: 10)
   end
