@@ -17,9 +17,7 @@ module Models::NewsletterConcern
     before_validation :generate_slug, if: :name_changed?
 
     after_create do
-      unless Rails.env.test?
-        create_postmark_server(uuid)
-      end
+      create_postmark_server(uuid)
       create_settings
     end
   end
@@ -80,6 +78,7 @@ module Models::NewsletterConcern
     Rails.logger.error "Failed to create postmark server: #{e.message}"
     AppLogger.notify_exception(e, extra_context: { newsletter_id: id, name: name })
 
+    # TODO: should raise later
     # raise e
   end
 
