@@ -21,6 +21,13 @@
                    button_title: 'Configure settings',
                    icon: 'iconoir-settings'
         %>
+        <%= render "shared/setting_card",
+                   path: settings_api_tokens_path,
+                   title: 'API Tokens',
+                   description: 'Manage API tokens for external integrations.',
+                   button_title: 'Manage tokens',
+                   icon: 'iconoir-lock-square'
+        %>
       </div>
     </div>
 

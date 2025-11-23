@@ -10,6 +10,7 @@ module Models::WorkspaceConcern
     has_many :members, dependent: :destroy
     has_many :authors, through: :members
     has_many :newsletter_emails, dependent: :destroy
+    has_many :api_tokens, dependent: :destroy
     has_one :settings, dependent: :destroy, class_name: 'WorkspaceSetting'
 
     before_validation :generate_uuid, on: :create
