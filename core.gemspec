@@ -56,6 +56,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency "redis"
 
   spec.add_dependency 'rack-cors'
+
+  spec.add_dependency 'rack-attack'
+
+  spec.add_dependency 'apipie-rails'
 end
 
 

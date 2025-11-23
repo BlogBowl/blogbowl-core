@@ -3,6 +3,7 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
 
   mount Sidekiq::Web => "/sidekiq"
+  apipie
 
   constraints host: [Rails.application.routes.default_url_options[:host], ENV.fetch('APP_DOCKER_HOST', 'app')] do
     get 'preview/:share_id', to: 'previews#show', as: :preview
@@ -85,9 +86,14 @@ Rails.application.routes.draw do
     resource :settings, only: [:show]
     namespace :settings do
       resource :general, only: [:edit, :update], controller: :general
+      resources :api_tokens, only: [:index, :create, :destroy]
     end
 
     namespace :api do
+      namespace :v1 do
+        resources :pages, only: [:index, :show, :create, :update]
+      end
+
       namespace :internal do
         namespace :pages, only: [] do
           scope ':page_id' do
