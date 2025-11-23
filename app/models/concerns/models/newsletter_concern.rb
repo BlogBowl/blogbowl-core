@@ -13,6 +13,7 @@ module Models::NewsletterConcern
     validates :name_slug, presence: true
     validates :name, presence: true, uniqueness: { scope: :workspace_id }
 
+    before_validation :generate_uuid, on: :create
     before_validation :generate_slug, if: :name_changed?
 
     after_create do
@@ -78,6 +79,8 @@ module Models::NewsletterConcern
   rescue => e
     Rails.logger.error "Failed to create postmark server: #{e.message}"
     AppLogger.notify_exception(e, extra_context: { newsletter_id: id, name: name })
+
+    raise e
   end
 
   def generate_slug
@@ -86,5 +89,9 @@ module Models::NewsletterConcern
     return if Newsletter.exists?(name_slug: new_slug, workspace_id: workspace_id)
 
     self.name_slug = new_slug
+  end
+
+  def generate_uuid
+    self.uuid = SecureRandom.uuid
   end
 end

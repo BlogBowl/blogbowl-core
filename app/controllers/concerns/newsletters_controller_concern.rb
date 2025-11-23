@@ -28,6 +28,9 @@ module NewslettersControllerConcern
       flash.now[:alert] = @newsletter.errors.full_messages.to_sentence
       render :new, status: :unprocessable_entity
     end
+  rescue => e
+    flash.now[:alert] = "There was an error creating new newsletter. Please, check logs."
+    render :new, status: :unprocessable_entity
   end
 
   private
