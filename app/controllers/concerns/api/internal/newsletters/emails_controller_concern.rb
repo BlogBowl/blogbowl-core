@@ -61,7 +61,7 @@ module API::Internal::Newsletters::EmailsControllerConcern
       scheduled_time = Time.parse(params[:scheduled_at]).utc
       @email.update(scheduled_at: params[:scheduled_at], status: :scheduled, postmark_tag: SecureRandom.uuid)
       job = SendNewsletterJob.set(wait_until: scheduled_time).perform_later(@email.id, @newsletter.id)
-      @email.update(job_id: job.provider_job_id)
+      @email.update(job_id: job.job_id)
     else
       @email.update(postmark_tag: SecureRandom.uuid)
       SendNewsletterJob.perform_now(@email.id, @newsletter.id)

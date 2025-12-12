@@ -26,7 +26,7 @@ module Models::PostConcern
 
     scope :published, -> { where(status: :published).order(created_at: :desc) }
 
-    enum :status, { draft: 0, published: 1 }
+    enum :status, { draft: 0, published: 1, scheduled: 2 }
 
     has_many_attached :images
     has_one_attached :cover_image

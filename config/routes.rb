@@ -100,6 +100,7 @@ Rails.application.routes.draw do
             resources :categories, only: [:index, :create]
             resources :posts, only: [:create, :show, :update] do
               post 'publish', to: 'posts#publish'
+              post 'unschedule', to: 'posts#unschedule'
               delete 'images', to: 'images#destroy', as: :delete_images
               resources :images, only: [:create]
               resources :revisions, only: [:index, :create], controller: 'post_revisions' do
