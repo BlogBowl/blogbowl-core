@@ -3,7 +3,31 @@ class Public::PagesController < Public::PageApplicationController
     @posts = @page.posts.published.order(created_at: :desc).limit(6)
     @latest_posts = @page.posts.published.order(created_at: :desc).limit(3)
     @categories = @page.categories
-    @category_tree = @categories.map { |category| build_category_tree(category) }.select { _1[:posts].any? }.sort_by { -(_1[:posts].count) }
+
+    posts_by_category = Post.find_by_sql([<<-SQL, @page.id, Post.statuses['published'], @page.id])
+      SELECT p.*
+      FROM categories c
+      CROSS JOIN LATERAL (
+        SELECT posts.*
+        FROM posts
+        WHERE posts.category_id = c.id
+          AND posts.page_id = ?
+          AND posts.status = ?
+          AND posts.archived_at IS NULL
+        ORDER BY posts.created_at DESC
+        LIMIT 6
+      ) p
+      WHERE c.page_id = ?
+    SQL
+
+    posts_grouped = posts_by_category.group_by(&:category_id)
+
+    @category_tree = @categories.map do |category|
+      {
+        category: category,
+        posts: posts_grouped[category.id] || []
+      }
+    end.select { _1[:posts].any? }.sort_by { -(_1[:posts].size) }
 
     render show_view
   end
@@ -19,13 +43,6 @@ class Public::PagesController < Public::PageApplicationController
   end
 
   private
-
-  def build_category_tree(category)
-    {
-      category: category,
-      posts: @posts.where(category_id: category.id)
-    }
-  end
 
   def show_view
     "public/#{@page_settings.template}/pages/index"
