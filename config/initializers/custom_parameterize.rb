@@ -1,7 +1,15 @@
 # config/initializers/custom_parameterize.rb
-Rails.application.config.after_initialize do
-  require 'babosa'
 
+begin
+  require "babosa"
+rescue LoadError
+  # The gem is missing. Since we are likely precompiling assets or
+  # in a stripped-down environment, we don't need slug logic.
+  # We exit this file immediately.
+  return
+end
+
+Rails.application.config.after_initialize do
   # Define the regex outside the method for performance
   CYRILLIC_REGEX = /\p{Cyrillic}/
 
