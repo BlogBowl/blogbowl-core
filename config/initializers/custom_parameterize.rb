@@ -4,6 +4,7 @@ require "babosa"
 Rails.application.config.after_initialize do
   # Define the regex outside the method for performance
   CYRILLIC_REGEX = /\p{Cyrillic}/
+  GREEK_REGEX = /\p{Greek}/
 
   # Monkey-patch String to override parameterize behavior
   class String
@@ -20,6 +21,8 @@ Rails.application.config.after_initialize do
       # Use the specific Russian rule if Cyrillic is detected for better accuracy
       if self.match?(CYRILLIC_REGEX)
         transliterated_string = babosa_string.transliterate(:russian).to_s
+      elsif self.match?(GREEK_REGEX)
+        transliterated_string = babosa_string.transliterate(:greek).to_s
       else
         # For all other languages, use Babosa's generic transliteration
         transliterated_string = babosa_string.transliterate.to_s
