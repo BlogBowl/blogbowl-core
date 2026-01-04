@@ -1,7 +1,10 @@
+require_relative 'concerns/api_response'
+
 module API
   module V1
     class BaseController < ActionController::API
       include Apipie::DSL
+      # include API::V1::APIResponse
 
       before_action :authenticate_request
 
