@@ -1,7 +1,7 @@
 class Public::PagesController < Public::PageApplicationController
   def show
-    @posts = @page.posts.published.order(created_at: :desc).limit(6)
-    @latest_posts = @page.posts.published.order(created_at: :desc).limit(3)
+    @posts = @page.posts.published.limit(6)
+    @latest_posts = @page.posts.published.limit(3)
     @categories = @page.categories
 
     posts_by_category = Post.find_by_sql([<<-SQL, @page.id, Post.statuses['published'], @page.id])
@@ -14,7 +14,7 @@ class Public::PagesController < Public::PageApplicationController
           AND posts.page_id = ?
           AND posts.status = ?
           AND posts.archived_at IS NULL
-        ORDER BY posts.created_at DESC
+        ORDER BY posts.first_published_at DESC
         LIMIT 6
       ) p
       WHERE c.page_id = ?
