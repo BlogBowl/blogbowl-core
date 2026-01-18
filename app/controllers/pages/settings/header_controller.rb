@@ -18,7 +18,7 @@ class Pages::Settings::HeaderController < Pages::Settings::ApplicationController
   private
 
   def page_setting_params
-    params.require(:page_setting).permit(:logo, :remove_logo, :logo_text, :logo_link, :header_cta_button, :header_cta_button_link, :with_search)
+    params.require(:page_setting).permit(:logo, :remove_logo, :logo_text, :logo_link, :header_cta_button, :header_cta_button_link, :with_search, :header_cta_enabled)
   end
 
   def links_params
