@@ -24,9 +24,9 @@ module Models::PostConcern
     validates :slug, presence: true, uniqueness: { scope: :page_id }
     validates :authors, presence: true, if: :published?
 
-    scope :published, -> { where(status: :published).order(first_published_at: :desc) }
-
     enum :status, { draft: 0, published: 1, scheduled: 2 }
+
+    scope :published, -> { where(status: :published).order(first_published_at: :desc) }
 
     has_many_attached :images
     has_one_attached :cover_image
