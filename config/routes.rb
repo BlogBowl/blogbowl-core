@@ -91,7 +91,21 @@ Rails.application.routes.draw do
 
     namespace :api do
       namespace :v1 do
-        resources :pages, only: [:index, :show, :create, :update]
+        resources :pages, only: [:index, :show, :create, :update] do
+          resources :categories, only: [:index, :show, :create, :update, :destroy]
+          resources :posts, only: [:index, :show, :create, :update, :destroy] do
+            post :publish, on: :member
+            resource :cover_image, only: [:show, :create, :update, :destroy], controller: 'images'
+            resources :revisions, only: [:index]
+          end
+        end
+
+        resources :newsletters, only: [:index, :show, :create, :update] do
+          resources :subscribers, only: [:index, :create, :update, :destroy]
+          resources :emails, only: [:index, :show, :create, :update, :destroy] do
+            post :send_email, on: :member, path: 'send'
+          end
+        end
       end
 
       namespace :internal do
@@ -100,6 +114,7 @@ Rails.application.routes.draw do
             resources :categories, only: [:index, :create]
             resources :posts, only: [:create, :show, :update] do
               post 'publish', to: 'posts#publish'
+              post 'unschedule', to: 'posts#unschedule'
               delete 'images', to: 'images#destroy', as: :delete_images
               resources :images, only: [:create]
               resources :revisions, only: [:index, :create], controller: 'post_revisions' do

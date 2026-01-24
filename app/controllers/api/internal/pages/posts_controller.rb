@@ -1,5 +1,5 @@
 class API::Internal::Pages::PostsController < API::Internal::Pages::ApplicationController
-  before_action :set_post, only: %i[show publish update]
+  before_action :set_post, only: %i[show publish update unschedule]
 
   def create
     @post = @page.posts.build(post_params)
@@ -42,8 +42,38 @@ class API::Internal::Pages::PostsController < API::Internal::Pages::ApplicationC
       return
     end
 
-    @post.publish!
+    if params[:scheduled_at].present?
+      scheduled_time = Time.parse(params[:scheduled_at]).utc
+
+      if scheduled_time.past?
+        render json: { error: "Schedule date must be in future" }, status: :unprocessable_entity
+        return
+      end
+
+      @post.update(scheduled_at: params[:scheduled_at], status: :scheduled)
+      job = PublishPostJob.set(wait_until: scheduled_time).perform_later(@post.id)
+      @post.update(job_id: job.job_id)
+    else
+      @post.publish!
+    end
     render json: @post
+  end
+
+  def unschedule
+    authorize! :edit, @post
+    unless @post.scheduled?
+      render json: { error: "Post should be scheduled for unscheduling" }, status: :unprocessable_entity
+      return
+    end
+    if @post.job_id.nil?
+      render json: { error: "Post should have job id" }, status: :unprocessable_entity
+      return
+    end
+
+    Sidekiq::ScheduledSet.new.find_job(@post.job_id)&.delete
+    @post.update(job_id: nil, status: 'draft', scheduled_at: nil)
+
+    render json: @post, status: :ok
   end
 
   def show

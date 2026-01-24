@@ -30,7 +30,7 @@ xml.urlset "xmlns" => "http://www.sitemaps.org/schemas/sitemap/0.9" do
     xml.url do
       xml.loc public_author_url(author, host: @host, protocol: @protocol, script_name: @path_prefix)
       xml.changefreq "weekly"
-      xml.priority "0.sitemap should use base_domain and subfolder5"
+      xml.priority "0.5"
     end
   end
 end

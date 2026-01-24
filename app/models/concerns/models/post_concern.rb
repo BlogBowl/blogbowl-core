@@ -3,6 +3,7 @@ module Models::PostConcern
 
   included do
     include ConvertToWebp
+    include TiptapContent
 
     default_scope { where(archived_at: nil) }
 
@@ -13,7 +14,6 @@ module Models::PostConcern
     belongs_to :page
     belongs_to :category, optional: true
     has_many :post_revisions, dependent: :destroy
-    has_one :page_topic, dependent: :nullify
 
     has_many :post_authors, dependent: :destroy
     has_many :authors, -> { where(post_authors: { role: 'author' }) }, through: :post_authors
@@ -24,9 +24,9 @@ module Models::PostConcern
     validates :slug, presence: true, uniqueness: { scope: :page_id }
     validates :authors, presence: true, if: :published?
 
-    scope :published, -> { where(status: :published).order(created_at: :desc) }
+    enum :status, { draft: 0, published: 1, scheduled: 2 }
 
-    enum :status, { draft: 0, published: 1 }
+    scope :published, -> { where(status: :published).order(first_published_at: :desc) }
 
     has_many_attached :images
     has_one_attached :cover_image
