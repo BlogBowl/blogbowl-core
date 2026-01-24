@@ -3,6 +3,7 @@ module Models::PostConcern
 
   included do
     include ConvertToWebp
+    include TiptapContent
 
     default_scope { where(archived_at: nil) }
 
