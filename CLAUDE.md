@@ -200,7 +200,7 @@ Since this is a submodule, most development happens in the context of the parent
 
 ```bash
 # Navigate to parent app
-cd /Users/vika/projects/blogbowl/BlogBowl
+cd ../BlogBowl
 
 # Update this submodule
 git submodule update --remote submodules/core
@@ -211,17 +211,39 @@ bin/dev
 
 ### Making Changes
 
-1. **Make changes in this directory** (`/Users/vika/projects/blogbowl/blogbowl-core`)
+1. **Make changes in this directory**
 2. **Test in parent context**: The parent app includes this engine via Gemfile
 3. **Commit changes**: This submodule has its own Git repository
 4. **Update parent**: Parent repo tracks specific commit of submodule
+
+#### Short Sync Workflow (engine → parent)
+```bash
+# In this repo
+git checkout <branch>
+git status
+# ...edit, commit...
+git push fork <branch>
+
+# In parent repo (updates submodule pointer)
+cd ../BlogBowl
+# Fetch from local sibling clone or from a remote (either is fine)
+git -C submodules/core fetch ../blogbowl-core   # local sibling clone linked to this submodule
+git -C submodules/core fetch fork               # or: git -C submodules/core fetch upstream
+git -C submodules/core checkout <core-commit-sha>
+git add submodules/core
+git commit -m "chore: bump blogbowl-core submodule"
+git push fork <branch>
+```
+Notes:
+- Parent repo stores only the submodule commit SHA.
+- Remotes are named `fork` (dlysenko) and `upstream` (BlogBowl org).
 
 ### Testing
 
 Tests are run from the **parent application**:
 
 ```bash
-# From parent directory: /Users/vika/projects/blogbowl/BlogBowl
+# From parent directory: ../BlogBowl
 
 # Run all tests (includes engine tests)
 bin/rails test
