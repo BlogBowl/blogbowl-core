@@ -13,7 +13,6 @@ module Models::PostConcern
     belongs_to :page
     belongs_to :category, optional: true
     has_many :post_revisions, dependent: :destroy
-    has_one :page_topic, dependent: :nullify
 
     has_many :post_authors, dependent: :destroy
     has_many :authors, -> { where(post_authors: { role: 'author' }) }, through: :post_authors
