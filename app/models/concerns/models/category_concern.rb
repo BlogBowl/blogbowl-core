@@ -10,7 +10,6 @@ module Models::CategoryConcern
 
     has_many :children, class_name: 'Category', foreign_key: 'parent_id', dependent: :destroy
     has_many :posts
-    has_many :page_topics, dependent: :nullify
 
     has_one_attached :image
     convert_to_webp_for :image

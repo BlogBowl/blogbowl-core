@@ -28,12 +28,16 @@
           <% @navbar_links.each do |link| %>
             <li><a class="font-medium text-base opacity-70" href="<%= link.url %>"><%= link.title %></a></li>
           <% end %>
-          <li>
-            <a class="btn btn-primary" target="_blank" href="<%= @page_settings.header_cta_button_link.present? ?  @page_settings.header_cta_button_link : '#' %>"><%=  @page_settings.header_cta_button.present? ? @page_settings.header_cta_button : 'CTA button' %></a>
-          </li>
+          <% if @page_settings.header_cta_enabled? %>
+            <li>
+              <a class="btn btn-primary" target="_blank" href="<%= @page_settings.header_cta_button_link.present? ?  @page_settings.header_cta_button_link : '#' %>"><%=  @page_settings.header_cta_button.present? ? @page_settings.header_cta_button : 'CTA button' %></a>
+            </li>
+          <% end %>
         </ul>
       </div>
-      <a class="btn btn-primary hidden md:flex" target="_blank" href="<%= @page_settings.header_cta_button_link.present? ?  @page_settings.header_cta_button_link : '#' %>"><%=  @page_settings.header_cta_button.present? ? @page_settings.header_cta_button : 'CTA button' %></a>
+      <% if @page_settings.header_cta_enabled? %>
+        <a class="btn btn-primary hidden md:flex" target="_blank" href="<%= @page_settings.header_cta_button_link.present? ?  @page_settings.header_cta_button_link : '#' %>"><%=  @page_settings.header_cta_button.present? ? @page_settings.header_cta_button : 'CTA button' %></a>
+      <% end %>
     </div>
   </div>
 

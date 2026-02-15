@@ -8,17 +8,21 @@ module API
         property :slug, String, desc: "Page slug"
         property :name_slug, String, desc: "Page name slug"
         property :domain, String, desc: "Page domain"
+        property :workspace_id, Integer, desc: "Workspace ID"
         property :created_at, String, desc: "Creation date"
         property :updated_at, String, desc: "Updated date"
       end
 
-      api :GET, '/pages', "List all pages for the account"
-      returns code: 200, desc: "List of pages" do
-        param_group :page_output
+      def_param_group :pagination do
+        param :page, :number, desc: "Page number (default: 1)"
+        param :size, :number, desc: "Items per page (default: 10, max: 100)"
       end
+
+      api :GET, '/pages', "List all pages for the workspace"
+      param_group :pagination
+      returns code: 200, desc: "Paginated list of pages"
       def index
-        @pages = @current_workspace.pages
-        render json: @pages.map { |page| page_json(page) }
+        render_collection(@current_workspace.pages.order(created_at: :desc)) { |page| page_json(page) }
       end
 
       api :GET, '/pages/:id', "Get a specific page"
@@ -28,13 +32,13 @@ module API
       end
       def show
         @page = @current_workspace.pages.find(params[:id])
-        render json: page_json(@page)
+        render_resource(@page) { |page| page_json(page) }
       end
 
       api :POST, '/pages', "Create a new page"
       param :page, Hash, desc: "Page info", required: true do
-        property :name, String, desc: "Page name"
-        property :slug, String, desc: "Page slug"
+        param :name, String, desc: "Page name", required: true
+        param :slug, String, desc: "Page slug"
       end
       returns code: 201, desc: "Created page" do
         param_group :page_output
@@ -42,17 +46,17 @@ module API
       def create
         @page = @current_workspace.pages.new(page_params)
         if @page.save
-          render json: page_json(@page), status: :created
+          render_resource(@page, status: :created) { |page| page_json(page) }
         else
-          render json: { errors: @page.errors.full_messages }, status: :unprocessable_entity
+          render_error(@page.errors)
         end
       end
 
       api :PATCH, '/pages/:id', "Update a page"
       param :id, :number, required: true, desc: "Page ID"
       param :page, Hash, desc: "Page info", required: true do
-        property :name, String, desc: "Page name"
-        property :slug, String, desc: "Page slug"
+        param :name, String, desc: "Page name"
+        param :slug, String, desc: "Page slug"
       end
       returns code: 200, desc: "Updated page" do
         param_group :page_output
@@ -60,9 +64,9 @@ module API
       def update
         @page = @current_workspace.pages.find(params[:id])
         if @page.update(page_params)
-          render json: page_json(@page)
+          render_resource(@page) { |page| page_json(page) }
         else
-          render json: { errors: @page.errors.full_messages }, status: :unprocessable_entity
+          render_error(@page.errors)
         end
       end
 
@@ -79,11 +83,11 @@ module API
           slug: page.slug,
           name_slug: page.name_slug,
           domain: page.domain,
+          workspace_id: page.workspace_id,
           created_at: page.created_at,
           updated_at: page.updated_at
         }
       end
-
     end
   end
 end

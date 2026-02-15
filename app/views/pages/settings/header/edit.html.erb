@@ -59,14 +59,14 @@
       </div>
 
       <div class="card card-border border-base-300 bg-white">
-        <div class="p-6">
+        <div class="p-6 border-b">
           <div class="flex items-center gap-x-2">
             <i class="iconoir-three-stars-solid text-primary text-xl"></i>
             <h3 class="font-bold">Additional features</h3>
           </div>
           <p class="opacity-70 mt-2">Disable or enable additional features</p>
         </div>
-        <div class="flex justify-between items-center border-y px-6 py-6">
+        <div class="flex justify-between items-center px-6 py-6">
           <div>
             <%= form.label :with_search, "Site search", class: "text-sm font-medium" %>
             <p class="text-xs text-gray-400">Enable site search</p>
@@ -98,8 +98,8 @@
         </div>
       </div>
 
-      <div class="card card-border border-base-300 bg-white p-6">
-        <div class="">
+      <div class="card card-border border-base-300 bg-white">
+        <div class="p-6 border-b">
           <div class="flex items-center gap-x-2">
             <i class="iconoir-cursor-pointer text-primary text-xl"></i>
             <h3 class="font-bold">CTA button</h3>
@@ -107,7 +107,15 @@
           <p class="opacity-70 mt-2">Edit CTA button title and link</p>
         </div>
 
-        <div class="flex flex-col gap-y-4 mt-5">
+        <div class="flex justify-between items-center border-b px-6 py-6">
+          <div>
+            <%= form.label :header_cta_enabled, "Enable CTA button", class: "text-sm font-medium" %>
+            <p class="text-xs text-gray-400">Show or hide the CTA button in the header</p>
+          </div>
+          <%= form.check_box :header_cta_enabled, class: "toggle toggle-xl toggle-primary checked:bg-primary checked:text-white checked:border-primary" %>
+        </div>
+
+        <div class="flex flex-col gap-y-4 p-6">
           <div>
             <%= form.label :header_cta_button, "Button text", class: "block text-sm font-medium mb-1" %>
             <%= form.text_field :header_cta_button, placeholder: 'Sign up!', class: "w-full text-sm mr-5" %>
