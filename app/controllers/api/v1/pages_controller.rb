@@ -14,8 +14,8 @@ module API
       end
 
       def_param_group :pagination do
-        param :page, :number, desc: "Page number (default: 1)"
-        param :size, :number, desc: "Items per page (default: 10, max: 100)"
+        param :page, :number, desc: "Page number", default_value: 1
+        param :size, :number, desc: "Items per page (max: 100)", default_value: 10
       end
 
       api :GET, '/pages', "List all pages for the workspace"
