@@ -96,7 +96,8 @@ Rails.application.routes.draw do
           resources :posts, only: [:index, :show, :create, :update, :destroy] do
             post :publish, on: :member
             resource :cover_image, only: [:show, :create, :update, :destroy], controller: 'images'
-            resources :revisions, only: [:index]
+            # Revisions are now created automatically when a post is updated
+            # resources :revisions, only: [:index]
           end
         end
 

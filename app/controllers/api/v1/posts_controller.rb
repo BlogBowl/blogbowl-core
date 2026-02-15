@@ -25,8 +25,8 @@ module API
       end
 
       def_param_group :pagination do
-        param :page, :number, desc: "Page number (default: 1)"
-        param :size, :number, desc: "Items per page (default: 10, max: 100)"
+        param :page, :number, desc: "Page number", default_value: 1
+        param :size, :number, desc: "Items per page (max: 100)", default_value: 10
       end
 
       api :GET, '/pages/:page_id/posts', "List all posts for a page"
@@ -96,6 +96,8 @@ module API
       end
       def update
         if @post.update(post_params)
+          # Automatically create a history revision when a post is updated
+          create_revision_in_background(@post)
           render_resource(@post) { |post| post_json(post) }
         else
           render_error(@post.errors)
@@ -159,6 +161,14 @@ module API
           :seo_title, :seo_description, :og_title, :og_description,
           content_json: {}
         )
+      end
+
+      def create_revision_in_background(post)
+        revision = post.new_revision
+        revision.kind = :history
+        revision.save
+      rescue => e
+        Rails.logger.error("Failed to create revision for post #{post.id}: #{e.message}")
       end
 
       def post_json(post)
