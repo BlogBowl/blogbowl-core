@@ -1,5 +1,4 @@
 class API::Internal::Pages::CategoriesController < API::Internal::Pages::ApplicationController
-
   def index
     @categories = @page.categories
     render json: @categories

@@ -4,7 +4,7 @@ class Public::PagesController < Public::PageApplicationController
     @latest_posts = @page.posts.published.limit(3)
     @categories = @page.categories
 
-    posts_by_category = Post.find_by_sql([<<-SQL, @page.id, Post.statuses['published'], @page.id])
+    posts_by_category = Post.find_by_sql([ <<-SQL, @page.id, Post.statuses["published"], @page.id ])
       SELECT p.*
       FROM categories c
       CROSS JOIN LATERAL (
@@ -34,12 +34,12 @@ class Public::PagesController < Public::PageApplicationController
 
   def robots
     robots_content = render_to_string(
-      file: Rails.root.join('app', 'views', 'public', 'shared', '_robots.txt.erb'),
-      formats: [:html],
+      file: Rails.root.join("app", "views", "public", "shared", "_robots.txt.erb"),
+      formats: [ :html ],
       layout: nil
     )
 
-    render plain: robots_content, content_type: 'text/plain'
+    render plain: robots_content, content_type: "text/plain"
   end
 
   private

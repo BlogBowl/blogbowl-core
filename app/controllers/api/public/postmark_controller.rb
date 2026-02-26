@@ -18,13 +18,12 @@ class API::Public::PostmarkController < ActionController::Base
   private
 
   def verify_api_key
-    expected_api_key = ENV.fetch('POSTMARK_X_API_KEY', Rails.application.credentials.dig(Rails.env.to_sym, :postmark, :x_api_key))
-    provided_api_key = request.headers['X-Api-Key']
+    expected_api_key = ENV.fetch("POSTMARK_X_API_KEY", Rails.application.credentials.dig(Rails.env.to_sym, :postmark, :x_api_key))
+    provided_api_key = request.headers["X-Api-Key"]
 
     # Check if the API key matches
     unless provided_api_key && provided_api_key == expected_api_key
-      render json: { error: 'Unauthorized' }, status: :unauthorized
+      render json: { error: "Unauthorized" }, status: :unauthorized
     end
   end
-
 end

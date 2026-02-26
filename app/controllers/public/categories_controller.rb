@@ -1,7 +1,7 @@
 class Public::CategoriesController < Public::PageApplicationController
   include Pagy::Backend
 
-  before_action :set_category, only: [:show]
+  before_action :set_category, only: [ :show ]
 
   def index
     @pagy, @categories = pagy(@page.categories, page: params[:page] || 1)

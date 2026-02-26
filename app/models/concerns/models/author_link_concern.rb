@@ -5,5 +5,4 @@ module Models::AuthorLinkConcern
   included do
     belongs_to :author
   end
-
 end

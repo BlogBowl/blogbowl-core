@@ -42,4 +42,3 @@ class Pages::Settings::HeaderController < Pages::Settings::ApplicationController
     @links = @page.links.header
   end
 end
-

@@ -24,7 +24,7 @@ gem "sidekiq"
 
 gem "image_processing", "~> 1.2"
 
-gem 'truemail'
+gem "truemail"
 
 gem "bcrypt"
 
@@ -35,13 +35,13 @@ gem "turbo-rails"
 gem "postmark"
 
 group :test do
-  gem 'webmock'
+  gem "webmock"
 end
 
-gem 'redis'
+gem "redis"
 
 gem "aws-sdk-s3", require: false
 
 gem "non-stupid-digest-assets"
 
-gem 'babosa'
+gem "babosa"

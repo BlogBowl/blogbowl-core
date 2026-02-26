@@ -1,1 +1,1 @@
-require_relative '../../lib/tiptap_converter'
+require_relative "../../lib/tiptap_converter"

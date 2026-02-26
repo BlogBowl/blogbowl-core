@@ -1,5 +1,5 @@
 class AuthorsController < ApplicationController
-  layout 'dashboard'
+  layout "dashboard"
   include Pagy::Backend
 
   before_action :set_author, only: %i[edit update deactivate]
@@ -16,7 +16,7 @@ class AuthorsController < ApplicationController
   def update
     authorize! :edit, @author
     if @author.update(author_params)
-      flash[:notice] = 'Author was updated successfully.'
+      flash[:notice] = "Author was updated successfully."
       redirect_to authors_path
     else
       flash.now[:alert] = @author.errors.full_messages.to_sentence
@@ -27,7 +27,7 @@ class AuthorsController < ApplicationController
   def deactivate
     authorize! :manage, Member.build(workspace: @workspace)
     if @author.update(active: false)
-      flash[:notice] = 'Author was deactivated successfully.'
+      flash[:notice] = "Author was deactivated successfully."
       redirect_to authors_path
     else
       flash[:alert] = @author.errors.full_messages.to_sentence

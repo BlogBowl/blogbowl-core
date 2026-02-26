@@ -23,7 +23,6 @@ class ProcessPostmarkEventJob < ApplicationJob
     else
       AppLogger.notify_message("[Postmark] Webhook triggered - unknown record type", extra_context: params.as_json)
     end
-
   end
 
   private
@@ -102,7 +101,5 @@ class ProcessPostmarkEventJob < ApplicationJob
         subscriber.update(country: webhook_data["Geo"]["Country"], city: webhook_data["Geo"]["City"])
       end
     end
-
   end
-
 end

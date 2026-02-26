@@ -13,14 +13,14 @@ class PreviewsController < ApplicationController
     @workspace = @page.workspace
     @workspace_settings = @workspace.settings
 
-    @authors = @post.authors.where(post_authors: { role: 'author' })
-    @reviewers = @post.authors.where(post_authors: { role: 'reviewer' })
-    @main_author = @authors.first || Author.new(email: 'preview@preview.com', slug: 'preview-author')
+    @authors = @post.authors.where(post_authors: { role: "author" })
+    @reviewers = @post.authors.where(post_authors: { role: "reviewer" })
+    @main_author = @authors.first || Author.new(email: "preview@preview.com", slug: "preview-author")
     @contributing_authors = @authors.where.not(id: @main_author.id) if @main_author.present?
 
     @navbar_links = @page.links.header.order(:order)
-    @footer_links = @page.links.footer.where(link_type: 'link').order(:order)
-    @social_media_links = @page.links.where(link_type: 'social_media').order(:order)
+    @footer_links = @page.links.footer.where(link_type: "link").order(:order)
+    @social_media_links = @page.links.where(link_type: "social_media").order(:order)
 
     render show_view, layout: "public/#{@page_settings.template}"
   end

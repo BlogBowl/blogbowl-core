@@ -2,7 +2,6 @@ module Newsletters::Settings::Newsletter::DomainControllerConcern
   extend ActiveSupport::Concern
 
   included do
-
   end
 
   def edit
@@ -43,7 +42,7 @@ module Newsletters::Settings::Newsletter::DomainControllerConcern
   end
 
   def verify_dkim
-    account_token = ENV.fetch('POSTMARK_ACCOUNT_TOKEN', Rails.application.credentials.dig(Rails.env.to_sym, :postmark, :account_token))
+    account_token = ENV.fetch("POSTMARK_ACCOUNT_TOKEN", Rails.application.credentials.dig(Rails.env.to_sym, :postmark, :account_token))
     client = Postmark::AccountApiClient.new(account_token)
     response = client.verify_domain_dkim(@newsletter_settings.postmark_domain_id)
     if response[:dkim_verified]
@@ -60,7 +59,7 @@ module Newsletters::Settings::Newsletter::DomainControllerConcern
   end
 
   def verify_return_path
-    account_token = ENV.fetch('POSTMARK_ACCOUNT_TOKEN', Rails.application.credentials.dig(Rails.env.to_sym, :postmark, :account_token))
+    account_token = ENV.fetch("POSTMARK_ACCOUNT_TOKEN", Rails.application.credentials.dig(Rails.env.to_sym, :postmark, :account_token))
     client = Postmark::AccountApiClient.new(account_token)
     response = client.verify_domain_return_path(@newsletter_settings.postmark_domain_id)
     if response[:return_path_domain_verified]
@@ -83,21 +82,21 @@ module Newsletters::Settings::Newsletter::DomainControllerConcern
   private
 
   def create_new_domain(domain)
-    account_token = ENV.fetch('POSTMARK_ACCOUNT_TOKEN', Rails.application.credentials.dig(Rails.env.to_sym, :postmark, :account_token))
+    account_token = ENV.fetch("POSTMARK_ACCOUNT_TOKEN", Rails.application.credentials.dig(Rails.env.to_sym, :postmark, :account_token))
     client = Postmark::AccountApiClient.new(account_token)
     created_domain_response = client.create_domain({ name: domain })
     @newsletter_settings.update(domain: created_domain_response[:name], postmark_domain_id: created_domain_response[:id])
   end
 
   def delete_domain(postmark_domain_id)
-    account_token = ENV.fetch('POSTMARK_ACCOUNT_TOKEN', Rails.application.credentials.dig(Rails.env.to_sym, :postmark, :account_token))
+    account_token = ENV.fetch("POSTMARK_ACCOUNT_TOKEN", Rails.application.credentials.dig(Rails.env.to_sym, :postmark, :account_token))
     client = Postmark::AccountApiClient.new(account_token)
 
     client.delete_domain(postmark_domain_id)
   end
 
   def get_domain_details(postmark_domain_id)
-    account_token = ENV.fetch('POSTMARK_ACCOUNT_TOKEN', Rails.application.credentials.dig(Rails.env.to_sym, :postmark, :account_token))
+    account_token = ENV.fetch("POSTMARK_ACCOUNT_TOKEN", Rails.application.credentials.dig(Rails.env.to_sym, :postmark, :account_token))
     client = Postmark::AccountApiClient.new(account_token)
 
     client.get_domain(postmark_domain_id)

@@ -1,5 +1,5 @@
 class SettingsController < ApplicationController
-  layout 'dashboard'
+  layout "dashboard"
 
   before_action -> { authorize! :manage, @workspace }
 
@@ -11,5 +11,4 @@ class SettingsController < ApplicationController
   def current_ability
     @current_ability ||= WorkspaceAbility.new(current_user)
   end
-
 end

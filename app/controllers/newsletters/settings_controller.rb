@@ -1,5 +1,5 @@
 class Newsletters::SettingsController < Newsletters::ApplicationController
-  layout 'newsletter_dashboard'
+  layout "newsletter_dashboard"
   before_action -> { authorize! :manage, @workspace }
 
   def show
@@ -10,5 +10,4 @@ class Newsletters::SettingsController < Newsletters::ApplicationController
   def current_ability
     @current_ability ||= WorkspaceAbility.new(current_user)
   end
-
 end

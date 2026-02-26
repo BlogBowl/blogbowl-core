@@ -1,7 +1,6 @@
 module API
   module V1
     class PagesController < BaseController
-
       def_param_group :page_output do
         property :id, Integer, desc: "Page ID"
         property :name, String, desc: "Page name"
@@ -14,18 +13,18 @@ module API
       end
 
       def_param_group :pagination do
-        param :page, :number, desc: "Page number (default: 1)"
-        param :size, :number, desc: "Items per page (default: 10, max: 100)"
+        param :page, :number, desc: "Page number", default_value: 1
+        param :size, :number, desc: "Items per page (max: 100)", default_value: 10
       end
 
-      api :GET, '/pages', "List all pages for the workspace"
+      api :GET, "/pages", "List all pages for the workspace"
       param_group :pagination
       returns code: 200, desc: "Paginated list of pages"
       def index
         render_collection(@current_workspace.pages.order(created_at: :desc)) { |page| page_json(page) }
       end
 
-      api :GET, '/pages/:id', "Get a specific page"
+      api :GET, "/pages/:id", "Get a specific page"
       param :id, :number, required: true, desc: "Page ID"
       returns code: 200, desc: "Page details" do
         param_group :page_output
@@ -35,7 +34,7 @@ module API
         render_resource(@page) { |page| page_json(page) }
       end
 
-      api :POST, '/pages', "Create a new page"
+      api :POST, "/pages", "Create a new page"
       param :page, Hash, desc: "Page info", required: true do
         param :name, String, desc: "Page name", required: true
         param :slug, String, desc: "Page slug"
@@ -52,7 +51,7 @@ module API
         end
       end
 
-      api :PATCH, '/pages/:id', "Update a page"
+      api :PATCH, "/pages/:id", "Update a page"
       param :id, :number, required: true, desc: "Page ID"
       param :page, Hash, desc: "Page info", required: true do
         param :name, String, desc: "Page name"

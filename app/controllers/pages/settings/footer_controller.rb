@@ -1,5 +1,5 @@
 class Pages::Settings::FooterController < Pages::Settings::ApplicationController
-  before_action :set_links, only: [:edit]
+  before_action :set_links, only: [ :edit ]
 
   def edit
   end
@@ -40,8 +40,7 @@ class Pages::Settings::FooterController < Pages::Settings::ApplicationController
   end
 
   def set_links
-    @links = @page.links.footer.where(link_type: 'link').order(:order)
-    @social_media_links = @page.links.where(link_type: 'social_media')
+    @links = @page.links.footer.where(link_type: "link").order(:order)
+    @social_media_links = @page.links.where(link_type: "social_media")
   end
 end
-

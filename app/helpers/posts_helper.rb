@@ -9,10 +9,10 @@ module PostsHelper
 
   def sort_text(sort)
     {
-      'newest' => 'Newest first',
-      'oldest' => 'Oldest first',
-      'title_asc' => 'Title A-Z',
-      'title_desc' => 'Title Z-A'
-    }[sort] || 'Newest first'
+      "newest" => "Newest first",
+      "oldest" => "Oldest first",
+      "title_asc" => "Title A-Z",
+      "title_desc" => "Title Z-A"
+    }[sort] || "Newest first"
   end
 end

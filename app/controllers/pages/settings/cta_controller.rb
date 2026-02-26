@@ -23,6 +23,4 @@ class Pages::Settings::CtaController < Pages::Settings::ApplicationController
       :cta_enabled,
     )
   end
-
 end
-

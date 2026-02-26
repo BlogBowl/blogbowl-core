@@ -2,7 +2,7 @@ module API
   module V1
     class CategoriesController < BaseController
       before_action :set_page
-      before_action :set_category, only: [:show, :update, :destroy]
+      before_action :set_category, only: [ :show, :update, :destroy ]
 
       def_param_group :category_output do
         property :id, Integer, desc: "Category ID"
@@ -17,11 +17,11 @@ module API
       end
 
       def_param_group :pagination do
-        param :page, :number, desc: "Page number (default: 1)"
-        param :size, :number, desc: "Items per page (default: 10, max: 100)"
+        param :page, :number, desc: "Page number", default_value: 1
+        param :size, :number, desc: "Items per page (max: 100)", default_value: 10
       end
 
-      api :GET, '/pages/:page_id/categories', "List all categories for a page"
+      api :GET, "/pages/:page_id/categories", "List all categories for a page"
       param :page_id, :number, required: true, desc: "Page ID"
       param_group :pagination
       returns code: 200, desc: "Paginated list of categories"
@@ -29,7 +29,7 @@ module API
         render_collection(@page.categories.order(created_at: :desc)) { |category| category_json(category) }
       end
 
-      api :GET, '/pages/:page_id/categories/:id', "Get a specific category"
+      api :GET, "/pages/:page_id/categories/:id", "Get a specific category"
       param :page_id, :number, required: true, desc: "Page ID"
       param :id, :number, required: true, desc: "Category ID"
       returns code: 200, desc: "Category details" do
@@ -39,7 +39,7 @@ module API
         render_resource(@category) { |category| category_json(category) }
       end
 
-      api :POST, '/pages/:page_id/categories', "Create a new category"
+      api :POST, "/pages/:page_id/categories", "Create a new category"
       param :page_id, :number, required: true, desc: "Page ID"
       param :category, Hash, desc: "Category info", required: true do
         param :name, String, desc: "Category name", required: true
@@ -60,7 +60,7 @@ module API
         end
       end
 
-      api :PATCH, '/pages/:page_id/categories/:id', "Update a category"
+      api :PATCH, "/pages/:page_id/categories/:id", "Update a category"
       param :page_id, :number, required: true, desc: "Page ID"
       param :id, :number, required: true, desc: "Category ID"
       param :category, Hash, desc: "Category info", required: true do
@@ -81,7 +81,7 @@ module API
         end
       end
 
-      api :DELETE, '/pages/:page_id/categories/:id', "Delete a category"
+      api :DELETE, "/pages/:page_id/categories/:id", "Delete a category"
       param :page_id, :number, required: true, desc: "Page ID"
       param :id, :number, required: true, desc: "Category ID"
       returns code: 204, desc: "Category deleted"

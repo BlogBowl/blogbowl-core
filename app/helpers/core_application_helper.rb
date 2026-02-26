@@ -1,5 +1,5 @@
-require 'digest'
-require 'uri'
+require "digest"
+require "uri"
 
 module CoreApplicationHelper
   include SocialMediaHelper
@@ -19,10 +19,8 @@ module CoreApplicationHelper
     size = 200
 
     # Compile the full URL with URI encoding for the parameters
-    params = URI.encode_www_form('d' => 'mp', 's' => size, 'r' => 'g')
+    params = URI.encode_www_form("d" => "mp", "s" => size, "r" => "g")
     # r=g&d=blank
     "https://www.gravatar.com/avatar/#{hash}?#{params}"
   end
-
-
 end

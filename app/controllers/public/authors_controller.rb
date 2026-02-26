@@ -1,7 +1,7 @@
 class Public::AuthorsController < Public::PageApplicationController
   include Pagy::Backend
 
-  before_action :set_author, only: [:show]
+  before_action :set_author, only: [ :show ]
 
   def index
     @pagy, @authors = pagy(@page.authors, page: params[:page] || 1)

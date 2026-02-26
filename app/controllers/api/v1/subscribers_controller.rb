@@ -16,11 +16,11 @@ module API
       end
 
       def_param_group :pagination do
-        param :page, :number, desc: "Page number (default: 1)"
-        param :size, :number, desc: "Items per page (default: 10, max: 100)"
+        param :page, :number, desc: "Page number", default_value: 1
+        param :size, :number, desc: "Items per page (max: 100)", default_value: 10
       end
 
-      api :GET, '/newsletters/:newsletter_id/subscribers', "List all subscribers for a newsletter"
+      api :GET, "/newsletters/:newsletter_id/subscribers", "List all subscribers for a newsletter"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
       param :status, String, desc: "Filter by status"
       param :verified, :boolean, desc: "Filter by verification status"
@@ -33,7 +33,7 @@ module API
         render_collection(subscribers) { |subscriber| subscriber_json(subscriber) }
       end
 
-      api :POST, '/newsletters/:newsletter_id/subscribers', "Create a subscriber (upsert by email)"
+      api :POST, "/newsletters/:newsletter_id/subscribers", "Create a subscriber (upsert by email)"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
       param :subscriber, Hash, desc: "Subscriber info", required: true do
         param :email, String, desc: "Subscriber email", required: true
@@ -51,7 +51,7 @@ module API
         end
 
         @subscriber = @newsletter.subscribers.new(subscriber_params)
-        @subscriber.status = 'pending'
+        @subscriber.status = "pending"
         @subscriber.ip_address = request.remote_ip
 
         if @subscriber.save
@@ -61,7 +61,7 @@ module API
         end
       end
 
-      api :DELETE, '/newsletters/:newsletter_id/subscribers/:id', "Remove a subscriber"
+      api :DELETE, "/newsletters/:newsletter_id/subscribers/:id", "Remove a subscriber"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
       param :id, :number, required: true, desc: "Subscriber ID"
       returns code: 204, desc: "Subscriber deleted"

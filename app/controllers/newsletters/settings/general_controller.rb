@@ -1,5 +1,4 @@
 class Newsletters::Settings::GeneralController < Newsletters::Settings::ApplicationController
-
   def edit
   end
 
@@ -17,7 +16,6 @@ class Newsletters::Settings::GeneralController < Newsletters::Settings::Applicat
   private
 
   def newsletter_setting_params
-    params.require(:newsletter_setting).permit(:footer, :logo, :remove_logo, newsletter_attributes: [:name])
+    params.require(:newsletter_setting).permit(:footer, :logo, :remove_logo, newsletter_attributes: [ :name ])
   end
-
 end

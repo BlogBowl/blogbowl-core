@@ -2,7 +2,7 @@ module NewslettersControllerConcern
   extend ActiveSupport::Concern
 
   included do
-    layout 'dashboard'
+    layout "dashboard"
     before_action :ensure_postmark_is_configured, only: %i[create new]
   end
 
@@ -22,7 +22,7 @@ module NewslettersControllerConcern
     @newsletter = @workspace.newsletters.build(newsletter_param)
 
     if @newsletter.save
-      flash[:notice] = 'New page was created successfully.'
+      flash[:notice] = "New page was created successfully."
       redirect_to newsletters_newsletter_emails_path(@newsletter)
     else
       flash.now[:alert] = @newsletter.errors.full_messages.to_sentence

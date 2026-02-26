@@ -1,7 +1,7 @@
 class Newsletters::NewsletterEmailsController < Newsletters::ApplicationController
   include Pagy::Backend
 
-  before_action :set_email, only: [:edit]
+  before_action :set_email, only: [ :edit ]
 
   layout :determine_layout
 
@@ -16,11 +16,9 @@ class Newsletters::NewsletterEmailsController < Newsletters::ApplicationControll
   end
 
   def edit
-
   end
 
   def destroy
-
   end
 
   private
@@ -34,11 +32,10 @@ class Newsletters::NewsletterEmailsController < Newsletters::ApplicationControll
 
   def determine_layout
     case action_name
-    when 'new', 'edit'
-      'editor'
+    when "new", "edit"
+      "editor"
     else
-      'newsletter_dashboard' # Default layout for other actions
+      "newsletter_dashboard" # Default layout for other actions
     end
   end
-
 end
