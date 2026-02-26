@@ -1,4 +1,5 @@
 import { parseToTipTapJson, parseToTipTapHtml } from './tiptap';
+import { marked } from 'marked';
 
 const [,, command] = process.argv;
 
@@ -18,6 +19,9 @@ async function main() {
         break;
       case 'json-to-html':
         result = parseToTipTapHtml(JSON.parse(input));
+        break;
+      case 'md-to-html':
+        result = await marked(input);
         break;
       default:
         console.error(JSON.stringify({ success: false, error: `Unknown command: ${command}` }));

@@ -57,7 +57,7 @@ module API
       param :post, Hash, desc: "Post info", required: true do
         param :title, String, desc: "Post title", required: true
         param :content_html, String, desc: "Post content in HTML"
-        param :content_json, Hash, desc: "Post content in TipTap JSON"
+        param :content_md, String, desc: "Post content in Markdown"
         param :description, String, desc: "Post description"
         param :category_id, :number, desc: "Category ID"
         param :seo_title, String, desc: "SEO title"
@@ -83,7 +83,7 @@ module API
       param :post, Hash, desc: "Post info", required: true do
         param :title, String, desc: "Post title"
         param :content_html, String, desc: "Post content in HTML"
-        param :content_json, Hash, desc: "Post content in TipTap JSON"
+        param :content_md, String, desc: "Post content in Markdown"
         param :description, String, desc: "Post description"
         param :category_id, :number, desc: "Category ID"
         param :seo_title, String, desc: "SEO title"
@@ -157,9 +157,8 @@ module API
 
       def post_params
         params.require(:post).permit(
-          :title, :content_html, :description, :category_id,
-          :seo_title, :seo_description, :og_title, :og_description,
-          content_json: {}
+          :title, :content_html, :content_md, :description, :category_id,
+          :seo_title, :seo_description, :og_title, :og_description
         )
       end
 

@@ -17,6 +17,10 @@ class TiptapConverter
       execute_conversion("json-to-html", json_string)
     end
 
+    def md_to_html(markdown)
+      execute_conversion("md-to-html", markdown)
+    end
+
     private
 
     def execute_conversion(command, input)

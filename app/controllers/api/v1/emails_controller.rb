@@ -52,7 +52,7 @@ module API
         param :subject, String, desc: "Email subject", required: true
         param :preview, String, desc: "Email preview text"
         param :content_html, String, desc: "Email HTML content"
-        param :content_json, Hash, desc: "Email JSON content"
+        param :content_md, String, desc: "Email content in Markdown"
         param :author_id, Integer, desc: "Author ID"
       end
       returns code: 201, desc: "Created email" do
@@ -76,7 +76,7 @@ module API
         param :subject, String, desc: "Email subject"
         param :preview, String, desc: "Email preview text"
         param :content_html, String, desc: "Email HTML content"
-        param :content_json, Hash, desc: "Email JSON content"
+        param :content_md, String, desc: "Email content in Markdown"
         param :author_id, Integer, desc: "Author ID"
       end
       returns code: 200, desc: "Updated email" do
@@ -166,7 +166,7 @@ module API
       end
 
       def email_params
-        params.require(:email).permit(:subject, :preview, :content_html, :content_json, :author_id)
+        params.require(:email).permit(:subject, :preview, :content_html, :content_md, :author_id)
       end
 
       def email_json(email)
