@@ -8,5 +8,9 @@ module Core
     # in config/routes.rb. Without this, standalone mode (CI) loads routes
     # twice, causing "Invalid route name, already in use" errors.
     paths["config/routes.rb"] = []
+
+    # Same issue for migrations: in standalone mode the engine would add
+    # db/migrate a second time, causing DuplicateMigrationNameError.
+    paths["db/migrate"] = []
   end
 end
