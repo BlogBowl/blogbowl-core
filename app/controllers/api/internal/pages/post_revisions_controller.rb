@@ -16,7 +16,7 @@ class API::Internal::Pages::PostRevisionsController < API::Internal::Pages::Appl
   def update_last
     authorize! :edit, @post
     post_revision = @post.post_revisions.last
-    render json: { error: 'Post does not have any revision' }, status: :conflict and return if post_revision.nil?
+    render json: { error: "Post does not have any revision" }, status: :conflict and return if post_revision.nil?
 
     if post_revision.update(post_revision_params)
       render json: post_revision.as_json.merge({ slug: @post.slug })
@@ -27,13 +27,13 @@ class API::Internal::Pages::PostRevisionsController < API::Internal::Pages::Appl
 
   def show_last
     post_revision = @post.post_revisions.last
-    render json: { error: 'Post revision not found' }, status: :not_found and return if post_revision.nil?
+    render json: { error: "Post revision not found" }, status: :not_found and return if post_revision.nil?
     render json: @post.post_revisions.last
   end
 
   def apply_last
     post_revision = @post.post_revisions.last
-    render json: { error: 'Post does not have any revision' }, status: :conflict and return if post_revision.nil?
+    render json: { error: "Post does not have any revision" }, status: :conflict and return if post_revision.nil?
 
     post_revision.apply!
     render json: post_revision, status: :ok

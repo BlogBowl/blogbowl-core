@@ -3,12 +3,12 @@ module BreadcrumbHelper
     breadcrumbs = [
       {
         title: "Home",
-        url: dynamic_prefix('/')
+        url: dynamic_prefix("/")
       },
       {
         title: "Categories",
         url: get_full_url(dynamic_prefix(public_categories_path))
-      },
+      }
     ]
 
     # Add the parent category breadcrumb if it exists
@@ -25,7 +25,7 @@ module BreadcrumbHelper
     [
       {
         title: "Home",
-        url: dynamic_prefix('/')
+        url: dynamic_prefix("/")
       },
       {
         title: "Authors",
@@ -41,10 +41,10 @@ module BreadcrumbHelper
     [
       {
         title: "Home",
-        url: dynamic_prefix('/')
+        url: dynamic_prefix("/")
       },
       {
-        title: title,
+        title: title
       }
     ]
   end
@@ -63,6 +63,4 @@ module BreadcrumbHelper
       end.join(' <i class="iconoir-nav-arrow-right text-xl"></i> ').html_safe
     end
   end
-
-
 end

@@ -11,7 +11,7 @@ module Models::WorkspaceConcern
     has_many :authors, through: :members
     has_many :newsletter_emails, dependent: :destroy
     has_many :api_tokens, dependent: :destroy
-    has_one :settings, dependent: :destroy, class_name: 'WorkspaceSetting'
+    has_one :settings, dependent: :destroy, class_name: "WorkspaceSetting"
 
     before_validation :generate_uuid, on: :create
 
@@ -69,23 +69,22 @@ module Models::WorkspaceConcern
   def after_create
     # We create newsletter only if Postmark account token is present
     if FeatureGuard.enabled?(:postmark)
-      newsletters.create!(workspace: self, name: 'Default Newsletter', name_slug: 'default-newsletter', uuid: uuid)
+      newsletters.create!(workspace: self, name: "Default Newsletter", name_slug: "default-newsletter", uuid: uuid)
     end
 
-    pages.create!(workspace: self, slug: 'blog', name: 'My blog')
+    pages.create!(workspace: self, slug: "blog", name: "My blog")
 
     create_default_setting
   end
 
   def create_default_setting
     create_settings(
-      html_lang: 'en',
-      locale: 'en-US'
+      html_lang: "en",
+      locale: "en-US"
     )
   end
 
   def generate_uuid
     self.uuid = SecureRandom.uuid
   end
-
 end

@@ -1,9 +1,9 @@
 module Authors
   class AuthorLinksController < ApplicationController
-    layout 'dashboard'
+    layout "dashboard"
 
     before_action :set_author
-    before_action :set_link, only: [:edit, :update, :destroy]
+    before_action :set_link, only: [ :edit, :update, :destroy ]
     before_action :set_social_media_options
 
     def new
@@ -16,7 +16,7 @@ module Authors
       if @link.save
         respond_to do |format|
           format.turbo_stream { render turbo_stream: turbo_stream.append("social_media_list", partial: "authors/links/link", locals: { link: @link }) }
-          format.html { redirect_to edit_author_path, notice: 'Link was successfully created.' }
+          format.html { redirect_to edit_author_path, notice: "Link was successfully created." }
         end
       else
         render :new, status: :unprocessable_entity
@@ -31,7 +31,7 @@ module Authors
       if @link.update(link_params)
         respond_to do |format|
           format.turbo_stream { render turbo_stream: turbo_stream.replace(ActionView::RecordIdentifier.dom_id(@link), partial: "authors/links/link", locals: { link: @link }) }
-          format.html { redirect_to edit_author_path, notice: 'Link was successfully updated.' }
+          format.html { redirect_to edit_author_path, notice: "Link was successfully updated." }
         end
       else
         render :edit, status: :unprocessable_entity
@@ -41,7 +41,7 @@ module Authors
     def destroy
       @link.destroy
       respond_to do |format|
-        format.html { redirect_to edit_author_path, notice: 'Link was successfully deleted.' }
+        format.html { redirect_to edit_author_path, notice: "Link was successfully deleted." }
       end
     end
 
@@ -72,7 +72,7 @@ module Authors
         %w[Telegram telegram],
         %w[Discord discord],
         %w[Mastodon mastodon],
-        %w[GitHub github],
+        %w[GitHub github]
       ]
     end
   end

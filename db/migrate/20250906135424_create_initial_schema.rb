@@ -2,7 +2,6 @@
 # This migration comes from core_engine (originally 20250906135424)
 class CreateInitialSchema < ActiveRecord::Migration[8.0]
   def change
-
     # workspace & settings
     create_table :workspaces do |t|
       t.string :title, null: false
@@ -69,7 +68,7 @@ class CreateInitialSchema < ActiveRecord::Migration[8.0]
     add_index :newsletters, :postmark_server_id, unique: true
     add_index :newsletters, :postmark_server_token, unique: true
     add_index :newsletters, :uuid, unique: true
-    add_index :newsletters, [:workspace_id, :name_slug], unique: true
+    add_index :newsletters, [ :workspace_id, :name_slug ], unique: true
 
     create_table :newsletter_emails, force: :cascade do |t|
       t.string :subject
@@ -124,7 +123,7 @@ class CreateInitialSchema < ActiveRecord::Migration[8.0]
       t.timestamps
     end
     add_index :pages, :domain, unique: true
-    add_index :pages, [:workspace_id, :name_slug], unique: true
+    add_index :pages, [ :workspace_id, :name_slug ], unique: true
 
     create_table :page_settings do |t|
       t.references :page, null: false, foreign_key: { on_delete: :cascade }
@@ -173,10 +172,10 @@ class CreateInitialSchema < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :categories, [:page_id, :parent_id, :name], unique: true, name: 'index_categories_on_page_id_and_parent_id_and_name', where: 'parent_id IS NOT NULL'
-    add_index :categories, [:page_id, :name], unique: true, name: 'index_categories_on_page_id_and_name', where: 'parent_id IS NULL'
-    add_index :categories, [:page_id, :parent_id, :slug], unique: true, name: 'index_categories_on_page_id_and_parent_id_and_slug', where: 'parent_id IS NOT NULL'
-    add_index :categories, [:page_id, :slug], unique: true, name: 'index_categories_on_page_id_and_slug', where: 'parent_id IS NULL'
+    add_index :categories, [ :page_id, :parent_id, :name ], unique: true, name: 'index_categories_on_page_id_and_parent_id_and_name', where: 'parent_id IS NOT NULL'
+    add_index :categories, [ :page_id, :name ], unique: true, name: 'index_categories_on_page_id_and_name', where: 'parent_id IS NULL'
+    add_index :categories, [ :page_id, :parent_id, :slug ], unique: true, name: 'index_categories_on_page_id_and_parent_id_and_slug', where: 'parent_id IS NOT NULL'
+    add_index :categories, [ :page_id, :slug ], unique: true, name: 'index_categories_on_page_id_and_slug', where: 'parent_id IS NULL'
 
     create_table :links, force: :cascade do |t|
       t.string :title
@@ -209,7 +208,7 @@ class CreateInitialSchema < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    add_index :posts, [:page_id, :slug], unique: true
+    add_index :posts, [ :page_id, :slug ], unique: true
 
     create_table :post_authors do |t|
       t.references :post, null: false, foreign_key: { on_delete: :cascade }

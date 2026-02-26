@@ -5,6 +5,4 @@ class Newsletters::ApplicationController < ApplicationController
     @newsletter = @workspace.newsletters.find_by(name_slug: params[:newsletter_id])
     @newsletter_settings = @newsletter.settings
   end
-
-
 end

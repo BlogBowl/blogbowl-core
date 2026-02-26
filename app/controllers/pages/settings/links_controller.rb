@@ -1,5 +1,5 @@
 class Pages::Settings::LinksController < Pages::Settings::ApplicationController
-  before_action :set_link, only: [:edit, :update, :destroy]
+  before_action :set_link, only: [ :edit, :update, :destroy ]
   before_action :set_social_media_options
 
   def new
@@ -11,7 +11,7 @@ class Pages::Settings::LinksController < Pages::Settings::ApplicationController
     @link = @page.links.new(link_params)
     if @link.save
       respond_to do |format|
-        if link_params[:link_type] == 'social_media'
+        if link_params[:link_type] == "social_media"
           format.turbo_stream { render turbo_stream: turbo_stream.append("social_media_list", partial: "pages/settings/links/link", locals: { link: @link }) }
         else
           format.turbo_stream { render turbo_stream: turbo_stream.append("links_list", partial: "pages/settings/links/link", locals: { link: @link }) }
@@ -63,8 +63,7 @@ class Pages::Settings::LinksController < Pages::Settings::ApplicationController
       %w[Telegram telegram],
       %w[Discord discord],
       %w[Mastodon mastodon],
-      %w[GitHub github],
+      %w[GitHub github]
     ]
   end
 end
-

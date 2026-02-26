@@ -16,7 +16,7 @@ module ApplicationControllerConcern
   end
 
   def render_not_found
-    render :file => "#{Rails.root}/public/404.html", status: :not_found, layout: false
+    render file: "#{Rails.root}/public/404.html", status: :not_found, layout: false
   end
 
   def has_available_session?
@@ -24,7 +24,7 @@ module ApplicationControllerConcern
   end
 
   def set_session_cookie(session)
-    cookie_domain = ['', 'analytics.'].map do |subdomain|
+    cookie_domain = [ "", "analytics." ].map do |subdomain|
       subdomain + Rails.application.routes.default_url_options[:host]
     end
     cookies.signed.permanent[:session_token] =

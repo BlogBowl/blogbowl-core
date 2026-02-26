@@ -17,13 +17,13 @@ class API::Internal::Pages::PostsController < API::Internal::Pages::ApplicationC
 
     params = post_params
     unless params[:author_ids].nil?
-      @post.post_authors = @post.post_authors.reject { _1.role == 'author' }
-      @post.post_authors << params[:author_ids].map { PostAuthor.build(post: @post, author_id: _1, role: 'author') }
+      @post.post_authors = @post.post_authors.reject { _1.role == "author" }
+      @post.post_authors << params[:author_ids].map { PostAuthor.build(post: @post, author_id: _1, role: "author") }
       params.delete(:author_ids)
     end
     unless params[:reviewer_ids].nil?
-      @post.post_authors = @post.post_authors.reject { _1.role == 'reviewer' }
-      @post.post_authors << params[:reviewer_ids].map { PostAuthor.build(post: @post, author_id: _1, role: 'reviewer') }
+      @post.post_authors = @post.post_authors.reject { _1.role == "reviewer" }
+      @post.post_authors << params[:reviewer_ids].map { PostAuthor.build(post: @post, author_id: _1, role: "reviewer") }
       params.delete(:reviewer_ids)
     end
 
@@ -71,7 +71,7 @@ class API::Internal::Pages::PostsController < API::Internal::Pages::ApplicationC
     end
 
     Sidekiq::ScheduledSet.new.find_job(@post.job_id)&.delete
-    @post.update(job_id: nil, status: 'draft', scheduled_at: nil)
+    @post.update(job_id: nil, status: "draft", scheduled_at: nil)
 
     render json: @post, status: :ok
   end

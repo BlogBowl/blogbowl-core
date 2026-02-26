@@ -4,9 +4,9 @@ module Pages::PostsControllerConcern
   included do
     include Pagy::Backend
 
-    before_action :set_post, only: [:edit, :destroy, :publish]
+    before_action :set_post, only: [ :edit, :destroy, :publish ]
 
-    layout "editor", :only => [:new, :edit]
+    layout "editor", only: [ :new, :edit ]
   end
 
   def index
@@ -28,7 +28,7 @@ module Pages::PostsControllerConcern
     authorize! :destroy, @post
 
     if @post.update(archived_at: Time.current)
-      flash[:notice] = 'Post was successfully archived.'
+      flash[:notice] = "Post was successfully archived."
       redirect_to pages_posts_path
     else
       flash[:alert] = @post.errors.full_messages.to_sentence
@@ -40,7 +40,7 @@ module Pages::PostsControllerConcern
     authorize! :edit, @post
 
     @post.publish!
-    flash[:notice] = 'Post was successfully published.'
+    flash[:notice] = "Post was successfully published."
     redirect_to pages_posts_path
   rescue ActiveRecord::RecordInvalid => e
     flash[:alert] = e.record.errors.full_messages.to_sentence
@@ -52,8 +52,8 @@ module Pages::PostsControllerConcern
     render_not_found and return if @post.nil?
     authorize! :edit, @post
 
-    if @post.update(status: 'draft', archived_at: nil)
-      flash[:notice] = 'Post was successfully drafted.'
+    if @post.update(status: "draft", archived_at: nil)
+      flash[:notice] = "Post was successfully drafted."
       redirect_to pages_posts_path
     else
       flash[:alert] = @post.errors.full_messages.to_sentence
@@ -68,11 +68,11 @@ module Pages::PostsControllerConcern
     if params[:status].present?
       @selected_status = params[:status]
       case params[:status]
-      when 'published'
+      when "published"
         @posts = @posts.where(status: :published)
-      when 'draft'
+      when "draft"
         @posts = @posts.where(status: :draft)
-      when 'archived'
+      when "archived"
         @posts = @page.posts.unscoped.where.not(archived_at: nil)
       end
     end
@@ -97,11 +97,11 @@ module Pages::PostsControllerConcern
     if params[:sort].present?
       @selected_sort = params[:sort]
       case params[:sort]
-      when 'oldest'
+      when "oldest"
         @posts = @posts.order(created_at: :asc)
-      when 'title_asc'
+      when "title_asc"
         @posts = @posts.order(title: :asc)
-      when 'title_desc'
+      when "title_desc"
         @posts = @posts.order(title: :desc)
       else
         @posts = @posts.order(created_at: :desc)
@@ -109,7 +109,6 @@ module Pages::PostsControllerConcern
     else
       @posts = @posts.order(created_at: :desc)
     end
-
   end
 
   def current_ability

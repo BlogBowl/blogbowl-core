@@ -17,5 +17,4 @@ module API::Internal::ApplicationControllerConcern
     end
     render json: { errors: "Unauthorized" }, status: :unauthorized
   end
-
 end

@@ -15,6 +15,6 @@ class Settings::GeneralController < Settings::ApplicationController
   private
 
   def workspace_settings_params
-    params.require(:workspace_setting).permit(:html_lang, :locale, :og_image, :favicon, :logo, :with_watermark, workspace_attributes: [:title])
+    params.require(:workspace_setting).permit(:html_lang, :locale, :og_image, :favicon, :logo, :with_watermark, workspace_attributes: [ :title ])
   end
 end

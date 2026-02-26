@@ -20,9 +20,9 @@ module Models::PageSettingConcern
     has_one_attached :favicon
     removable_attachment_for :favicon
 
-    validates :og_image, processable_file: true, size: { less_than: 5.megabytes, message: 'is too large' }
-    validates :logo, processable_file: true, size: { less_than: 5.megabytes, message: 'is too large' }
-    validates :favicon, processable_file: true, size: { less_than: 512.kilobytes, message: 'is too large' }
+    validates :og_image, processable_file: true, size: { less_than: 5.megabytes, message: "is too large" }
+    validates :logo, processable_file: true, size: { less_than: 5.megabytes, message: "is too large" }
+    validates :favicon, processable_file: true, size: { less_than: 512.kilobytes, message: "is too large" }
 
     before_save :set_name
   end

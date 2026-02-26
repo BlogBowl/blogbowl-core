@@ -9,5 +9,4 @@ class Pages::SettingsController < Pages::ApplicationController
   def current_ability
     @current_ability ||= WorkspaceAbility.new(current_user)
   end
-
 end

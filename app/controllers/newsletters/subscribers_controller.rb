@@ -1,5 +1,5 @@
 class Newsletters::SubscribersController < Newsletters::ApplicationController
-  layout 'newsletter_dashboard'
+  layout "newsletter_dashboard"
   include Pagy::Backend
 
   def index
@@ -7,6 +7,4 @@ class Newsletters::SubscribersController < Newsletters::ApplicationController
     # apply_filters
     @pagy, @subscribers = pagy(@newsletter.subscribers.order(created_at: :desc), page: params[:page] || 1, limit: 10)
   end
-
-
 end

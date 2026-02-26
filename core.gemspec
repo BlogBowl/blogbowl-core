@@ -3,8 +3,8 @@ require_relative "lib/core/version"
 Gem::Specification.new do |spec|
   spec.name = "core"
   spec.version = Core::VERSION
-  spec.authors = ["SOMF"]
-  spec.email = ["general@blogbowl.io"]
+  spec.authors = [ "SOMF" ]
+  spec.email = [ "general@blogbowl.io" ]
   spec.homepage = "https://blogbowl.io"
   spec.summary = "Summary of Core."
   spec.description = "Description of Core."
@@ -61,5 +61,3 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'apipie-rails'
 end
-
-

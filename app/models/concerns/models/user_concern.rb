@@ -36,13 +36,13 @@ module Models::UserConcern
   def avatar(size: 1)
     return avatar_placeholder(size: size, initials: "AA") if email.blank?
     initials = email[0].upcase + email[1].upcase
-    initials = [first_name, last_name].map { _1[0].upcase }.join if first_name.present? && last_name.present?
+    initials = [ first_name, last_name ].map { _1[0].upcase }.join if first_name.present? && last_name.present?
 
     avatar_placeholder(size: size, initials: initials)
   end
 
   def using_default_password?
-    BCrypt::Password.new(password_digest) == 'changeme'
+    BCrypt::Password.new(password_digest) == "changeme"
   end
 
   def notice_dismissed?(key)
@@ -53,7 +53,7 @@ module Models::UserConcern
 
   def after_create
     workspace = Workspace.new(title: "My Workspace")
-    members.create!(workspace:, permissions: ["owner"])
+    members.create!(workspace:, permissions: [ "owner" ])
     author = members.first.create_or_activate_author!
 
     # This creates default published post

@@ -1,5 +1,4 @@
 class Pages::Settings::CodeController < Pages::Settings::ApplicationController
-
   def edit
   end
 
@@ -17,7 +16,7 @@ class Pages::Settings::CodeController < Pages::Settings::ApplicationController
         render :edit, status: :unprocessable_entity
       end
     else
-      flash.now[:alert] = 'Invalid HTML content: ' + html_errors
+      flash.now[:alert] = "Invalid HTML content: " + html_errors
       render :edit, status: :unprocessable_entity
     end
   end
@@ -39,4 +38,3 @@ class Pages::Settings::CodeController < Pages::Settings::ApplicationController
     errors.map(&:to_s).join('\n\n')
   end
 end
-

@@ -15,7 +15,6 @@ class Pages::Settings::GeneralController < Pages::Settings::ApplicationControlle
   private
 
   def page_setting_params
-    params.require(:page_setting).permit(:seo_title, :seo_description, :title, :description, :og_image, :remove_og_image, :favicon, :remove_favicon, page_attributes: [:name, :slug])
+    params.require(:page_setting).permit(:seo_title, :seo_description, :title, :description, :og_image, :remove_og_image, :favicon, :remove_favicon, page_attributes: [ :name, :slug ])
   end
 end
-

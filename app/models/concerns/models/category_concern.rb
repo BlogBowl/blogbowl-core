@@ -5,10 +5,10 @@ module Models::CategoryConcern
     include ConvertToWebp
     include AttachmentDeletable
 
-    belongs_to :parent, class_name: 'Category', optional: true
+    belongs_to :parent, class_name: "Category", optional: true
     belongs_to :page, optional: false
 
-    has_many :children, class_name: 'Category', foreign_key: 'parent_id', dependent: :destroy
+    has_many :children, class_name: "Category", foreign_key: "parent_id", dependent: :destroy
     has_many :posts
 
     has_one_attached :image
@@ -22,11 +22,11 @@ module Models::CategoryConcern
     before_validation :generate_slug
     before_update :keep_single_image
 
-    validates :name, presence: true, uniqueness: { scope: [:page_id, :parent_id] }
-    validates :slug, presence: true, uniqueness: { scope: [:page_id, :parent_id] }
+    validates :name, presence: true, uniqueness: { scope: [ :page_id, :parent_id ] }
+    validates :slug, presence: true, uniqueness: { scope: [ :page_id, :parent_id ] }
 
-    validates :image, processable_file: true, size: { less_than: 5.megabytes, message: 'is too large' }
-    validates :og_image, processable_file: true, size: { less_than: 5.megabytes, message: 'is too large' }
+    validates :image, processable_file: true, size: { less_than: 5.megabytes, message: "is too large" }
+    validates :og_image, processable_file: true, size: { less_than: 5.megabytes, message: "is too large" }
   end
 
   def to_param

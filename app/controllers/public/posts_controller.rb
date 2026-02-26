@@ -1,13 +1,13 @@
 class Public::PostsController < Public::PageApplicationController
-  before_action :set_post, only: [:show]
+  before_action :set_post, only: [ :show ]
 
   def show
     if @post.nil?
       render_not_found
       return
     end
-    @authors = @post.authors.where(post_authors: { role: 'author' })
-    @reviewers = @post.authors.where(post_authors: { role: 'reviewer' })
+    @authors = @post.authors.where(post_authors: { role: "author" })
+    @reviewers = @post.authors.where(post_authors: { role: "reviewer" })
     @main_author = @authors.first
 
     # Get contributing authors (excluding main author)

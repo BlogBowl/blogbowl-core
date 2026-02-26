@@ -9,7 +9,7 @@ class API::Internal::Pages::ImagesController < API::Internal::Pages::Application
         url: url_for(attachment)
       }, status: :created
     else
-      render json: { error: 'Failed to save image' }, status: :unprocessable_entity
+      render json: { error: "Failed to save image" }, status: :unprocessable_entity
     end
   end
 

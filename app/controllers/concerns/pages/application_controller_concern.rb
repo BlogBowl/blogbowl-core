@@ -10,5 +10,4 @@ module Pages::ApplicationControllerConcern
     @page = @workspace.pages.find_by(name_slug: params[:page_id])
     @page_settings = @page.settings
   end
-
 end

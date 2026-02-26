@@ -1,18 +1,18 @@
 module StructuredDataHelper
   def article_structured_data(article, breadcrumbs)
-    content_tag(:script, post_structured_data_objects(article, breadcrumbs).to_json.html_safe, type: 'application/ld+json')
+    content_tag(:script, post_structured_data_objects(article, breadcrumbs).to_json.html_safe, type: "application/ld+json")
   end
 
   def profile_structured_data(author, breadcrumbs)
-    content_tag(:script, profile_structured_data_objects(author, breadcrumbs).to_json.html_safe, type: 'application/ld+json')
+    content_tag(:script, profile_structured_data_objects(author, breadcrumbs).to_json.html_safe, type: "application/ld+json")
   end
 
   def category_structured_data(category, breadcrumbs)
-    content_tag(:script, category_structured_data_object(category, breadcrumbs).to_json.html_safe, type: 'application/ld+json')
+    content_tag(:script, category_structured_data_object(category, breadcrumbs).to_json.html_safe, type: "application/ld+json")
   end
 
   def main_structured_data
-    content_tag(:script, main_structured_data_objects.to_json.html_safe, type: 'application/ld+json')
+    content_tag(:script, main_structured_data_objects.to_json.html_safe, type: "application/ld+json")
   end
 
   private
@@ -24,7 +24,7 @@ module StructuredDataHelper
       "@context": "https://schema.org",
       "@graph": [
         website_data,
-        organization_data,
+        organization_data
       ]
     }
   end
@@ -39,7 +39,7 @@ module StructuredDataHelper
         organization_data,
         primary_image(article),
         breadcrumbs_data(breadcrumbs),
-        *article.authors.map { |author| author_data(author) },
+        *article.authors.map { |author| author_data(author) }
       ]
     }
   end
@@ -100,7 +100,7 @@ module StructuredDataHelper
       "articleSection": article.category.present? ? [
         article.category.name
       ] : [],
-      "inLanguage": @workspace_settings.locale,
+      "inLanguage": @workspace_settings.locale
     }
   end
 
@@ -127,7 +127,7 @@ module StructuredDataHelper
       "potentialAction": [
         {
           "@type": "ReadAction",
-          "target": [get_full_url(dynamic_prefix(public_post_path(article)))]
+          "target": [ get_full_url(dynamic_prefix(public_post_path(article))) ]
         }
       ],
       "reviewedBy": article.reviewers.map do |reviewer|
@@ -151,7 +151,7 @@ module StructuredDataHelper
           "@type": "SearchAction",
           "target": {
             "@type": "EntryPoint",
-            "urlTemplate": get_full_url(dynamic_prefix('archive/?s={search_term_string}'))
+            "urlTemplate": get_full_url(dynamic_prefix("archive/?s={search_term_string}"))
           },
           "query-input": {
             "@type": "PropertyValueSpecification",
@@ -160,7 +160,7 @@ module StructuredDataHelper
           }
         }
       ],
-      "inLanguage": @workspace_settings.locale,
+      "inLanguage": @workspace_settings.locale
     }
   end
 
@@ -254,15 +254,15 @@ module StructuredDataHelper
         "@id": "#{get_full_url(dynamic_prefix(''))}/#website"
       },
       "description": category.description,
-      "inLanguage": @workspace_settings.locale,
+      "inLanguage": @workspace_settings.locale
     }
   end
 
   def main_page_data
     {
       "@type": "WebPage",
-      "@id": get_full_url(dynamic_prefix('')),
-      "url": get_full_url(dynamic_prefix('')),
+      "@id": get_full_url(dynamic_prefix("")),
+      "url": get_full_url(dynamic_prefix("")),
       "name": "#{@page_settings.name} | #{@page_settings.title}",
       "isPartOf": {
         "@id": "#{get_full_url(dynamic_prefix(''))}/#website"
@@ -278,7 +278,7 @@ module StructuredDataHelper
         {
           "@type": "ReadAction",
           "target": [
-            get_full_url(dynamic_prefix(''))
+            get_full_url(dynamic_prefix(""))
           ]
         }
       ]
@@ -299,5 +299,4 @@ module StructuredDataHelper
       end
     }
   end
-
 end

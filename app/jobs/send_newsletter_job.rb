@@ -1,8 +1,7 @@
-require 'net/http'
-require 'postmark'
+require "net/http"
+require "postmark"
 
 class SendNewsletterJob < ApplicationJob
-
   queue_as :newsletter
 
   def perform(email_id, newsletter_id)
@@ -27,7 +26,7 @@ class SendNewsletterJob < ApplicationJob
       Messages: subscribers.map { |subscriber| { To: subscriber } }
     }
 
-    response = postmark_client.post('email/bulk', payload.to_json)
+    response = postmark_client.post("email/bulk", payload.to_json)
 
     id = response["Id"]
     email.update(postmark_bulk_id: id)
@@ -43,7 +42,7 @@ class SendNewsletterJob < ApplicationJob
 
   def prepare_email_body(email, newsletter_setting)
     ActionController::Base.render(
-      template: 'layouts/newsletter',
+      template: "layouts/newsletter",
       locals: {
         subject: email.subject,
         content: email.content_html,
@@ -54,5 +53,4 @@ class SendNewsletterJob < ApplicationJob
       }
     )
   end
-
 end
