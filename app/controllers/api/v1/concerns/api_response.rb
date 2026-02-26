@@ -41,7 +41,7 @@ module API::V1::APIResponse
 
   def pagination_limit
     limit = (params[:size] || DEFAULT_LIMIT).to_i
-    [[limit, 1].max, MAX_LIMIT].min
+    [ [ limit, 1 ].max, MAX_LIMIT ].min
   end
 
   def normalize_errors(errors)
@@ -53,9 +53,9 @@ module API::V1::APIResponse
     when Hash
       errors.map { |field, messages| { field: field.to_s, message: Array(messages).first } }
     when Array
-      errors.map { |msg| { field: 'base', message: msg } }
+      errors.map { |msg| { field: "base", message: msg } }
     else
-      [{ field: 'base', message: errors.to_s }]
+      [ { field: "base", message: errors.to_s } ]
     end
   end
 end

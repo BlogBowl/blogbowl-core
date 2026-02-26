@@ -2,7 +2,7 @@ module API
   module V1
     class EmailsController < BaseController
       before_action :set_newsletter
-      before_action :set_email, only: [:show, :update, :destroy, :send_email]
+      before_action :set_email, only: [ :show, :update, :destroy, :send_email ]
 
       def_param_group :email_output do
         property :id, Integer, desc: "Email ID"
@@ -25,7 +25,7 @@ module API
         param :size, :number, desc: "Items per page (max: 100)", default_value: 10
       end
 
-      api :GET, '/newsletters/:newsletter_id/emails', "List all emails for a newsletter"
+      api :GET, "/newsletters/:newsletter_id/emails", "List all emails for a newsletter"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
       param :status, String, desc: "Filter by status (draft, scheduled, sent, failed)"
       param_group :pagination
@@ -36,7 +36,7 @@ module API
         render_collection(emails) { |email| email_json(email) }
       end
 
-      api :GET, '/newsletters/:newsletter_id/emails/:id', "Get a specific email"
+      api :GET, "/newsletters/:newsletter_id/emails/:id", "Get a specific email"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
       param :id, :number, required: true, desc: "Email ID"
       returns code: 200, desc: "Email details" do
@@ -46,7 +46,7 @@ module API
         render_resource(@email) { |email| email_json(email) }
       end
 
-      api :POST, '/newsletters/:newsletter_id/emails', "Create a new email"
+      api :POST, "/newsletters/:newsletter_id/emails", "Create a new email"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
       param :email, Hash, desc: "Email info", required: true do
         param :subject, String, desc: "Email subject", required: true
@@ -60,7 +60,7 @@ module API
       end
       def create
         @email = @newsletter.newsletter_emails.new(email_params)
-        @email.status = 'draft'
+        @email.status = "draft"
 
         if @email.save
           render_resource(@email, status: :created) { |email| email_json(email) }
@@ -69,7 +69,7 @@ module API
         end
       end
 
-      api :PATCH, '/newsletters/:newsletter_id/emails/:id', "Update an email (draft only)"
+      api :PATCH, "/newsletters/:newsletter_id/emails/:id", "Update an email (draft only)"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
       param :id, :number, required: true, desc: "Email ID"
       param :email, Hash, desc: "Email info", required: true do
@@ -83,7 +83,7 @@ module API
         param_group :email_output
       end
       def update
-        if @email.status != 'draft'
+        if @email.status != "draft"
           render_error_message("Cannot update email with status '#{@email.status}'", status: :unprocessable_entity)
           return
         end
@@ -95,12 +95,12 @@ module API
         end
       end
 
-      api :DELETE, '/newsletters/:newsletter_id/emails/:id', "Delete an email (draft only)"
+      api :DELETE, "/newsletters/:newsletter_id/emails/:id", "Delete an email (draft only)"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
       param :id, :number, required: true, desc: "Email ID"
       returns code: 204, desc: "Email deleted"
       def destroy
-        if @email.status != 'draft'
+        if @email.status != "draft"
           render_error_message("Cannot delete email with status '#{@email.status}'", status: :unprocessable_entity)
           return
         end
@@ -109,7 +109,7 @@ module API
         head :no_content
       end
 
-      api :POST, '/newsletters/:newsletter_id/emails/:id/send', "Send or schedule an email"
+      api :POST, "/newsletters/:newsletter_id/emails/:id/send", "Send or schedule an email"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
       param :id, :number, required: true, desc: "Email ID"
       param :scheduled_at, String, desc: "Schedule for future (ISO 8601 format). Omit to send immediately."
@@ -144,11 +144,11 @@ module API
             return
           end
 
-          @email.update(status: 'scheduled', scheduled_at: scheduled_time)
+          @email.update(status: "scheduled", scheduled_at: scheduled_time)
           SendNewsletterJob.set(wait_until: scheduled_time).perform_later(@email.id)
         else
           # Send immediately
-          @email.update(status: 'scheduled')
+          @email.update(status: "scheduled")
           SendNewsletterJob.perform_later(@email.id)
         end
 

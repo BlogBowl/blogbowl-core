@@ -2,7 +2,7 @@ module API
   module V1
     class PostsController < BaseController
       before_action :set_page
-      before_action :set_post, only: [:show, :update, :destroy, :publish]
+      before_action :set_post, only: [ :show, :update, :destroy, :publish ]
 
       def_param_group :post_output do
         property :id, Integer, desc: "Post ID"
@@ -29,7 +29,7 @@ module API
         param :size, :number, desc: "Items per page (max: 100)", default_value: 10
       end
 
-      api :GET, '/pages/:page_id/posts', "List all posts for a page"
+      api :GET, "/pages/:page_id/posts", "List all posts for a page"
       param :page_id, :number, required: true, desc: "Page ID"
       param :status, String, desc: "Filter by status (draft, published, scheduled)"
       param :category_id, :number, desc: "Filter by category ID"
@@ -42,7 +42,7 @@ module API
         render_collection(posts) { |post| post_json(post) }
       end
 
-      api :GET, '/pages/:page_id/posts/:id', "Get a specific post"
+      api :GET, "/pages/:page_id/posts/:id", "Get a specific post"
       param :page_id, :number, required: true, desc: "Page ID"
       param :id, :number, required: true, desc: "Post ID"
       returns code: 200, desc: "Post details" do
@@ -52,7 +52,7 @@ module API
         render_resource(@post) { |post| post_json(post) }
       end
 
-      api :POST, '/pages/:page_id/posts', "Create a new post"
+      api :POST, "/pages/:page_id/posts", "Create a new post"
       param :page_id, :number, required: true, desc: "Page ID"
       param :post, Hash, desc: "Post info", required: true do
         param :title, String, desc: "Post title", required: true
@@ -77,7 +77,7 @@ module API
         end
       end
 
-      api :PATCH, '/pages/:page_id/posts/:id', "Update a post"
+      api :PATCH, "/pages/:page_id/posts/:id", "Update a post"
       param :page_id, :number, required: true, desc: "Page ID"
       param :id, :number, required: true, desc: "Post ID"
       param :post, Hash, desc: "Post info", required: true do
@@ -104,7 +104,7 @@ module API
         end
       end
 
-      api :DELETE, '/pages/:page_id/posts/:id', "Delete a post"
+      api :DELETE, "/pages/:page_id/posts/:id", "Delete a post"
       param :page_id, :number, required: true, desc: "Page ID"
       param :id, :number, required: true, desc: "Post ID"
       returns code: 204, desc: "Post deleted"
@@ -113,7 +113,7 @@ module API
         head :no_content
       end
 
-      api :POST, '/pages/:page_id/posts/:id/publish', "Publish a post"
+      api :POST, "/pages/:page_id/posts/:id/publish", "Publish a post"
       param :page_id, :number, required: true, desc: "Page ID"
       param :id, :number, required: true, desc: "Post ID"
       param :scheduled_at, String, desc: "Schedule publish for a future date (ISO 8601)"

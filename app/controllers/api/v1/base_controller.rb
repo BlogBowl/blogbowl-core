@@ -1,4 +1,4 @@
-require_relative 'concerns/api_response'
+require_relative "concerns/api_response"
 
 module API
   module V1
@@ -15,20 +15,20 @@ module API
       private
 
       def authenticate_request
-        header = request.headers['Authorization']
-        header = header.split(' ').last if header
+        header = request.headers["Authorization"]
+        header = header.split(" ").last if header
         token = APIToken.find_by(token: header)
         if token
           token.touch(:last_used_at)
           @current_user = token.user
           @current_workspace = token.workspace
         else
-          render json: { error: 'Unauthorized' }, status: :unauthorized
+          render json: { error: "Unauthorized" }, status: :unauthorized
         end
       end
 
       def not_found
-        render json: { error: 'Not found' }, status: :not_found
+        render json: { error: "Not found" }, status: :not_found
       end
     end
   end

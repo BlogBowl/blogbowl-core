@@ -1,7 +1,6 @@
 module API
   module V1
     class NewslettersController < BaseController
-
       def_param_group :newsletter_output do
         property :id, Integer, desc: "Newsletter ID"
         property :name, String, desc: "Newsletter name"
@@ -16,14 +15,14 @@ module API
         param :size, :number, desc: "Items per page (max: 100)", default_value: 10
       end
 
-      api :GET, '/newsletters', "List all newsletters for the workspace"
+      api :GET, "/newsletters", "List all newsletters for the workspace"
       param_group :pagination
       returns code: 200, desc: "Paginated list of newsletters"
       def index
         render_collection(@current_workspace.newsletters.order(created_at: :desc)) { |newsletter| newsletter_json(newsletter) }
       end
 
-      api :GET, '/newsletters/:id', "Get a specific newsletter"
+      api :GET, "/newsletters/:id", "Get a specific newsletter"
       param :id, :number, required: true, desc: "Newsletter ID"
       returns code: 200, desc: "Newsletter details" do
         param_group :newsletter_output
@@ -33,7 +32,7 @@ module API
         render_resource(@newsletter) { |newsletter| newsletter_json(newsletter) }
       end
 
-      api :POST, '/newsletters', "Create a new newsletter"
+      api :POST, "/newsletters", "Create a new newsletter"
       param :newsletter, Hash, desc: "Newsletter info", required: true do
         param :name, String, desc: "Newsletter name", required: true
       end
@@ -49,7 +48,7 @@ module API
         end
       end
 
-      api :PATCH, '/newsletters/:id', "Update a newsletter"
+      api :PATCH, "/newsletters/:id", "Update a newsletter"
       param :id, :number, required: true, desc: "Newsletter ID"
       param :newsletter, Hash, desc: "Newsletter info", required: true do
         param :name, String, desc: "Newsletter name"
