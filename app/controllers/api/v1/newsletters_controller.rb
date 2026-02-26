@@ -33,9 +33,7 @@ module API
       end
 
       api :POST, "/newsletters", "Create a new newsletter"
-      param :newsletter, Hash, desc: "Newsletter info", required: true do
-        param :name, String, desc: "Newsletter name", required: true
-      end
+      param :name, String, desc: "Newsletter name", required: true
       returns code: 201, desc: "Created newsletter" do
         param_group :newsletter_output
       end
@@ -50,9 +48,7 @@ module API
 
       api :PATCH, "/newsletters/:id", "Update a newsletter"
       param :id, :number, required: true, desc: "Newsletter ID"
-      param :newsletter, Hash, desc: "Newsletter info", required: true do
-        param :name, String, desc: "Newsletter name"
-      end
+      param :name, String, desc: "Newsletter name"
       returns code: 200, desc: "Updated newsletter" do
         param_group :newsletter_output
       end
@@ -68,7 +64,7 @@ module API
       private
 
       def newsletter_params
-        params.require(:newsletter).permit(:name)
+        permit_resource_params(:newsletter, :name)
       end
 
       def newsletter_json(newsletter)

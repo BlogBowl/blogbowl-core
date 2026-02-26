@@ -35,10 +35,8 @@ module API
 
       api :POST, "/newsletters/:newsletter_id/subscribers", "Create a subscriber (upsert by email)"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
-      param :subscriber, Hash, desc: "Subscriber info", required: true do
-        param :email, String, desc: "Subscriber email", required: true
-        param :note, String, desc: "Optional note"
-      end
+      param :email, String, desc: "Subscriber email", required: true
+      param :note, String, desc: "Optional note"
       returns code: 200, desc: "Created or existing subscriber" do
         param_group :subscriber_output
       end
@@ -78,7 +76,7 @@ module API
       end
 
       def subscriber_params
-        params.require(:subscriber).permit(:email, :note)
+        permit_resource_params(:subscriber, :email, :note)
       end
 
       def subscriber_json(subscriber)

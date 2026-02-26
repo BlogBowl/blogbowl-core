@@ -104,6 +104,8 @@ Rails.application.routes.draw do
             post :send_email, on: :member, path: "send"
           end
         end
+
+        resources :authors, only: [ :index, :show, :create, :update, :destroy ]
       end
 
       namespace :internal do

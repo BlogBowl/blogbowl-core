@@ -54,23 +54,22 @@ module API
 
       api :POST, "/pages/:page_id/posts", "Create a new post"
       param :page_id, :number, required: true, desc: "Page ID"
-      param :post, Hash, desc: "Post info", required: true do
-        param :title, String, desc: "Post title", required: true
-        param :content_html, String, desc: "Post content in HTML"
-        param :content_md, String, desc: "Post content in Markdown"
-        param :description, String, desc: "Post description"
-        param :category_id, :number, desc: "Category ID"
-        param :seo_title, String, desc: "SEO title"
-        param :seo_description, String, desc: "SEO description"
-        param :og_title, String, desc: "Open Graph title"
-        param :og_description, String, desc: "Open Graph description"
-      end
+      param :title, String, desc: "Post title", required: true
+      param :content_html, String, desc: "Post content in HTML"
+      param :content_md, String, desc: "Post content in Markdown"
+      param :description, String, desc: "Post description"
+      param :category_id, :number, desc: "Category ID"
+      param :seo_title, String, desc: "SEO title"
+      param :seo_description, String, desc: "SEO description"
+      param :og_title, String, desc: "Open Graph title"
+      param :og_description, String, desc: "Open Graph description"
       returns code: 201, desc: "Created post" do
         param_group :post_output
       end
       def create
         @post = @page.posts.new(post_params)
         if @post.save
+          ensure_draft_revision(@post)
           render_resource(@post, status: :created) { |post| post_json(post) }
         else
           render_error(@post.errors)
@@ -80,17 +79,15 @@ module API
       api :PATCH, "/pages/:page_id/posts/:id", "Update a post"
       param :page_id, :number, required: true, desc: "Page ID"
       param :id, :number, required: true, desc: "Post ID"
-      param :post, Hash, desc: "Post info", required: true do
-        param :title, String, desc: "Post title"
-        param :content_html, String, desc: "Post content in HTML"
-        param :content_md, String, desc: "Post content in Markdown"
-        param :description, String, desc: "Post description"
-        param :category_id, :number, desc: "Category ID"
-        param :seo_title, String, desc: "SEO title"
-        param :seo_description, String, desc: "SEO description"
-        param :og_title, String, desc: "Open Graph title"
-        param :og_description, String, desc: "Open Graph description"
-      end
+      param :title, String, desc: "Post title"
+      param :content_html, String, desc: "Post content in HTML"
+      param :content_md, String, desc: "Post content in Markdown"
+      param :description, String, desc: "Post description"
+      param :category_id, :number, desc: "Category ID"
+      param :seo_title, String, desc: "SEO title"
+      param :seo_description, String, desc: "SEO description"
+      param :og_title, String, desc: "Open Graph title"
+      param :og_description, String, desc: "Open Graph description"
       returns code: 200, desc: "Updated post" do
         param_group :post_output
       end
@@ -156,14 +153,26 @@ module API
       end
 
       def post_params
-        params.require(:post).permit(
+        permit_resource_params(
+          :post,
           :title, :content_html, :content_md, :description, :category_id,
           :seo_title, :seo_description, :og_title, :og_description
         )
       end
 
+      def ensure_draft_revision(post)
+        return if post.post_revisions.exists?
+
+        revision = post.new_revision
+        revision.title ||= post.title
+        revision.save
+      rescue => e
+        Rails.logger.error("Failed to create initial revision for post #{post.id}: #{e.message}")
+      end
+
       def create_revision_in_background(post)
         revision = post.new_revision
+        revision.title ||= post.title
         revision.kind = :history
         revision.save
       rescue => e

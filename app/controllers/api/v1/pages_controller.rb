@@ -35,10 +35,8 @@ module API
       end
 
       api :POST, "/pages", "Create a new page"
-      param :page, Hash, desc: "Page info", required: true do
-        param :name, String, desc: "Page name", required: true
-        param :slug, String, desc: "Page slug"
-      end
+      param :name, String, desc: "Page name", required: true
+      param :slug, String, desc: "Page slug"
       returns code: 201, desc: "Created page" do
         param_group :page_output
       end
@@ -53,10 +51,8 @@ module API
 
       api :PATCH, "/pages/:id", "Update a page"
       param :id, :number, required: true, desc: "Page ID"
-      param :page, Hash, desc: "Page info", required: true do
-        param :name, String, desc: "Page name"
-        param :slug, String, desc: "Page slug"
-      end
+      param :name, String, desc: "Page name"
+      param :slug, String, desc: "Page slug"
       returns code: 200, desc: "Updated page" do
         param_group :page_output
       end
@@ -72,7 +68,7 @@ module API
       private
 
       def page_params
-        params.require(:page).permit(:name, :slug)
+        permit_resource_params(:page, :name, :slug)
       end
 
       def page_json(page)

@@ -48,13 +48,11 @@ module API
 
       api :POST, "/newsletters/:newsletter_id/emails", "Create a new email"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
-      param :email, Hash, desc: "Email info", required: true do
-        param :subject, String, desc: "Email subject", required: true
-        param :preview, String, desc: "Email preview text"
-        param :content_html, String, desc: "Email HTML content"
-        param :content_md, String, desc: "Email content in Markdown"
-        param :author_id, Integer, desc: "Author ID"
-      end
+      param :subject, String, desc: "Email subject", required: true
+      param :preview, String, desc: "Email preview text"
+      param :content_html, String, desc: "Email HTML content"
+      param :content_md, String, desc: "Email content in Markdown"
+      param :author_id, Integer, desc: "Author ID"
       returns code: 201, desc: "Created email" do
         param_group :email_output
       end
@@ -72,13 +70,11 @@ module API
       api :PATCH, "/newsletters/:newsletter_id/emails/:id", "Update an email (draft only)"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
       param :id, :number, required: true, desc: "Email ID"
-      param :email, Hash, desc: "Email info", required: true do
-        param :subject, String, desc: "Email subject"
-        param :preview, String, desc: "Email preview text"
-        param :content_html, String, desc: "Email HTML content"
-        param :content_md, String, desc: "Email content in Markdown"
-        param :author_id, Integer, desc: "Author ID"
-      end
+      param :subject, String, desc: "Email subject"
+      param :preview, String, desc: "Email preview text"
+      param :content_html, String, desc: "Email HTML content"
+      param :content_md, String, desc: "Email content in Markdown"
+      param :author_id, Integer, desc: "Author ID"
       returns code: 200, desc: "Updated email" do
         param_group :email_output
       end
@@ -166,7 +162,7 @@ module API
       end
 
       def email_params
-        params.require(:email).permit(:subject, :preview, :content_html, :content_md, :author_id)
+        permit_resource_params(:email, :subject, :preview, :content_html, :content_md, :author_id)
       end
 
       def email_json(email)

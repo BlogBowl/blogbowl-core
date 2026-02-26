@@ -21,7 +21,7 @@ module Pages::PostsControllerConcern
   end
 
   def edit
-    @revision = @post.post_revisions.last
+    @revision = @post.post_revisions.last || @post.new_revision
   end
 
   def destroy

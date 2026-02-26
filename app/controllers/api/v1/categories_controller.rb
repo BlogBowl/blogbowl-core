@@ -41,13 +41,11 @@ module API
 
       api :POST, "/pages/:page_id/categories", "Create a new category"
       param :page_id, :number, required: true, desc: "Page ID"
-      param :category, Hash, desc: "Category info", required: true do
-        param :name, String, desc: "Category name", required: true
-        param :slug, String, desc: "Category slug"
-        param :description, String, desc: "Category description"
-        param :color, String, desc: "Category color (hex)"
-        param :parent_id, :number, desc: "Parent category ID"
-      end
+      param :name, String, desc: "Category name", required: true
+      param :slug, String, desc: "Category slug"
+      param :description, String, desc: "Category description"
+      param :color, String, desc: "Category color (hex)"
+      param :parent_id, :number, desc: "Parent category ID"
       returns code: 201, desc: "Created category" do
         param_group :category_output
       end
@@ -63,13 +61,11 @@ module API
       api :PATCH, "/pages/:page_id/categories/:id", "Update a category"
       param :page_id, :number, required: true, desc: "Page ID"
       param :id, :number, required: true, desc: "Category ID"
-      param :category, Hash, desc: "Category info", required: true do
-        param :name, String, desc: "Category name"
-        param :slug, String, desc: "Category slug"
-        param :description, String, desc: "Category description"
-        param :color, String, desc: "Category color (hex)"
-        param :parent_id, :number, desc: "Parent category ID"
-      end
+      param :name, String, desc: "Category name"
+      param :slug, String, desc: "Category slug"
+      param :description, String, desc: "Category description"
+      param :color, String, desc: "Category color (hex)"
+      param :parent_id, :number, desc: "Parent category ID"
       returns code: 200, desc: "Updated category" do
         param_group :category_output
       end
@@ -101,7 +97,7 @@ module API
       end
 
       def category_params
-        params.require(:category).permit(:name, :slug, :description, :color, :parent_id)
+        permit_resource_params(:category, :name, :slug, :description, :color, :parent_id)
       end
 
       def category_json(category)

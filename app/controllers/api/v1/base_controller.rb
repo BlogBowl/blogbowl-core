@@ -30,6 +30,13 @@ module API
       def not_found
         render json: { error: "Not found" }, status: :not_found
       end
+
+      # Accept either wrapped payloads ({ post: {...} }) or flat JSON bodies.
+      # This keeps backward compatibility while simplifying API clients.
+      def permit_resource_params(resource_key, *filters)
+        source = params[resource_key].is_a?(ActionController::Parameters) ? params.require(resource_key) : params
+        source.permit(*filters)
+      end
     end
   end
 end
