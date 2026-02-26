@@ -81,7 +81,7 @@ jobs:
 
       # 6. Set up the database
       - name: Set up database
-        run: RAILS_ENV=test rails db:test:prepare
+        run: RAILS_ENV=test rails db:create db:migrate
 
       # 7. Run Rails tests
       - name: Run tests
