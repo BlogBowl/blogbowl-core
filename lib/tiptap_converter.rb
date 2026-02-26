@@ -4,7 +4,7 @@ require "open3"
 class TiptapConverter
   class ConversionError < StandardError; end
 
-  TIPTAP_PATH = ENV.fetch("TIPTAP_PARSER_PATH", File.expand_path("../../../../parse-tiptap-blogbowl", __dir__)).freeze
+  TIPTAP_PATH = ENV.fetch("TIPTAP_PARSER_PATH", File.expand_path("tiptap", __dir__)).freeze
   TIMEOUT_SECONDS = 30
 
   class << self

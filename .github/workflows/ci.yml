@@ -69,13 +69,13 @@ jobs:
           apt-get update -yqq
           apt-get install -yqq --no-install-recommends nodejs npm postgresql-client libvips-dev
 
-#      # 5. Install JavaScript dependencies
-#      - name: Install JS dependencies
-#        run: |
-#          npm install -g bun
-#          bun install
+      # 5. Install JavaScript dependencies (TipTap converter)
+      - name: Install JS dependencies
+        run: |
+          npm install -g bun
+          cd lib/tiptap && bun install --frozen-lockfile
 
-      # 5. Install JavaScript dependencies
+      # 6. Install Ruby gems
       - name: Install Ruby gems
         run: bundle install
 
