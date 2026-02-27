@@ -5,7 +5,6 @@ module API
 
       def_param_group :author_output do
         property :id, Integer, desc: "Author ID"
-        property :member_id, Integer, desc: "Member ID"
         property :first_name, String, desc: "First name"
         property :last_name, String, desc: "Last name"
         property :formatted_name, String, desc: "Formatted name"
@@ -49,8 +48,7 @@ module API
         render_resource(@author) { |author| author_json(author) }
       end
 
-      api :POST, "/authors", "Create (or reactivate) an author for a workspace member"
-      param :member_id, Integer, desc: "Workspace member ID", required: true
+      api :POST, "/authors", "Create (or reactivate) an author for current workspace member"
       param :first_name, String, desc: "First name"
       param :last_name, String, desc: "Last name"
       param :email, String, desc: "Author email"
@@ -59,13 +57,11 @@ module API
       param :long_description, String, desc: "Long description"
       param :avatar_picture, File, desc: "Avatar image"
       param :og_image, File, desc: "Open Graph image"
-      param :remove_avatar_picture, :boolean, desc: "Remove avatar"
-      param :remove_og_image, :boolean, desc: "Remove OG image"
       returns code: 201, desc: "Created author" do
         param_group :author_output
       end
       def create
-        member = @current_workspace.members.find(author_create_params[:member_id])
+        member = @current_workspace.members.find_by!(user_id: @current_user.id)
 
         if member.author&.active?
           render_error_message("Author already exists for this member")
@@ -78,7 +74,7 @@ module API
           first_name: member.user&.email&.split("@")&.first
         }.compact
 
-        attrs = defaults.merge(author_create_params.except(:member_id)).merge(active: true)
+        attrs = defaults.merge(author_create_params).merge(active: true)
 
         if author.update(attrs)
           render_resource(author, status: :created) { |record| author_json(record) }
@@ -98,8 +94,6 @@ module API
       param :active, :boolean, desc: "Author active flag"
       param :avatar_picture, File, desc: "Avatar image"
       param :og_image, File, desc: "Open Graph image"
-      param :remove_avatar_picture, :boolean, desc: "Remove avatar"
-      param :remove_og_image, :boolean, desc: "Remove OG image"
       returns code: 200, desc: "Updated author" do
         param_group :author_output
       end
@@ -131,9 +125,8 @@ module API
       def author_create_params
         permit_resource_params(
           :author,
-          :member_id, :first_name, :last_name, :email, :position,
-          :short_description, :long_description, :avatar_picture, :og_image,
-          :remove_avatar_picture, :remove_og_image
+          :first_name, :last_name, :email, :position,
+          :short_description, :long_description, :avatar_picture, :og_image
         )
       end
 
@@ -141,14 +134,12 @@ module API
         permit_resource_params(
           :author,
           :first_name, :last_name, :email, :position, :short_description,
-          :long_description, :active, :avatar_picture, :og_image,
-          :remove_avatar_picture, :remove_og_image
+          :long_description, :active, :avatar_picture, :og_image
         )
       end
 
       def author_json(author)
-        author.as_json.merge(
-          member_id: author.member_id,
+        author.as_json.except("member_id").merge(
           short_description: author.short_description,
           long_description: author.long_description,
           created_at: author.created_at,
