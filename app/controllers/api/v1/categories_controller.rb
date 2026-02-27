@@ -10,7 +10,6 @@ module API
         property :slug, String, desc: "Category slug"
         property :description, String, desc: "Category description"
         property :color, String, desc: "Category color"
-        property :parent_id, Integer, desc: "Parent category ID"
         property :page_id, Integer, desc: "Page ID"
         property :created_at, String, desc: "Creation date"
         property :updated_at, String, desc: "Updated date"
@@ -45,7 +44,6 @@ module API
       param :slug, String, desc: "Category slug"
       param :description, String, desc: "Category description"
       param :color, String, desc: "Category color (hex)"
-      param :parent_id, :number, desc: "Parent category ID"
       returns code: 201, desc: "Created category" do
         param_group :category_output
       end
@@ -65,7 +63,6 @@ module API
       param :slug, String, desc: "Category slug"
       param :description, String, desc: "Category description"
       param :color, String, desc: "Category color (hex)"
-      param :parent_id, :number, desc: "Parent category ID"
       returns code: 200, desc: "Updated category" do
         param_group :category_output
       end
@@ -97,7 +94,7 @@ module API
       end
 
       def category_params
-        permit_resource_params(:category, :name, :slug, :description, :color, :parent_id)
+        permit_resource_params(:category, :name, :slug, :description, :color)
       end
 
       def category_json(category)
@@ -107,7 +104,6 @@ module API
           slug: category.slug,
           description: category.description,
           color: category.color,
-          parent_id: category.parent_id,
           page_id: category.page_id,
           created_at: category.created_at,
           updated_at: category.updated_at
