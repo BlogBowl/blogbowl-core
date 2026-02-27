@@ -10,10 +10,10 @@ module TiptapContent
   ALLOWED_HTML_ATTRIBUTES = %w[href src alt title class id target rel colspan rowspan].freeze
 
   included do
-    attribute :content_md, :string
+    attr_accessor :content_md
 
     before_save :convert_markdown_to_html, if: :content_md_present?
-    before_save :sanitize_content_html, if: -> { content_html.present? && content_html_changed? }
+    before_save :sanitize_content_html, if: :content_html_present?
     before_save :sync_content_formats, if: :should_sync_content?
   end
 
@@ -23,6 +23,10 @@ module TiptapContent
     content_md.present?
   end
 
+  def content_html_present?
+    content_html.present?
+  end
+
   def convert_markdown_to_html
     self.content_html = TiptapConverter.md_to_html(content_md)
   rescue TiptapConverter::ConversionError => e
@@ -30,8 +34,7 @@ module TiptapContent
   end
 
   def sanitize_content_html
-    sanitizer = Rails::Html::SafeListSanitizer.new
-    self.content_html = sanitizer.sanitize(
+    self.content_html = ActionController::Base.helpers.sanitize(
       content_html,
       tags: ALLOWED_HTML_TAGS,
       attributes: ALLOWED_HTML_ATTRIBUTES

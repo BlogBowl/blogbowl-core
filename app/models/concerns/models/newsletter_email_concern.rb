@@ -1,9 +1,9 @@
 module Models::NewsletterEmailConcern
   extend ActiveSupport::Concern
 
-  include TiptapContent
-
   included do
+    include TiptapContent
+
     belongs_to :newsletter
 
     before_validation :generate_slug, if: :should_generate_slug?
