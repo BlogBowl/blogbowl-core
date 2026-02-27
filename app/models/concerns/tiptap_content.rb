@@ -1,10 +1,19 @@
 module TiptapContent
   extend ActiveSupport::Concern
 
+  ALLOWED_HTML_TAGS = %w[
+    p h1 h2 h3 h4 h5 h6 blockquote ul ol li
+    strong em u s b i a code pre br hr
+    img figure figcaption table thead tbody tr th td
+  ].freeze
+
+  ALLOWED_HTML_ATTRIBUTES = %w[href src alt title class id target rel colspan rowspan].freeze
+
   included do
     attribute :content_md, :string
 
     before_save :convert_markdown_to_html, if: :content_md_present?
+    before_save :sanitize_content_html, if: -> { content_html.present? && content_html_changed? }
     before_save :sync_content_formats, if: :should_sync_content?
   end
 
@@ -18,6 +27,15 @@ module TiptapContent
     self.content_html = TiptapConverter.md_to_html(content_md)
   rescue TiptapConverter::ConversionError => e
     Rails.logger.error("Markdown conversion failed: #{e.message}")
+  end
+
+  def sanitize_content_html
+    sanitizer = Rails::Html::SafeListSanitizer.new
+    self.content_html = sanitizer.sanitize(
+      content_html,
+      tags: ALLOWED_HTML_TAGS,
+      attributes: ALLOWED_HTML_ATTRIBUTES
+    )
   end
 
   def sync_content_formats

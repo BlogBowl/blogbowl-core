@@ -1,6 +1,8 @@
 module Models::NewsletterEmailConcern
   extend ActiveSupport::Concern
 
+  include TiptapContent
+
   included do
     belongs_to :newsletter
 
