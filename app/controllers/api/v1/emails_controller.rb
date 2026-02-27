@@ -11,7 +11,10 @@ module API
         property :slug, String, desc: "Email slug"
         property :status, String, desc: "Email status (draft, scheduled, sent, failed)"
         property :content_html, String, desc: "Email HTML content"
-        property :content_json, Hash, desc: "Email JSON content"
+        property :content_json, Hash, desc: "Email content in TipTap JSON" do
+          property :type, String, desc: "Document type"
+          property :content, Array, desc: "Content nodes"
+        end
         property :author_id, Integer, desc: "Author ID"
         property :newsletter_id, Integer, desc: "Newsletter ID"
         property :scheduled_at, String, desc: "Scheduled send date"
@@ -27,7 +30,7 @@ module API
 
       api :GET, "/newsletters/:newsletter_id/emails", "List all emails for a newsletter"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
-      param :status, String, desc: "Filter by status (draft, scheduled, sent, failed)"
+      param :status, String, desc: "Filter by status (draft, scheduled, sent, failed)", default_value: nil
       param_group :pagination
       returns code: 200, desc: "Paginated list of emails"
       def index
@@ -49,10 +52,10 @@ module API
       api :POST, "/newsletters/:newsletter_id/emails", "Create a new email"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
       param :subject, String, desc: "Email subject", required: true
-      param :preview, String, desc: "Email preview text"
-      param :content_html, String, desc: "Email HTML content"
-      param :content_md, String, desc: "Email content in Markdown"
-      param :author_id, Integer, desc: "Author ID"
+      param :preview, String, desc: "Email preview text", default_value: nil
+      param :content_html, String, desc: "Email HTML content", default_value: nil
+      param :content_md, String, desc: "Email content in Markdown", default_value: nil
+      param :author_id, Integer, desc: "Author ID", default_value: nil
       returns code: 201, desc: "Created email" do
         param_group :email_output
       end
@@ -70,11 +73,11 @@ module API
       api :PATCH, "/newsletters/:newsletter_id/emails/:id", "Update an email (draft only)"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
       param :id, :number, required: true, desc: "Email ID"
-      param :subject, String, desc: "Email subject"
-      param :preview, String, desc: "Email preview text"
-      param :content_html, String, desc: "Email HTML content"
-      param :content_md, String, desc: "Email content in Markdown"
-      param :author_id, Integer, desc: "Author ID"
+      param :subject, String, desc: "Email subject", default_value: nil
+      param :preview, String, desc: "Email preview text", default_value: nil
+      param :content_html, String, desc: "Email HTML content", default_value: nil
+      param :content_md, String, desc: "Email content in Markdown", default_value: nil
+      param :author_id, Integer, desc: "Author ID", default_value: nil
       returns code: 200, desc: "Updated email" do
         param_group :email_output
       end
@@ -108,7 +111,7 @@ module API
       api :POST, "/newsletters/:newsletter_id/emails/:id/send", "Send or schedule an email"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
       param :id, :number, required: true, desc: "Email ID"
-      param :scheduled_at, String, desc: "Schedule for future (ISO 8601 format). Omit to send immediately."
+      param :scheduled_at, String, desc: "Schedule for future (ISO 8601 format). Omit to send immediately.", default_value: nil
       returns code: 200, desc: "Email queued for sending" do
         param_group :email_output
       end

@@ -41,9 +41,9 @@ module API
       api :POST, "/pages/:page_id/categories", "Create a new category"
       param :page_id, :number, required: true, desc: "Page ID"
       param :name, String, desc: "Category name", required: true
-      param :slug, String, desc: "Category slug"
-      param :description, String, desc: "Category description"
-      param :color, String, desc: "Category color (hex)"
+      param :slug, String, desc: "Category slug", default_value: nil
+      param :description, String, desc: "Category description", default_value: nil
+      param :color, String, desc: "Category color (hex)", default_value: nil
       returns code: 201, desc: "Created category" do
         param_group :category_output
       end
@@ -59,10 +59,10 @@ module API
       api :PATCH, "/pages/:page_id/categories/:id", "Update a category"
       param :page_id, :number, required: true, desc: "Page ID"
       param :id, :number, required: true, desc: "Category ID"
-      param :name, String, desc: "Category name"
-      param :slug, String, desc: "Category slug"
-      param :description, String, desc: "Category description"
-      param :color, String, desc: "Category color (hex)"
+      param :name, String, desc: "Category name", default_value: nil
+      param :slug, String, desc: "Category slug", default_value: nil
+      param :description, String, desc: "Category description", default_value: nil
+      param :color, String, desc: "Category color (hex)", default_value: nil
       returns code: 200, desc: "Updated category" do
         param_group :category_output
       end

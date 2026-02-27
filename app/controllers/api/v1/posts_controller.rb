@@ -11,7 +11,10 @@ module API
         property :status, String, desc: "Post status (draft, published, scheduled)"
         property :description, String, desc: "Post description"
         property :content_html, String, desc: "Post content in HTML"
-        property :content_json, Hash, desc: "Post content in TipTap JSON"
+        property :content_json, Hash, desc: "Post content in TipTap JSON" do
+          property :type, String, desc: "Document type"
+          property :content, Array, desc: "Content nodes"
+        end
         property :seo_title, String, desc: "SEO title"
         property :seo_description, String, desc: "SEO description"
         property :og_title, String, desc: "Open Graph title"
@@ -33,8 +36,8 @@ module API
 
       api :GET, "/pages/:page_id/posts", "List all posts for a page"
       param :page_id, :number, required: true, desc: "Page ID"
-      param :status, String, desc: "Filter by status (draft, published, scheduled)"
-      param :category_id, :number, desc: "Filter by category ID"
+      param :status, String, desc: "Filter by status (draft, published, scheduled)", default_value: nil
+      param :category_id, :number, desc: "Filter by category ID", default_value: nil
       param_group :pagination
       returns code: 200, desc: "Paginated list of posts"
       def index
@@ -57,16 +60,16 @@ module API
       api :POST, "/pages/:page_id/posts", "Create a new post"
       param :page_id, :number, required: true, desc: "Page ID"
       param :title, String, desc: "Post title", required: true
-      param :content_html, String, desc: "Post content in HTML"
-      param :content_md, String, desc: "Post content in Markdown"
-      param :description, String, desc: "Post description"
-      param :category_id, :number, desc: "Category ID"
-      param :seo_title, String, desc: "SEO title"
-      param :seo_description, String, desc: "SEO description"
-      param :og_title, String, desc: "Open Graph title"
-      param :og_description, String, desc: "Open Graph description"
-      param :cover_image_url, String, desc: "Cover image URL"
-      param :og_image_url, String, desc: "Open Graph image URL"
+      param :content_html, String, desc: "Post content in HTML", default_value: nil
+      param :content_md, String, desc: "Post content in Markdown", default_value: nil
+      param :description, String, desc: "Post description", default_value: nil
+      param :category_id, :number, desc: "Category ID", default_value: nil
+      param :seo_title, String, desc: "SEO title", default_value: nil
+      param :seo_description, String, desc: "SEO description", default_value: nil
+      param :og_title, String, desc: "Open Graph title", default_value: nil
+      param :og_description, String, desc: "Open Graph description", default_value: nil
+      param :cover_image_url, String, desc: "Cover image URL", default_value: nil
+      param :og_image_url, String, desc: "Open Graph image URL", default_value: nil
       returns code: 201, desc: "Created post" do
         param_group :post_output
       end
@@ -83,17 +86,17 @@ module API
       api :PATCH, "/pages/:page_id/posts/:id", "Update a post"
       param :page_id, :number, required: true, desc: "Page ID"
       param :id, :number, required: true, desc: "Post ID"
-      param :title, String, desc: "Post title"
-      param :content_html, String, desc: "Post content in HTML"
-      param :content_md, String, desc: "Post content in Markdown"
-      param :description, String, desc: "Post description"
-      param :category_id, :number, desc: "Category ID"
-      param :seo_title, String, desc: "SEO title"
-      param :seo_description, String, desc: "SEO description"
-      param :og_title, String, desc: "Open Graph title"
-      param :og_description, String, desc: "Open Graph description"
-      param :cover_image_url, String, desc: "Cover image URL"
-      param :og_image_url, String, desc: "Open Graph image URL"
+      param :title, String, desc: "Post title", default_value: nil
+      param :content_html, String, desc: "Post content in HTML", default_value: nil
+      param :content_md, String, desc: "Post content in Markdown", default_value: nil
+      param :description, String, desc: "Post description", default_value: nil
+      param :category_id, :number, desc: "Category ID", default_value: nil
+      param :seo_title, String, desc: "SEO title", default_value: nil
+      param :seo_description, String, desc: "SEO description", default_value: nil
+      param :og_title, String, desc: "Open Graph title", default_value: nil
+      param :og_description, String, desc: "Open Graph description", default_value: nil
+      param :cover_image_url, String, desc: "Cover image URL", default_value: nil
+      param :og_image_url, String, desc: "Open Graph image URL", default_value: nil
       returns code: 200, desc: "Updated post" do
         param_group :post_output
       end
@@ -119,7 +122,7 @@ module API
       api :POST, "/pages/:page_id/posts/:id/publish", "Publish a post"
       param :page_id, :number, required: true, desc: "Page ID"
       param :id, :number, required: true, desc: "Post ID"
-      param :scheduled_at, String, desc: "Schedule publish for a future date (ISO 8601)"
+      param :scheduled_at, String, desc: "Schedule publish for a future date (ISO 8601)", default_value: nil
       returns code: 200, desc: "Published/scheduled post" do
         param_group :post_output
       end

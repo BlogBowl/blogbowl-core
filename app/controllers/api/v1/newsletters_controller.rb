@@ -48,7 +48,7 @@ module API
 
       api :PATCH, "/newsletters/:id", "Update a newsletter"
       param :id, :number, required: true, desc: "Newsletter ID"
-      param :name, String, desc: "Newsletter name"
+      param :name, String, desc: "Newsletter name", default_value: nil
       returns code: 200, desc: "Updated newsletter" do
         param_group :newsletter_output
       end

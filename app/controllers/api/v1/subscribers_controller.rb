@@ -22,8 +22,8 @@ module API
 
       api :GET, "/newsletters/:newsletter_id/subscribers", "List all subscribers for a newsletter"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
-      param :status, String, desc: "Filter by status"
-      param :verified, :boolean, desc: "Filter by verification status"
+      param :status, String, desc: "Filter by status", default_value: nil
+      param :verified, :boolean, desc: "Filter by verification status", default_value: nil
       param_group :pagination
       returns code: 200, desc: "Paginated list of subscribers"
       def index
@@ -36,7 +36,7 @@ module API
       api :POST, "/newsletters/:newsletter_id/subscribers", "Create a subscriber (upsert by email)"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
       param :email, String, desc: "Subscriber email", required: true
-      param :note, String, desc: "Optional note"
+      param :note, String, desc: "Optional note", default_value: nil
       returns code: 200, desc: "Created or existing subscriber" do
         param_group :subscriber_output
       end

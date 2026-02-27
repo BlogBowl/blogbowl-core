@@ -36,7 +36,7 @@ module API
 
       api :POST, "/pages", "Create a new page"
       param :name, String, desc: "Page name", required: true
-      param :slug, String, desc: "Page slug"
+      param :slug, String, desc: "Page slug", default_value: nil
       returns code: 201, desc: "Created page" do
         param_group :page_output
       end
@@ -51,8 +51,8 @@ module API
 
       api :PATCH, "/pages/:id", "Update a page"
       param :id, :number, required: true, desc: "Page ID"
-      param :name, String, desc: "Page name"
-      param :slug, String, desc: "Page slug"
+      param :name, String, desc: "Page name", default_value: nil
+      param :slug, String, desc: "Page slug", default_value: nil
       returns code: 200, desc: "Updated page" do
         param_group :page_output
       end

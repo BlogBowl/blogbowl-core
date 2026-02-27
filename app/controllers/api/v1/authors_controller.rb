@@ -25,7 +25,7 @@ module API
       end
 
       api :GET, "/authors", "List all authors for the workspace"
-      param :active, :boolean, desc: "Filter by active flag (defaults to true)"
+      param :active, :boolean, desc: "Filter by active flag (defaults to true)", default_value: true
       param_group :pagination
       returns code: 200, desc: "Paginated list of authors"
       def index
@@ -49,14 +49,14 @@ module API
       end
 
       api :POST, "/authors", "Create (or reactivate) an author for current workspace member"
-      param :first_name, String, desc: "First name"
-      param :last_name, String, desc: "Last name"
-      param :email, String, desc: "Author email"
-      param :position, String, desc: "Position"
-      param :short_description, String, desc: "Short description"
-      param :long_description, String, desc: "Long description"
-      param :avatar_picture, File, desc: "Avatar image"
-      param :og_image, File, desc: "Open Graph image"
+      param :first_name, String, desc: "First name", default_value: nil
+      param :last_name, String, desc: "Last name", default_value: nil
+      param :email, String, desc: "Author email", default_value: nil
+      param :position, String, desc: "Position", default_value: nil
+      param :short_description, String, desc: "Short description", default_value: nil
+      param :long_description, String, desc: "Long description", default_value: nil
+      param :avatar_picture, File, desc: "Avatar image", default_value: nil
+      param :og_image, File, desc: "Open Graph image", default_value: nil
       returns code: 201, desc: "Created author" do
         param_group :author_output
       end
@@ -85,15 +85,15 @@ module API
 
       api :PATCH, "/authors/:id", "Update an author"
       param :id, :number, required: true, desc: "Author ID"
-      param :first_name, String, desc: "First name"
-      param :last_name, String, desc: "Last name"
-      param :email, String, desc: "Author email"
-      param :position, String, desc: "Position"
-      param :short_description, String, desc: "Short description"
-      param :long_description, String, desc: "Long description"
-      param :active, :boolean, desc: "Author active flag"
-      param :avatar_picture, File, desc: "Avatar image"
-      param :og_image, File, desc: "Open Graph image"
+      param :first_name, String, desc: "First name", default_value: nil
+      param :last_name, String, desc: "Last name", default_value: nil
+      param :email, String, desc: "Author email", default_value: nil
+      param :position, String, desc: "Position", default_value: nil
+      param :short_description, String, desc: "Short description", default_value: nil
+      param :long_description, String, desc: "Long description", default_value: nil
+      param :active, :boolean, desc: "Author active flag", default_value: nil
+      param :avatar_picture, File, desc: "Avatar image", default_value: nil
+      param :og_image, File, desc: "Open Graph image", default_value: nil
       returns code: 200, desc: "Updated author" do
         param_group :author_output
       end
