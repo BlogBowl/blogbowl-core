@@ -119,8 +119,12 @@ module PublicHelper
   end
 
   def get_post_og_image_url(post)
-    if post.sharing_image.present?
+    if post.og_image_url.present?
+      post.og_image_url
+    elsif post.sharing_image.present?
       Rails.application.routes.url_helpers.url_for(post.sharing_image)
+    elsif post.cover_image_url.present?
+      post.cover_image_url
     elsif post.cover_image.present?
       Rails.application.routes.url_helpers.url_for(post.cover_image)
     else

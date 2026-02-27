@@ -16,6 +16,8 @@ module API
         property :seo_description, String, desc: "SEO description"
         property :og_title, String, desc: "Open Graph title"
         property :og_description, String, desc: "Open Graph description"
+        property :cover_image_url, String, desc: "Cover image URL"
+        property :og_image_url, String, desc: "Open Graph image URL"
         property :category_id, Integer, desc: "Category ID"
         property :page_id, Integer, desc: "Page ID"
         property :scheduled_at, String, desc: "Scheduled publish date"
@@ -63,6 +65,8 @@ module API
       param :seo_description, String, desc: "SEO description"
       param :og_title, String, desc: "Open Graph title"
       param :og_description, String, desc: "Open Graph description"
+      param :cover_image_url, String, desc: "Cover image URL"
+      param :og_image_url, String, desc: "Open Graph image URL"
       returns code: 201, desc: "Created post" do
         param_group :post_output
       end
@@ -88,6 +92,8 @@ module API
       param :seo_description, String, desc: "SEO description"
       param :og_title, String, desc: "Open Graph title"
       param :og_description, String, desc: "Open Graph description"
+      param :cover_image_url, String, desc: "Cover image URL"
+      param :og_image_url, String, desc: "Open Graph image URL"
       returns code: 200, desc: "Updated post" do
         param_group :post_output
       end
@@ -156,7 +162,8 @@ module API
         permit_resource_params(
           :post,
           :title, :content_html, :content_md, :description, :category_id,
-          :seo_title, :seo_description, :og_title, :og_description
+          :seo_title, :seo_description, :og_title, :og_description,
+          :cover_image_url, :og_image_url
         )
       end
 
@@ -192,6 +199,8 @@ module API
           seo_description: post.seo_description,
           og_title: post.og_title,
           og_description: post.og_description,
+          cover_image_url: post.cover_image_url,
+          og_image_url: post.og_image_url,
           category_id: post.category_id,
           page_id: post.page_id,
           scheduled_at: post.scheduled_at,
