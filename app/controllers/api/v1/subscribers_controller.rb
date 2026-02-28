@@ -36,7 +36,6 @@ module API
       api :POST, "/newsletters/:newsletter_id/subscribers", "Create a subscriber (upsert by email)"
       param :newsletter_id, :number, required: true, desc: "Newsletter ID"
       param :email, String, desc: "Subscriber email", required: true
-      param :note, String, desc: "Optional note", default_value: nil
       returns code: 200, desc: "Created or existing subscriber" do
         param_group :subscriber_output
       end
@@ -53,6 +52,7 @@ module API
         @subscriber.ip_address = request.remote_ip
 
         if @subscriber.save
+          @subscriber.verify
           render_resource(@subscriber, status: :created) { |subscriber| subscriber_json(subscriber) }
         else
           render_error(@subscriber.errors)
@@ -76,7 +76,7 @@ module API
       end
 
       def subscriber_params
-        permit_resource_params(:subscriber, :email, :note)
+        permit_resource_params(:subscriber, :email)
       end
 
       def subscriber_json(subscriber)
