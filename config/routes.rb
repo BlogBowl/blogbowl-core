@@ -104,6 +104,8 @@ Rails.application.routes.draw do
         resources :images, only: [] do
           post :upload, on: :collection
         end
+
+        get "misc/openapi.json", to: "misc#openapi"
       end
 
       namespace :internal do
