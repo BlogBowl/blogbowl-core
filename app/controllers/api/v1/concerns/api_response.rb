@@ -1,4 +1,4 @@
-module API::V1::APIResponse
+module API::V1::Concerns::APIResponse
   extend ActiveSupport::Concern
 
   include Pagy::Backend
