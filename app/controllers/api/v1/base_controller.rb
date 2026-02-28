@@ -9,6 +9,9 @@ module API
       before_action :authenticate_request
 
       rescue_from ActiveRecord::RecordNotFound, with: :not_found
+      rescue_from ActiveRecord::RecordInvalid do |e|
+        render_error(e.record.errors)
+      end
 
       attr_reader :current_user, :current_workspace
 

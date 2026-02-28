@@ -90,11 +90,7 @@ Rails.application.routes.draw do
       namespace :v1 do
         resources :pages, only: [ :index, :show, :create, :update ] do
           resources :categories, only: [ :index, :show, :create, :update, :destroy ]
-          resources :posts, only: [ :index, :show, :create, :update, :destroy ] do
-            post :publish, on: :member
-            # Revisions are now created automatically when a post is updated
-            # resources :revisions, only: [:index]
-          end
+          resources :posts, only: [ :index, :show, :create, :update, :destroy ]
         end
 
         resources :newsletters, only: [ :index, :show, :create, :update ] do

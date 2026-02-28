@@ -4,7 +4,7 @@ module API
   module V1
     class PostsController < BaseController
       before_action :set_page
-      before_action :set_post, only: [ :show, :update, :destroy, :publish ]
+      before_action :set_post, only: [ :show, :update, :destroy ]
 
       def_param_group :post_output do
         property :id, Integer, desc: "Post ID"
@@ -62,6 +62,7 @@ module API
       api :POST, "/pages/:page_id/posts", "Create a new post"
       param :page_id, :number, required: true, desc: "Page ID"
       param :title, String, desc: "Post title", required: true
+      param :status, String, desc: "Post status (draft, published)", default_value: "draft"
       param :content_html, String, desc: "Post content in HTML", default_value: nil
       param :content_md, String, desc: "Post content in Markdown", default_value: nil
       param :description, String, desc: "Post description", default_value: nil
@@ -70,6 +71,7 @@ module API
       param :seo_description, String, desc: "SEO description", default_value: nil
       param :og_title, String, desc: "Open Graph title", default_value: nil
       param :og_description, String, desc: "Open Graph description", default_value: nil
+      param :author_id, :number, desc: "Author ID", default_value: nil
       param :cover_image_url, String, desc: "Cover image URL", default_value: nil
       param :og_image_url, String, desc: "Open Graph image URL", default_value: nil
       returns code: 201, desc: "Created post" do
@@ -78,6 +80,8 @@ module API
       def create
         @post = @page.posts.new(post_params)
         if @post.save
+          assign_author(@post)
+          @post.publish! if params[:status] == "published"
           attach_images_from_urls(@post)
           ensure_draft_revision(@post)
           render_resource(@post, status: :created) { |post| post_json(post) }
@@ -90,6 +94,7 @@ module API
       param :page_id, :number, required: true, desc: "Page ID"
       param :id, :number, required: true, desc: "Post ID"
       param :title, String, desc: "Post title", default_value: nil
+      param :status, String, desc: "Post status (draft, published)", default_value: nil
       param :content_html, String, desc: "Post content in HTML", default_value: nil
       param :content_md, String, desc: "Post content in Markdown", default_value: nil
       param :description, String, desc: "Post description", default_value: nil
@@ -98,6 +103,7 @@ module API
       param :seo_description, String, desc: "SEO description", default_value: nil
       param :og_title, String, desc: "Open Graph title", default_value: nil
       param :og_description, String, desc: "Open Graph description", default_value: nil
+      param :author_id, :number, desc: "Author ID", default_value: nil
       param :cover_image_url, String, desc: "Cover image URL", default_value: nil
       param :og_image_url, String, desc: "Open Graph image URL", default_value: nil
       returns code: 200, desc: "Updated post" do
@@ -105,9 +111,10 @@ module API
       end
       def update
         if @post.update(post_params)
+          assign_author(@post)
           attach_images_from_urls(@post)
-          # Automatically create a history revision when a post is updated
           create_revision_in_background(@post)
+          @post.publish! if params[:status] == "published" && !@post.published?
           render_resource(@post) { |post| post_json(post) }
         else
           render_error(@post.errors)
@@ -121,38 +128,6 @@ module API
       def destroy
         @post.destroy
         head :no_content
-      end
-
-      api :POST, "/pages/:page_id/posts/:id/publish", "Publish a post"
-      param :page_id, :number, required: true, desc: "Page ID"
-      param :id, :number, required: true, desc: "Post ID"
-      param :scheduled_at, String, desc: "Schedule publish for a future date (ISO 8601)", default_value: nil
-      returns code: 200, desc: "Published/scheduled post" do
-        param_group :post_output
-      end
-      def publish
-        # Already published - return current state (idempotent)
-        if @post.published?
-          render_resource(@post) { |post| post_json(post) }
-          return
-        end
-
-        if params[:scheduled_at].present?
-          scheduled_time = Time.parse(params[:scheduled_at]).utc
-
-          if scheduled_time.past?
-            render_error_message("Schedule date must be in the future")
-            return
-          end
-
-          @post.update(scheduled_at: params[:scheduled_at], status: :scheduled)
-          job = PublishPostJob.set(wait_until: scheduled_time).perform_later(@post.id)
-          @post.update(job_id: job.job_id)
-        else
-          @post.publish!
-        end
-
-        render_resource(@post) { |post| post_json(post) }
       end
 
       private
@@ -171,6 +146,14 @@ module API
           :title, :content_html, :content_md, :description, :category_id,
           :seo_title, :seo_description, :og_title, :og_description
         )
+      end
+
+      def assign_author(post)
+        return unless params[:author_id].present?
+
+        author = Author.find(params[:author_id])
+        post.post_authors.where(role: :author).destroy_all
+        post.post_authors.create!(author: author, role: :author)
       end
 
       def ensure_draft_revision(post)
