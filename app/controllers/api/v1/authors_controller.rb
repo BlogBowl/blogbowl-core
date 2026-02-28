@@ -1,7 +1,7 @@
 module API
   module V1
     class AuthorsController < BaseController
-      before_action :set_author, only: [ :show, :update, :destroy ]
+      before_action :set_author, only: [ :show, :update ]
 
       def_param_group :author_output do
         property :id, Integer, desc: "Author ID"
@@ -48,46 +48,10 @@ module API
         render_resource(@author) { |author| author_json(author) }
       end
 
-      api :POST, "/authors", "Create (or reactivate) an author for current workspace member"
-      param :first_name, String, desc: "First name", default_value: nil
-      param :last_name, String, desc: "Last name", default_value: nil
-      param :email, String, desc: "Author email", default_value: nil
-      param :position, String, desc: "Position", default_value: nil
-      param :short_description, String, desc: "Short description", default_value: nil
-      param :long_description, String, desc: "Long description", default_value: nil
-      param :avatar_picture, File, desc: "Avatar image", default_value: nil
-      param :og_image, File, desc: "Open Graph image", default_value: nil
-      returns code: 201, desc: "Created author" do
-        param_group :author_output
-      end
-      def create
-        member = @current_workspace.members.find_by!(user_id: @current_user.id)
-
-        if member.author&.active?
-          render_error_message("Author already exists for this member")
-          return
-        end
-
-        author = member.author || member.build_author
-        defaults = {
-          email: member.user&.email,
-          first_name: member.user&.email&.split("@")&.first
-        }.compact
-
-        attrs = defaults.merge(author_create_params).merge(active: true)
-
-        if author.update(attrs)
-          render_resource(author, status: :created) { |record| author_json(record) }
-        else
-          render_error(author.errors)
-        end
-      end
-
       api :PATCH, "/authors/:id", "Update an author"
       param :id, :number, required: true, desc: "Author ID"
       param :first_name, String, desc: "First name", default_value: nil
       param :last_name, String, desc: "Last name", default_value: nil
-      param :email, String, desc: "Author email", default_value: nil
       param :position, String, desc: "Position", default_value: nil
       param :short_description, String, desc: "Short description", default_value: nil
       param :long_description, String, desc: "Long description", default_value: nil
@@ -105,35 +69,16 @@ module API
         end
       end
 
-      api :DELETE, "/authors/:id", "Deactivate an author"
-      param :id, :number, required: true, desc: "Author ID"
-      returns code: 204, desc: "Author deactivated"
-      def destroy
-        if @author.update(active: false)
-          head :no_content
-        else
-          render_error(@author.errors)
-        end
-      end
-
       private
 
       def set_author
         @author = @current_workspace.authors.find(params[:id])
       end
 
-      def author_create_params
-        permit_resource_params(
-          :author,
-          :first_name, :last_name, :email, :position,
-          :short_description, :long_description, :avatar_picture, :og_image
-        )
-      end
-
       def author_update_params
         permit_resource_params(
           :author,
-          :first_name, :last_name, :email, :position, :short_description,
+          :first_name, :last_name, :position, :short_description,
           :long_description, :active, :avatar_picture, :og_image
         )
       end

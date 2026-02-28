@@ -100,7 +100,7 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :authors, only: [ :index, :show, :create, :update, :destroy ]
+        resources :authors, only: [ :index, :show, :update ]
         resources :images, only: [] do
           post :upload, on: :collection
         end
