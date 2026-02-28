@@ -13,10 +13,6 @@ module API
         property :status, String, desc: "Post status (draft, published, scheduled)"
         property :description, String, desc: "Post description"
         property :content_html, String, desc: "Post content in HTML"
-        property :content_json, Hash, desc: "Post content in TipTap JSON" do
-          property :type, String, desc: "Document type"
-          property :content, Array, desc: "Content nodes"
-        end
         property :seo_title, String, desc: "SEO title"
         property :seo_description, String, desc: "SEO description"
         property :og_title, String, desc: "Open Graph title"
@@ -196,7 +192,6 @@ module API
           status: post.status,
           description: post.description,
           content_html: post.content_html,
-          content_json: post.content_json,
           seo_title: post.seo_title,
           seo_description: post.seo_description,
           og_title: post.og_title,
