@@ -1,3 +1,5 @@
+require "open-uri"
+
 module API
   module V1
     class PostsController < BaseController
@@ -76,6 +78,7 @@ module API
       def create
         @post = @page.posts.new(post_params)
         if @post.save
+          attach_images_from_urls(@post)
           ensure_draft_revision(@post)
           render_resource(@post, status: :created) { |post| post_json(post) }
         else
@@ -102,6 +105,7 @@ module API
       end
       def update
         if @post.update(post_params)
+          attach_images_from_urls(@post)
           # Automatically create a history revision when a post is updated
           create_revision_in_background(@post)
           render_resource(@post) { |post| post_json(post) }
@@ -165,8 +169,7 @@ module API
         permit_resource_params(
           :post,
           :title, :content_html, :content_md, :description, :category_id,
-          :seo_title, :seo_description, :og_title, :og_description,
-          :cover_image_url, :og_image_url
+          :seo_title, :seo_description, :og_title, :og_description
         )
       end
 
@@ -189,6 +192,19 @@ module API
         Rails.logger.error("Failed to create revision for post #{post.id}: #{e.message}")
       end
 
+      def attach_images_from_urls(post)
+        attach_image_from_url(post.cover_image, params[:cover_image_url]) if params[:cover_image_url].present?
+        attach_image_from_url(post.sharing_image, params[:og_image_url]) if params[:og_image_url].present?
+      end
+
+      def attach_image_from_url(attachment, url)
+        uri = URI.parse(url)
+        filename = File.basename(uri.path).presence || "image"
+        attachment.attach(io: uri.open, filename: filename)
+      rescue => e
+        Rails.logger.error("Failed to attach image from URL #{url}: #{e.message}")
+      end
+
       def post_json(post)
         {
           id: post.id,
@@ -202,8 +218,8 @@ module API
           seo_description: post.seo_description,
           og_title: post.og_title,
           og_description: post.og_description,
-          cover_image_url: post.cover_image_url,
-          og_image_url: post.og_image_url,
+          cover_image_url: post.cover_image.attached? ? url_for(post.cover_image) : nil,
+          og_image_url: post.sharing_image.attached? ? url_for(post.sharing_image) : nil,
           category_id: post.category_id,
           page_id: post.page_id,
           scheduled_at: post.scheduled_at,
