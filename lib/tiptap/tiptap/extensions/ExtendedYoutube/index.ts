@@ -16,12 +16,12 @@ export const ExtendedYoutube = DefaultYoutube.extend({
   parseHTML() {
     return [
       {
-        tag: 'iframe[src*="youtube.com/embed/"]',
+        tag: 'iframe[src*="/embed/"]',
         getAttrs: (node) => {
           if (!node) return false;
 
           const src = node.getAttribute('src');
-          const match = src?.match(/youtube\.com\/embed\/([\w-]+)/);
+          const match = src?.match(/youtube(?:-nocookie)?\.com\/embed\/([\w-]+)/);
 
           if (!match) return false;
 
