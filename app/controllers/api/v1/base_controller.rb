@@ -33,10 +33,16 @@ module API
       end
 
       # Accept either wrapped payloads ({ post: {...} }) or flat JSON bodies.
-      # This keeps backward compatibility while simplifying API clients.
+      # When Rails auto-wraps a flat JSON body it only includes DB columns, leaving
+      # virtual attributes (e.g. content_md) at the top level. We merge top-level
+      # permitted params into the nested ones so nothing gets silently dropped.
       def permit_resource_params(resource_key, *filters)
-        source = params[resource_key].is_a?(ActionController::Parameters) ? params.require(resource_key) : params
-        source.permit(*filters)
+        if params[resource_key].is_a?(ActionController::Parameters)
+          top_level = params.permit(*filters)
+          params.require(resource_key).permit(*filters).merge(top_level)
+        else
+          params.permit(*filters)
+        end
       end
     end
   end

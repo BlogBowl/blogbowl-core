@@ -77,9 +77,9 @@ module API
         @post = @page.posts.new(post_params)
         if @post.save
           assign_author(@post)
-          @post.publish! if params[:status] == "published"
           attach_images_from_urls(@post)
           ensure_draft_revision(@post)
+          @post.publish! if params[:status] == "published"
           render_resource(@post, status: :created) { |post| post_json(post) }
         else
           render_error(@post.errors)
