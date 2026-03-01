@@ -5,9 +5,14 @@ module TiptapContent
     p h1 h2 h3 h4 h5 h6 blockquote ul ol li
     strong em u s b i a code pre br hr
     img figure figcaption table thead tbody tr th td
+    div iframe
   ].freeze
 
-  ALLOWED_HTML_ATTRIBUTES = %w[href src alt title class id target rel colspan rowspan].freeze
+  ALLOWED_HTML_ATTRIBUTES = %w[
+    href src alt title class id target rel colspan rowspan
+    data-youtube-video data-type
+    width height frameborder allowfullscreen allow
+  ].freeze
 
   included do
     attr_accessor :content_md
