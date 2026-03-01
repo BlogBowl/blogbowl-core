@@ -96,7 +96,7 @@ module StructuredDataHelper
       "image": article.images.any? ? {
         "@id": "#{get_full_url(dynamic_prefix(public_post_path(article)))}/#primaryimage"
       } : nil,
-      "thumbnailUrl": article.cover_image_url.presence || (article.cover_image.present? ? Rails.application.routes.url_helpers.url_for(article.cover_image) : nil),
+      "thumbnailUrl": article.cover_image.present? ? Rails.application.routes.url_helpers.url_for(article.cover_image) : nil,
       "articleSection": article.category.present? ? [
         article.category.name
       ] : [],
@@ -119,7 +119,7 @@ module StructuredDataHelper
       "image": article.images.any? ? {
         "@id": "#{get_full_url(dynamic_prefix(public_post_path(article)))}/#primaryimage"
       } : nil,
-      "thumbnailUrl": article.cover_image_url.presence || (article.cover_image.present? ? Rails.application.routes.url_helpers.url_for(article.cover_image) : nil),
+      "thumbnailUrl": article.cover_image.present? ? Rails.application.routes.url_helpers.url_for(article.cover_image) : nil,
       "datePublished": article.first_published_at,
       "dateModified": article.updated_at,
       "description": article.seo_description || article.description,
