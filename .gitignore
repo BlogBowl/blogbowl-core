@@ -10,3 +10,5 @@
 /test/dummy/tmp/
 
 config/master.key
+config.bat
+node_modules
