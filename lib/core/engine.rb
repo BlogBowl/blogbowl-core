@@ -3,6 +3,10 @@ module Core
     config.autoload_paths << "#{root}/app/abilities"
     config.autoload_paths << "#{root}/app/scrubbers"
 
+    rake_tasks do
+      load "tasks/openapi.rake"
+    end
+
     # In standalone mode (CI), the engine IS the app, so Rails loads
     # config/routes.rb and db/migrate as the application paths. The engine
     # would then add them a second time, causing route name collisions and
