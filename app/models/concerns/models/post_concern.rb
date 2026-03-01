@@ -3,6 +3,7 @@ module Models::PostConcern
 
   included do
     include ConvertToWebp
+    include TiptapContent
 
     default_scope { where(archived_at: nil) }
 
@@ -13,11 +14,10 @@ module Models::PostConcern
     belongs_to :page
     belongs_to :category, optional: true
     has_many :post_revisions, dependent: :destroy
-    has_one :page_topic, dependent: :nullify
 
     has_many :post_authors, dependent: :destroy
-    has_many :authors, -> { where(post_authors: { role: 'author' }) }, through: :post_authors
-    has_many :reviewers, -> { where(post_authors: { role: 'reviewer' }) }, through: :post_authors, source: :author
+    has_many :authors, -> { where(post_authors: { role: "author" }) }, through: :post_authors
+    has_many :reviewers, -> { where(post_authors: { role: "reviewer" }) }, through: :post_authors, source: :author
 
     before_validation :generate_slug, if: :should_generate_slug?
     validates :title, presence: true, length: { minimum: 1 }, if: :published?
@@ -68,8 +68,8 @@ module Models::PostConcern
   end
 
   def content_sanitized
-    tags = %w(a acronym b strong i em li ul ol h1 h2 h3 h4 h5 h6 blockquote br cite sub sup ins p img)
-    ActionController::Base.helpers.sanitize(content_html, tags: tags, attributes: %w(href title alt src))
+    tags = %w[a acronym b strong i em li ul ol h1 h2 h3 h4 h5 h6 blockquote br cite sub sup ins p img]
+    ActionController::Base.helpers.sanitize(content_html, tags: tags, attributes: %w[href title alt src])
   end
 
   def new_revision
@@ -96,8 +96,8 @@ module Models::PostConcern
                   .merge(category_id: category_ids[:category_id])
                   .merge(cover_image: cover_image.attached? ? Rails.application.routes.url_helpers.url_for(cover_image) : nil)
                   .merge(sharing_image: sharing_image.attached? ? Rails.application.routes.url_helpers.url_for(sharing_image) : nil)
-                  .merge(authors: filtered_authors('author'),
-                         reviewers: filtered_authors('reviewer'))
+                  .merge(authors: filtered_authors("author"),
+                         reviewers: filtered_authors("reviewer"))
   end
 
   def archived?
@@ -132,7 +132,7 @@ module Models::PostConcern
   end
 
   def filtered_authors(type)
-    self.authors.where(post_authors: { role: type }).map { |author| author.as_json(only: [:id, :first_name, :last_name, :email]).merge(avatar: author.avatar_url) }
+    self.authors.where(post_authors: { role: type }).map { |author| author.as_json(only: [ :id, :first_name, :last_name, :email ]).merge(avatar: author.avatar_url) }
   end
 
   def generate_slug

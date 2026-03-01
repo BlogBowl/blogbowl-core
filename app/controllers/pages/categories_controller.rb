@@ -1,7 +1,7 @@
 class Pages::CategoriesController < Pages::ApplicationController
   include Pagy::Backend
 
-  before_action :set_category, only: [:edit, :update, :destroy]
+  before_action :set_category, only: [ :edit, :update, :destroy ]
 
   def index
     @pagy, @categories = pagy(@page.categories, page: params[:page] || 1, limit: 20)
@@ -18,7 +18,7 @@ class Pages::CategoriesController < Pages::ApplicationController
     @category = @page.categories.build(category_params)
 
     if @category.save
-      flash[:notice] = 'Category was created successfully.'
+      flash[:notice] = "Category was created successfully."
       redirect_to pages_categories_path(@page)
     else
       flash.now[:alert] = @category.errors.full_messages.to_sentence
@@ -28,7 +28,7 @@ class Pages::CategoriesController < Pages::ApplicationController
 
   def update
     if @category.update(category_params)
-      flash[:notice] = 'Category was updated successfully.'
+      flash[:notice] = "Category was updated successfully."
       redirect_to pages_categories_path
     else
       flash.now[:alert] = @author.errors.full_messages.to_sentence
@@ -38,9 +38,9 @@ class Pages::CategoriesController < Pages::ApplicationController
 
   def destroy
     if @category.destroy
-      flash[:notice] = 'Category was deleted successfully.'
+      flash[:notice] = "Category was deleted successfully."
     else
-      flash[:alert] = 'Failed to delete the category.'
+      flash[:alert] = "Failed to delete the category."
     end
     redirect_to pages_categories_path
   end

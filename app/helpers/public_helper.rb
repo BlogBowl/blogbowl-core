@@ -40,7 +40,7 @@ module PublicHelper
     hex = hex_color.delete("#")
     return "#000000" unless hex.length == 6
 
-    r, g, b = [hex[0..1], hex[2..3], hex[4..5]].map { |c| c.to_i(16) }
+    r, g, b = [ hex[0..1], hex[2..3], hex[4..5] ].map { |c| c.to_i(16) }
     brightness = (r * 299 + g * 587 + b * 114) / 1000
 
     brightness > 128 ? "text-black" : "text-white"
@@ -119,8 +119,12 @@ module PublicHelper
   end
 
   def get_post_og_image_url(post)
-    if post.sharing_image.present?
+    if post.og_image_url.present?
+      post.og_image_url
+    elsif post.sharing_image.present?
       Rails.application.routes.url_helpers.url_for(post.sharing_image)
+    elsif post.cover_image_url.present?
+      post.cover_image_url
     elsif post.cover_image.present?
       Rails.application.routes.url_helpers.url_for(post.cover_image)
     else
@@ -138,7 +142,7 @@ module PublicHelper
     if amount_of_minutes > 1
       "#{amount_of_minutes} minutes"
     else
-      "#{[amount_of_minutes, 1].max} minute"
+      "#{[ amount_of_minutes, 1 ].max} minute"
     end
   end
 

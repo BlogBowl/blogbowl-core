@@ -17,9 +17,9 @@ module Models::AuthorConcern
     has_many :newsletter_emails
 
     has_one_attached :avatar_picture do |attachable|
-      attachable.variant :sm, resize_to_limit: [56, 56], format: :webp
-      attachable.variant :md, resize_to_limit: [80, 80], format: :webp
-      attachable.variant :lg, resize_to_limit: [256, 256], format: :webp
+      attachable.variant :sm, resize_to_limit: [ 56, 56 ], format: :webp
+      attachable.variant :md, resize_to_limit: [ 80, 80 ], format: :webp
+      attachable.variant :lg, resize_to_limit: [ 256, 256 ], format: :webp
     end
     convert_to_webp_for :avatar_picture
     removable_attachment_for :avatar_picture
@@ -28,8 +28,8 @@ module Models::AuthorConcern
     convert_to_webp_for :og_image
     removable_attachment_for :og_image
 
-    validates :avatar_picture, processable_file: true, size: { less_than: 5.megabytes, message: 'is too large' }
-    validates :og_image, processable_file: true, size: { less_than: 5.megabytes, message: 'is too large' }
+    validates :avatar_picture, processable_file: true, size: { less_than: 5.megabytes, message: "is too large" }
+    validates :og_image, processable_file: true, size: { less_than: 5.megabytes, message: "is too large" }
 
     validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
@@ -81,7 +81,7 @@ module Models::AuthorConcern
   def avatar_initials(size: 1, css_class: nil)
     return avatar_placeholder(size:, initials: nil, css_class:) if email.blank?
     initials = email[0].upcase + email[1].upcase
-    initials = [first_name, last_name].map { _1[0].upcase }.join if first_name.present? && last_name.present?
+    initials = [ first_name, last_name ].map { _1[0].upcase }.join if first_name.present? && last_name.present?
 
     avatar_placeholder(size:, initials:, css_class:)
   end

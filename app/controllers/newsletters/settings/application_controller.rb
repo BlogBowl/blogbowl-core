@@ -1,5 +1,5 @@
 class Newsletters::Settings::ApplicationController < Newsletters::ApplicationController
-  layout 'newsletter_dashboard'
+  layout "newsletter_dashboard"
   before_action -> { authorize! :manage, @workspace }
 
   private

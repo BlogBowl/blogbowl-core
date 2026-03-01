@@ -18,5 +18,4 @@ module Models::PostAuthorConcern
 
     errors.add(:author, "is not a member of the blog")
   end
-
 end

@@ -17,7 +17,6 @@ module API::Internal::Newsletters::EmailsControllerConcern
   end
 
   def update
-
     if @email.sent?
       render json: { error: "Cannot update already sent email" }, status: :unprocessable_entity
       return
@@ -28,7 +27,6 @@ module API::Internal::Newsletters::EmailsControllerConcern
     else
       render json: { error: @email.errors.full_messages }, status: :unprocessable_entity
     end
-
   end
 
   def send_email
@@ -82,7 +80,7 @@ module API::Internal::Newsletters::EmailsControllerConcern
     end
 
     Sidekiq::ScheduledSet.new.find_job(@email.job_id)&.delete
-    @email.update(job_id: nil, status: 'draft')
+    @email.update(job_id: nil, status: "draft")
 
     render json: @email.as_json, status: :ok
   end
@@ -99,13 +97,13 @@ module API::Internal::Newsletters::EmailsControllerConcern
         url: url_for(attachment)
       }, status: :created
     else
-      render json: { error: 'Failed to save image' }, status: :unprocessable_entity
+      render json: { error: "Failed to save image" }, status: :unprocessable_entity
     end
   end
 
   def send_test_email
     unless params[:emailAddress].present?
-      render json: { error: 'emailAddress is required!' }, status: :unprocessable_entity
+      render json: { error: "emailAddress is required!" }, status: :unprocessable_entity
       return
     end
 
@@ -136,5 +134,4 @@ module API::Internal::Newsletters::EmailsControllerConcern
   def email_params
     params.permit(:subject, :preview, :content_html, :author_id, content_json: {})
   end
-
 end

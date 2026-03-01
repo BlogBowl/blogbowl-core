@@ -11,11 +11,11 @@ module Models::SubscriberConcern
   end
 
   def verify
-    update(status: 'active', verified: true, active: true, verified_at: Time.current, verification_token: nil, verification_email_sent_at: nil, suppression_reason: nil, suppressed_at: nil)
+    update(status: "active", verified: true, active: true, verified_at: Time.current, verification_token: nil, verification_email_sent_at: nil, suppression_reason: nil, suppressed_at: nil)
   end
 
   def suppress(suppression_reason)
-    update(status: 'suppressed', active: false, suppressed_at: Time.current, suppression_reason: suppression_reason)
+    update(status: "suppressed", active: false, suppressed_at: Time.current, suppression_reason: suppression_reason)
   end
 
   def click_rate
@@ -36,5 +36,4 @@ module Models::SubscriberConcern
     return "Unknown" if city.nil? || country.nil?
     "#{city}, #{country}"
   end
-
 end

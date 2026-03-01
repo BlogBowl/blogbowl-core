@@ -18,7 +18,7 @@ class Pages::Settings::NewsletterController < Pages::Settings::ApplicationContro
 
   def set_newsletters
     @newsletters = @workspace.newsletters
-    @newsletter_options = @newsletters.map { |newsletter| [newsletter.name, newsletter.id] }
+    @newsletter_options = @newsletters.map { |newsletter| [ newsletter.name, newsletter.id ] }
   end
 
   def page_setting_params
@@ -32,4 +32,3 @@ class Pages::Settings::NewsletterController < Pages::Settings::ApplicationContro
     )
   end
 end
-

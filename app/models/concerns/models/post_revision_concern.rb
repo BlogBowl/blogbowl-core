@@ -15,12 +15,11 @@ module Models::PostRevisionConcern
   end
 
   def equals?(revision)
-    except = [:id, :post_id, :kind, :created_at, :updated_at]
+    except = [ :id, :post_id, :kind, :created_at, :updated_at ]
     self.attributes.symbolize_keys.except(*except) == revision.attributes.symbolize_keys.except(*except)
   end
 
   def share
     update(share_id: SecureRandom.uuid, shared_at: Time.current)
   end
-
 end

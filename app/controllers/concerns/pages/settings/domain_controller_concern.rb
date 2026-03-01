@@ -22,7 +22,7 @@ module Pages::Settings::DomainControllerConcern
   private
 
   def page_setting_params
-    result = params.require(:page_setting).permit(:own_domain, :subfolder_enabled, page_attributes: [:domain, :base_domain])
+    result = params.require(:page_setting).permit(:own_domain, :subfolder_enabled, page_attributes: [ :domain, :base_domain ])
     result[:own_domain] = result[:own_domain] == "1"
     result[:page_attributes][:domain] = result[:page_attributes][:domain] + @domain_prefix unless result[:own_domain]
     result.delete(:own_domain)
@@ -30,7 +30,7 @@ module Pages::Settings::DomainControllerConcern
   end
 
   def set_domain_prefix
-    @base_domain = ENV.fetch('PAGES_BASE_DOMAIN', Rails.application.credentials.dig(Rails.env.to_sym, :pages_base_domain))
+    @base_domain = ENV.fetch("PAGES_BASE_DOMAIN", Rails.application.credentials.dig(Rails.env.to_sym, :pages_base_domain))
 
     @domain_prefix = ".#{@base_domain}"
   end
@@ -39,7 +39,6 @@ module Pages::Settings::DomainControllerConcern
     @has_own_domain = !@page.domain.ends_with?(@domain_prefix)
     @can_set_own_domain = true
 
-    @page.domain = @page.domain.gsub(@domain_prefix, '') if @page.domain.present? && !@has_own_domain
+    @page.domain = @page.domain.gsub(@domain_prefix, "") if @page.domain.present? && !@has_own_domain
   end
-
 end

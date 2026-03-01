@@ -2,7 +2,7 @@ module PagesControllerConcern
   extend ActiveSupport::Concern
 
   included do
-    layout 'dashboard'
+    layout "dashboard"
   end
 
   def show
@@ -21,7 +21,7 @@ module PagesControllerConcern
     @page = @workspace.pages.build(page_params)
 
     if @page.save
-      flash[:notice] = 'New page was created successfully.'
+      flash[:notice] = "New page was created successfully."
       redirect_to pages_posts_path(@page)
     else
       flash.now[:alert] = @page.errors.full_messages.to_sentence

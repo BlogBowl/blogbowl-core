@@ -26,8 +26,8 @@ class Public::ApplicationController < ActionController::Base
     return unless @page
 
     @navbar_links = @page.links.header.order(:order)
-    @footer_links = @page.links.footer.where(link_type: 'link').order(:order)
-    @social_media_links = @page.links.where(link_type: 'social_media').order(:order)
+    @footer_links = @page.links.footer.where(link_type: "link").order(:order)
+    @social_media_links = @page.links.where(link_type: "social_media").order(:order)
   end
 
   def set_page_setting
@@ -46,5 +46,4 @@ class Public::ApplicationController < ActionController::Base
   def resolve_layout
     "public/#{@page_settings.template}"
   end
-
 end

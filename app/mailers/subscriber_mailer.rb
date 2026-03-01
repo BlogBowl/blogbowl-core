@@ -8,5 +8,4 @@ class SubscriberMailer < ApplicationMailer
       subject: "You're Almost In - Confirm Your Subscription"
     )
   end
-
 end

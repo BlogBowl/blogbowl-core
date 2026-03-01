@@ -4,5 +4,4 @@ module Models::SessionConcern
   included do
     belongs_to :user
   end
-
 end

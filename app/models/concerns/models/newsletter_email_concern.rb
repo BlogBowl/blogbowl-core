@@ -2,6 +2,8 @@ module Models::NewsletterEmailConcern
   extend ActiveSupport::Concern
 
   included do
+    include TiptapContent
+
     belongs_to :newsletter
 
     before_validation :generate_slug, if: :should_generate_slug?
@@ -11,7 +13,7 @@ module Models::NewsletterEmailConcern
 
     belongs_to :author, optional: true
 
-    enum :status, { draft: 'draft', scheduled: 'scheduled', sent: 'sent', failed: 'failed' }
+    enum :status, { draft: "draft", scheduled: "scheduled", sent: "sent", failed: "failed" }
   end
 
   def to_param
@@ -22,7 +24,7 @@ module Models::NewsletterEmailConcern
     super(options)
       .except(:created_at, :updated_at, :postmark_tag, :postmark_bulk_id, :job_id)
       .merge(author: author.as_json)
-      .merge(settings: newsletter.settings.as_json(only: [:sender_name, :sender_email, :footer]))
+      .merge(settings: newsletter.settings.as_json(only: [ :sender_name, :sender_email, :footer ]))
   end
 
   def mark_as_sent

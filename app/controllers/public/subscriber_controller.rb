@@ -17,8 +17,8 @@ class Public::SubscriberController < Public::ApplicationController
     validation_result = Truemail.validate(params[:subscriber][:email])
 
     if validation_result.result.success == false || params[:subscriber][:comment].present?
-      flash[:alert] = 'Subscription failed'
-      render turbo_stream: turbo_stream.replace("subscription_message", partial: "shared/verify_subscribe_error", locals: { message: 'Subscription failed!' })
+      flash[:alert] = "Subscription failed"
+      render turbo_stream: turbo_stream.replace("subscription_message", partial: "shared/verify_subscribe_error", locals: { message: "Subscription failed!" })
       return
     end
 
@@ -26,22 +26,22 @@ class Public::SubscriberController < Public::ApplicationController
 
     if existing_subscriber.present?
       # suppression_reason https://postmarkapp.com/developer/webhooks/subscription-change-webhook#subscription-change-webhook-data
-      if existing_subscriber.status == 'pending' or (existing_subscriber.status == 'suppressed' and existing_subscriber.suppression_reason == 'ManualSuppression')
+      if existing_subscriber.status == "pending" or (existing_subscriber.status == "suppressed" and existing_subscriber.suppression_reason == "ManualSuppression")
         send_verification_email(existing_subscriber)
       end
       render turbo_stream: turbo_stream.replace("subscription_message", partial: "shared/verify_subscribe_modal")
     else
       @subscriber = Subscriber.new(subscriber_params)
       @subscriber.newsletter = @newsletter
-      @subscriber.status = 'pending'
+      @subscriber.status = "pending"
       @subscriber.page = @page
 
       if @subscriber.save
         send_verification_email(@subscriber)
         render turbo_stream: turbo_stream.replace("subscription_message", partial: "shared/verify_subscribe_modal")
       else
-        flash[:alert] = 'Subscription failed'
-        render turbo_stream: turbo_stream.replace("subscription_message", partial: "shared/verify_subscribe_error", locals: { message: 'Subscription failed!' })
+        flash[:alert] = "Subscription failed"
+        render turbo_stream: turbo_stream.replace("subscription_message", partial: "shared/verify_subscribe_error", locals: { message: "Subscription failed!" })
       end
     end
   end
@@ -51,9 +51,9 @@ class Public::SubscriberController < Public::ApplicationController
 
     if @subscriber
       @subscriber.verify
-      flash[:notice] = 'Your subscription is now verified!'
+      flash[:notice] = "Your subscription is now verified!"
     else
-      flash[:alert] = 'Invalid verification link.'
+      flash[:alert] = "Invalid verification link."
     end
 
     redirect_to root_path
@@ -66,7 +66,7 @@ class Public::SubscriberController < Public::ApplicationController
   end
 
   def send_verification_email(subscriber)
-    flash[:notice] = 'Please check your email to verify your subscription.'
+    flash[:notice] = "Please check your email to verify your subscription."
 
     if !subscriber.verification_token.nil? and subscriber.verification_email_sent_at > 1.hour.ago
       return
@@ -94,12 +94,11 @@ class Public::SubscriberController < Public::ApplicationController
     AppLogger.notify_message("[SUBSCRIBE] IP blocked: #{request.remote_ip}")
 
     # Optionally add IP to a block list or temporary ban
-    flash[:alert] = 'Too many subscription attempts. Please try again later.'
-    render turbo_stream: turbo_stream.replace("subscription_message", partial: "shared/verify_subscribe_error", locals: { message: 'Too many requests!' })
+    flash[:alert] = "Too many subscription attempts. Please try again later."
+    render turbo_stream: turbo_stream.replace("subscription_message", partial: "shared/verify_subscribe_error", locals: { message: "Too many requests!" })
   end
 
   def subscriber_params
     params.require(:subscriber).permit(:email)
   end
-
 end

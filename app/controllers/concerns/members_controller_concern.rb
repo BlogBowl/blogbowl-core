@@ -2,9 +2,9 @@ module MembersControllerConcern
   extend ActiveSupport::Concern
 
   included do
-    layout 'dashboard'
+    layout "dashboard"
 
-    before_action :set_member, only: [:edit, :update]
+    before_action :set_member, only: [ :edit, :update ]
     before_action :set_new_member, only: :new
 
     before_action :validate_update_fields, only: :update
@@ -108,7 +108,7 @@ module MembersControllerConcern
 
   def set_permissions
     posts_role = params[:posts_role]
-    @member.permissions = [*Post.permissions_of_role(posts_role)]
+    @member.permissions = [ *Post.permissions_of_role(posts_role) ]
   end
 
   def validate_update_fields
@@ -138,7 +138,6 @@ module MembersControllerConcern
       flash[:alert] = "Posts role is invalid"
       redirect_to new_member_path and return
     end
-
   end
 
   def set_member
@@ -148,5 +147,4 @@ module MembersControllerConcern
   def set_new_member
     @member = @workspace.members.build(permissions: Post::WRITER_PERMISSIONS)
   end
-
 end

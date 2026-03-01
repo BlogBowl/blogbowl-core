@@ -1,0 +1,43 @@
+{
+  "name": "parse-tiptap-blogbowl",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@tiptap/core": "^3.15.3",
+    "@tiptap/extension-character-count": "^3.15.3",
+    "@tiptap/extension-code-block-lowlight": "^3.15.3",
+    "@tiptap/extension-color": "^3.15.3",
+    "@tiptap/extension-document": "^3.15.3",
+    "@tiptap/extension-focus": "^3.15.3",
+    "@tiptap/extension-font-family": "^3.15.3",
+    "@tiptap/extension-heading": "^3.15.3",
+    "@tiptap/extension-highlight": "^3.15.3",
+    "@tiptap/extension-horizontal-rule": "^3.15.3",
+    "@tiptap/extension-image": "^3.15.3",
+    "@tiptap/extension-link": "^3.15.3",
+    "@tiptap/extension-placeholder": "^3.15.3",
+    "@tiptap/extension-subscript": "^3.15.3",
+    "@tiptap/extension-superscript": "^3.15.3",
+    "@tiptap/extension-table-header": "^3.15.3",
+    "@tiptap/extension-table-row": "^3.15.3",
+    "@tiptap/extension-task-item": "^3.15.3",
+    "@tiptap/extension-task-list": "^3.15.3",
+    "@tiptap/extension-text-align": "^3.15.3",
+    "@tiptap/extension-text-style": "^3.15.3",
+    "@tiptap/extension-typography": "^3.15.3",
+    "@tiptap/extension-underline": "^3.15.3",
+    "@tiptap/extension-youtube": "^3.15.3",
+    "@tiptap/html": "^3.15.3",
+    "@tiptap/react": "^3.15.3",
+    "@tiptap/starter-kit": "^3.15.3",
+    "marked": "^17.0.1",
+    "ts-node": "^10.9.2"
+  }
+}

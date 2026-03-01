@@ -1,5 +1,5 @@
 class Settings::APITokensController < Settings::ApplicationController
-  before_action :set_api_token, only: [:destroy]
+  before_action :set_api_token, only: [ :destroy ]
 
   def index
     @api_tokens = @workspace.api_tokens.order(created_at: :desc)

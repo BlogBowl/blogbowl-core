@@ -9,7 +9,7 @@ module ConvertToWebp
 
   module ClassMethods
     def convert_to_webp_for(attachment_name)
-      after_commit -> { convert_attachment_to_webp(attachment_name) }, on: [:create, :update]
+      after_commit -> { convert_attachment_to_webp(attachment_name) }, on: [ :create, :update ]
 
       define_method("#{attachment_name}_changed?") do
         instance_variable_get("@#{attachment_name}_changed")
@@ -41,7 +41,7 @@ module ConvertToWebp
 
     require "image_processing/vips"
 
-    temp_file = Tempfile.new(['original', File.extname(attachment.filename.to_s)])
+    temp_file = Tempfile.new([ "original", File.extname(attachment.filename.to_s) ])
     temp_file.binmode
     temp_file.write(attachment.download)
     temp_file.rewind
@@ -57,7 +57,7 @@ module ConvertToWebp
     attachment.purge
 
     public_send(association_name).attach(
-      io: File.open(processed.path, 'rb'),
+      io: File.open(processed.path, "rb"),
       filename: "#{filename}.webp",
       content_type: "image/webp"
     )

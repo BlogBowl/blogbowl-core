@@ -1,5 +1,5 @@
 class Settings::ApplicationController < ApplicationController
-  layout 'dashboard'
+  layout "dashboard"
 
   before_action :set_settings
   before_action -> { authorize! :manage, @workspace }
