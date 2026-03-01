@@ -20,6 +20,10 @@ namespace :openapi do
         # Capitalize tags
         operation["tags"] = operation["tags"].map(&:capitalize) if operation["tags"]
 
+        # Strip boolean `required` from schema properties — OpenAPI requires it
+        # to be a top-level array on the schema object, not per-property booleans.
+        clean_schema_required(operation)
+
         # Fix file upload endpoints: switch from JSON body to multipart/form-data
         next unless file_upload_operation?(operation)
 
@@ -41,6 +45,19 @@ namespace :openapi do
   end
 
   private
+
+  # Recursively removes boolean `required` from every schema properties object.
+  # Apipie emits { "required": true/false } on each property, but JSON Schema
+  # only allows `required` as an array of strings on the parent schema object.
+  def clean_schema_required(obj)
+    case obj
+    when Hash
+      obj["properties"]&.each_value { |prop| prop.delete("required") }
+      obj.each_value { |v| clean_schema_required(v) }
+    when Array
+      obj.each { |v| clean_schema_required(v) }
+    end
+  end
 
   def file_upload_operation?(operation)
     body_param = operation["parameters"]&.find { |p| p["in"] == "body" }
