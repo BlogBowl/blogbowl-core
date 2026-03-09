@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "bcrypt", "~> 3.1"
 
-  spec.add_dependency "pagy", "~> 9.3"
+  spec.add_dependency "pagy", ">= 9.3", "< 44.0"
 
   spec.add_dependency "active_storage_validations", "~> 2.0"
 
