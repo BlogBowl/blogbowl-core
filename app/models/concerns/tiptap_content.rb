@@ -49,7 +49,7 @@ module TiptapContent
   def sync_content_formats
     if content_html_changed? && content_html.present?
       self.content_json = TiptapConverter.html_to_json(content_html)
-      self.content_html = TiptapConverter.json_to_html(content_json)
+      # self.content_html = TiptapConverter.json_to_html(content_json)
     elsif content_json_changed? && content_json.present? && content_html.blank?
       self.content_html = TiptapConverter.json_to_html(content_json)
     end
