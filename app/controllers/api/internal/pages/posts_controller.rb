@@ -92,6 +92,6 @@ class API::Internal::Pages::PostsController < API::Internal::Pages::ApplicationC
   end
 
   def post_params
-    params.permit(:title, :content_html, :category_id, :seo_title, :seo_description, :cover_image, :sharing_image, :description, :og_title, :og_description, content_json: {}, reviewer_ids: [], author_ids: [])
+    params.permit(:title, :content_html, :category_id, :seo_title, :seo_description, :cover_image, :sharing_image, :description, :og_title, :og_description, content_json: {}, reviewer_ids: [], author_ids: [], faq_answers: [ :question, :answer ])
   end
 end

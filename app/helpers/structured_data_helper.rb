@@ -30,17 +30,19 @@ module StructuredDataHelper
   end
 
   def post_structured_data_objects(article, breadcrumbs)
+    graph = [
+      article_data(article),
+      web_page_data(article),
+      website_data,
+      organization_data,
+      primary_image(article),
+      breadcrumbs_data(breadcrumbs),
+      *article.authors.map { |author| author_data(author) }
+    ]
+    graph << faq_data(article) if article.faq_answers.present?
     {
       "@context": "https://schema.org",
-      "@graph": [
-        article_data(article),
-        web_page_data(article),
-        website_data,
-        organization_data,
-        primary_image(article),
-        breadcrumbs_data(breadcrumbs),
-        *article.authors.map { |author| author_data(author) }
-      ]
+      "@graph": graph.compact
     }
   end
 
@@ -282,6 +284,22 @@ module StructuredDataHelper
           ]
         }
       ]
+    }
+  end
+
+  def faq_data(article)
+    {
+      "@type": "FAQPage",
+      "mainEntity": article.faq_answers.map do |faq|
+        {
+          "@type": "Question",
+          "name": faq["question"] || faq[:question],
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq["answer"] || faq[:answer]
+          }
+        }
+      end
     }
   end
 

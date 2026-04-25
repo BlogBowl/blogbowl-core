@@ -25,6 +25,7 @@ module API
         property :first_published_at, String, desc: "First published date"
         property :created_at, String, desc: "Creation date"
         property :updated_at, String, desc: "Updated date"
+        property :faq_answers, Array, desc: "FAQ entries (question/answer pairs)"
       end
 
       def_param_group :pagination do
@@ -70,6 +71,7 @@ module API
       param :author_id, :number, desc: "Author ID", default_value: nil
       param :cover_image_url, String, desc: "Cover image URL", default_value: nil
       param :og_image_url, String, desc: "Open Graph image URL", default_value: nil
+      param :faq_answers, Array, desc: "FAQ entries [{question, answer}]", default_value: nil
       returns code: 201, desc: "Created post" do
         param_group :post_output
       end
@@ -102,6 +104,7 @@ module API
       param :author_id, :number, desc: "Author ID", default_value: nil
       param :cover_image_url, String, desc: "Cover image URL", default_value: nil
       param :og_image_url, String, desc: "Open Graph image URL", default_value: nil
+      param :faq_answers, Array, desc: "FAQ entries [{question, answer}]", default_value: nil
       returns code: 200, desc: "Updated post" do
         param_group :post_output
       end
@@ -140,7 +143,8 @@ module API
         permit_resource_params(
           :post,
           :title, :content_html, :content_md, :description, :category_id,
-          :seo_title, :seo_description, :og_title, :og_description
+          :seo_title, :seo_description, :og_title, :og_description,
+          { faq_answers: [ :question, :answer ] }
         )
       end
 
@@ -203,7 +207,8 @@ module API
           scheduled_at: post.scheduled_at,
           first_published_at: post.first_published_at,
           created_at: post.created_at,
-          updated_at: post.updated_at
+          updated_at: post.updated_at,
+          faq_answers: post.faq_answers
         }
       end
     end
