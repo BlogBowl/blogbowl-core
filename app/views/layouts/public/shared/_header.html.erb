@@ -16,6 +16,8 @@
         <% end %>
       </ul>
     </div>
+    <% header_cta_url = @page_settings.header_cta_button_link.presence %>
+    <% show_header_cta = @page_settings.header_cta_enabled? && header_cta_url.present? %>
     <div class="navbar-end gap-x-2">
       <%= render "layouts/public/shared/search_modal" %>
       <div class="dropdown dropdown-end">
@@ -28,15 +30,15 @@
           <% @navbar_links.each do |link| %>
             <li><a class="font-medium text-base opacity-70" href="<%= link.url %>"><%= link.title %></a></li>
           <% end %>
-          <% if @page_settings.header_cta_enabled? %>
+          <% if show_header_cta %>
             <li>
-              <a class="btn btn-primary" target="_blank" href="<%= @page_settings.header_cta_button_link.present? ?  @page_settings.header_cta_button_link : '#' %>"><%=  @page_settings.header_cta_button.present? ? @page_settings.header_cta_button : 'CTA button' %></a>
+              <a class="btn btn-primary" target="_blank" href="<%= header_cta_url %>"><%=  @page_settings.header_cta_button.present? ? @page_settings.header_cta_button : 'CTA button' %></a>
             </li>
           <% end %>
         </ul>
       </div>
-      <% if @page_settings.header_cta_enabled? %>
-        <a class="btn btn-primary hidden md:flex" target="_blank" href="<%= @page_settings.header_cta_button_link.present? ?  @page_settings.header_cta_button_link : '#' %>"><%=  @page_settings.header_cta_button.present? ? @page_settings.header_cta_button : 'CTA button' %></a>
+      <% if show_header_cta %>
+        <a class="btn btn-primary hidden md:flex" target="_blank" href="<%= header_cta_url %>"><%=  @page_settings.header_cta_button.present? ? @page_settings.header_cta_button : 'CTA button' %></a>
       <% end %>
     </div>
   </div>
