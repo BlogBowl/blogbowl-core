@@ -128,7 +128,7 @@ module Models::PostConcern
   end
 
   def should_generate_slug?
-    title_changed? && (new_record? || !published?)
+    title_changed? && !slug_changed? && (new_record? || !published?)
   end
 
   def filtered_authors(type)

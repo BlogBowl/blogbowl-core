@@ -59,6 +59,7 @@ module API
       api :POST, "/pages/:page_id/posts", "Create a new post"
       param :page_id, :number, required: true, desc: "Page ID"
       param :title, String, desc: "Post title", required: true
+      param :slug, String, desc: "Post slug (auto-generated from title when omitted)", default_value: nil
       param :status, String, desc: "Post status (draft, published)", default_value: "draft"
       param :content_html, String, desc: "Post content in HTML", default_value: nil
       param :content_md, String, desc: "Post content in Markdown", default_value: nil
@@ -92,6 +93,7 @@ module API
       param :page_id, :number, required: true, desc: "Page ID"
       param :id, :number, required: true, desc: "Post ID"
       param :title, String, desc: "Post title", default_value: nil
+      param :slug, String, desc: "Post slug", default_value: nil
       param :status, String, desc: "Post status (draft, published)", default_value: nil
       param :content_html, String, desc: "Post content in HTML", default_value: nil
       param :content_md, String, desc: "Post content in Markdown", default_value: nil
@@ -142,7 +144,7 @@ module API
       def post_params
         permit_resource_params(
           :post,
-          :title, :content_html, :content_md, :description, :category_id,
+          :title, :slug, :content_html, :content_md, :description, :category_id,
           :seo_title, :seo_description, :og_title, :og_description,
           { faq_answers: [ :question, :answer ] }
         )
@@ -167,10 +169,19 @@ module API
       end
 
       def create_revision_in_background(post)
-        revision = post.new_revision
-        revision.title ||= post.title
-        revision.kind = :history
-        revision.save
+        # Snapshot the post's freshly-saved content into a new revision.
+        # (post.new_revision duplicates the *previous* revision, which would
+        # leave the editor — it reads the latest revision — showing stale data.)
+        post.post_revisions.create!(
+          title: post.title,
+          content_html: post.content_html,
+          content_json: post.content_json,
+          seo_title: post.seo_title,
+          seo_description: post.seo_description,
+          og_title: post.og_title,
+          og_description: post.og_description,
+          kind: :history
+        )
       rescue => e
         Rails.logger.error("Failed to create revision for post #{post.id}: #{e.message}")
       end
