@@ -27,7 +27,7 @@ namespace :openapi do
         # Fix file upload endpoints: switch from JSON body to multipart/form-data
         next unless file_upload_operation?(operation)
 
-        operation["consumes"] = ["multipart/form-data"]
+        operation["consumes"] = [ "multipart/form-data" ]
         file_params = extract_file_params(operation)
         operation["parameters"] = file_params
       end
