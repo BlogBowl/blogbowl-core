@@ -7,6 +7,19 @@ module Models::PostConcern
 
     default_scope { where(archived_at: nil) }
 
+    # Posts are served from the root of a page (GET "/:id"), so a slug that
+    # matches one of the static public route segments would be unreachable.
+    # Keep in sync with the public routes in config/routes.rb.
+    RESERVED_SLUGS = %w[
+      posts
+      authors
+      categories
+      archive
+      subscribe
+      robots.txt
+      sitemap.xml
+    ].freeze
+
     EDITOR_PERMISSIONS = %w[posts:create posts:edit posts:destroy]
     WRITER_PERMISSIONS = %w[posts:create posts:edit_own posts:update_own]
     OWNER_PERMISSIONS = %w[owner]
@@ -22,6 +35,7 @@ module Models::PostConcern
     before_validation :generate_slug, if: :should_generate_slug?
     validates :title, presence: true, length: { minimum: 1 }, if: :published?
     validates :slug, presence: true, uniqueness: { scope: :page_id }
+    validates :slug, exclusion: { in: RESERVED_SLUGS, message: "is reserved and cannot be used" }
     validates :authors, presence: true, if: :published?
 
     enum :status, { draft: 0, published: 1, scheduled: 2 }
@@ -142,7 +156,7 @@ module Models::PostConcern
     potential_slug = base_slug
     count = 1
 
-    while Post.unscoped.exists?(slug: potential_slug, page_id: page_id)
+    while RESERVED_SLUGS.include?(potential_slug) || Post.unscoped.exists?(slug: potential_slug, page_id: page_id)
       potential_slug = "#{base_slug}-#{count}"
       count += 1
     end

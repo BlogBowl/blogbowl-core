@@ -171,7 +171,9 @@ Rails.application.routes.draw do
       get "subscribe/verify/:token", to: "subscriber#verify", as: :public_subscribe_verify
 
       get "/", to: "pages#show", as: :public_root
-      get "posts/:id", to: "posts#show", as: :public_post
+
+      # Legacy post URLs, kept as permanent redirects to /:id
+      get "posts/:id", to: "posts#legacy_show_redirect"
 
       # TODO: Configure layout templates
       # paginated authors
@@ -198,6 +200,10 @@ Rails.application.routes.draw do
       get "archive", to: "archive#show", as: :public_archive
       get "archive/page/1", to: redirect("/archive")
       get "archive/page/:page", to: "archive#show", as: "public_archive_page"
+
+      # Posts live at the root of the page. Declared last so the static
+      # segments above (authors, categories, archive, ...) win over a slug.
+      get ":id", to: "posts#show", as: :public_post
     end
   end
 end
