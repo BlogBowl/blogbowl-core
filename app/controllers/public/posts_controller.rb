@@ -28,9 +28,10 @@ class Public::PostsController < Public::PageApplicationController
   end
 
   # Permanent redirect from the legacy /posts/:id URLs to /:id.
-  # @path_prefix keeps the page slug when the page is served from a subfolder.
+  # Built as an absolute URL so proxied pages land on their public base URL
+  # rather than the internal host Rails sees on the request.
   def legacy_show_redirect
-    redirect_to "#{@path_prefix}/#{params[:id]}", status: :moved_permanently, allow_other_host: false
+    redirect_to public_url_for("/#{params[:id]}"), status: :moved_permanently, allow_other_host: true
   end
 
   private

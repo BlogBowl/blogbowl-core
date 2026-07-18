@@ -35,6 +35,22 @@ class Public::ApplicationController < ActionController::Base
     @path_prefix = "/#{@page.slug}" if @page_settings.subfolder_enabled
   end
 
+  # Absolute URL for a public path, mirroring PublicHelper#get_full_url.
+  # Behind a reverse proxy the request host is the internal *.blogbowl.app
+  # host, so redirects must be built from the configured base URL instead.
+  # base_domain is accepted with or without a scheme.
+  def public_url_for(path)
+    full_path = "#{@path_prefix}#{path}"
+
+    host = if @page_settings.subfolder_enabled && @page.base_domain.present?
+      @page.base_domain
+    else
+      @page.domain
+    end
+
+    "https://#{host.strip.sub(%r{\Ahttps?://}i, '').chomp('/')}#{full_path}"
+  end
+
   def render_not_found
     render "public/#{@page_settings.template}/404", status: :not_found
   end
