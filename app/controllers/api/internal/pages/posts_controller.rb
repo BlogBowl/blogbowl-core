@@ -1,6 +1,16 @@
 class API::Internal::Pages::PostsController < API::Internal::Pages::ApplicationController
   before_action :set_post, only: %i[show publish update unschedule]
 
+  # Lightweight list used by the editor's redirect picker. Access to the page
+  # is already enforced by set_page, and like #show it needs no per-post check.
+  def index
+    posts = @page.posts.order(updated_at: :desc)
+    posts = posts.where.not(id: params[:exclude_id]) if params[:exclude_id].present?
+    posts = posts.where("title ILIKE ?", "%#{params[:q].to_s.strip}%") if params[:q].present?
+
+    render json: posts.limit(50).map { _1.slice(:id, :title, :slug, :status) }
+  end
+
   def create
     @post = @page.posts.build(post_params)
     authorize! :create, @post
@@ -92,6 +102,6 @@ class API::Internal::Pages::PostsController < API::Internal::Pages::ApplicationC
   end
 
   def post_params
-    params.permit(:title, :slug, :content_html, :category_id, :seo_title, :seo_description, :cover_image, :sharing_image, :description, :og_title, :og_description, content_json: {}, reviewer_ids: [], author_ids: [], faq_answers: [ :question, :answer ])
+    params.permit(:title, :slug, :content_html, :category_id, :seo_title, :seo_description, :cover_image, :sharing_image, :description, :og_title, :og_description, :redirect_url, :redirect_post_id, content_json: {}, reviewer_ids: [], author_ids: [], faq_answers: [ :question, :answer ])
   end
 end

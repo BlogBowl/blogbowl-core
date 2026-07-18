@@ -24,8 +24,13 @@ module Models::PostConcern
     WRITER_PERMISSIONS = %w[posts:create posts:edit_own posts:update_own]
     OWNER_PERMISSIONS = %w[owner]
 
+    # A redirected post 301s to another post on the same page or to an
+    # arbitrary URL, and drops out of the sitemap and every public listing.
+    MAX_REDIRECT_HOPS = 10
+
     belongs_to :page
     belongs_to :category, optional: true
+    belongs_to :redirect_post, class_name: "Post", optional: true
     has_many :post_revisions, dependent: :destroy
 
     has_many :post_authors, dependent: :destroy
@@ -33,14 +38,21 @@ module Models::PostConcern
     has_many :reviewers, -> { where(post_authors: { role: "reviewer" }) }, through: :post_authors, source: :author
 
     before_validation :generate_slug, if: :should_generate_slug?
+    before_validation :normalize_redirect_url
     validates :title, presence: true, length: { minimum: 1 }, if: :published?
     validates :slug, presence: true, uniqueness: { scope: :page_id }
     validates :slug, exclusion: { in: RESERVED_SLUGS, message: "is reserved and cannot be used" }
     validates :authors, presence: true, if: :published?
+    validates :redirect_url,
+              format: { with: %r{\A(https?://\S+|/\S*)\z}, message: "must be a full URL or a path starting with /" },
+              allow_nil: true
+    validate :only_one_redirect_target
+    validate :redirect_post_is_reachable
 
     enum :status, { draft: 0, published: 1, scheduled: 2 }
 
     scope :published, -> { where(status: :published).order(first_published_at: :desc) }
+    scope :not_redirected, -> { where(redirect_post_id: nil, redirect_url: nil) }
 
     has_many_attached :images
     has_one_attached :cover_image
@@ -112,13 +124,81 @@ module Models::PostConcern
                   .merge(sharing_image: sharing_image.attached? ? Rails.application.routes.url_helpers.url_for(sharing_image) : nil)
                   .merge(authors: filtered_authors("author"),
                          reviewers: filtered_authors("reviewer"))
+                  # slice, not as_json: this override would recurse through the
+                  # target's own redirect_post.
+                  .merge(redirect_post: redirect_post&.slice(:id, :title, :slug))
   end
 
   def archived?
     archived_at.present?
   end
 
+  def redirected?
+    redirect_post_id.present? || redirect_url.present?
+  end
+
+  # Where a visitor hitting this post should be sent. Post-to-post chains
+  # (A -> B -> C) are collapsed to a single hop so the browser only follows
+  # one 301. Returns nil when the redirect can no longer be resolved (e.g. the
+  # target was archived), in which case the caller should render the post.
+  #
+  # path_prefix keeps the page slug when the page is served from a subfolder.
+  def redirect_destination(path_prefix: "")
+    if redirect_post_id.present?
+      target = resolved_redirect_post
+      # A cycle can resolve back to this post (only reachable if a redirect was
+      # written around the validations). Render rather than 301 to ourselves.
+      return nil if target.nil? || target.id == id
+
+      return "#{path_prefix}/#{target.slug}"
+    end
+
+    redirect_url
+  end
+
   private
+
+  # Walks the post-to-post chain, stopping at the first post that doesn't
+  # redirect onward, at a cycle, or at MAX_REDIRECT_HOPS.
+  def resolved_redirect_post
+    seen = [ id ]
+    target = redirect_post
+
+    MAX_REDIRECT_HOPS.times do
+      break if target.nil? || target.redirect_post_id.blank? || seen.include?(target.id)
+
+      seen << target.id
+      target = target.redirect_post
+    end
+
+    target
+  end
+
+  def normalize_redirect_url
+    self.redirect_url = nil if redirect_url.blank?
+  end
+
+  def only_one_redirect_target
+    return unless redirect_post_id.present? && redirect_url.present?
+
+    errors.add(:base, "Redirect to a post or to a URL, not both")
+  end
+
+  def redirect_post_is_reachable
+    return if redirect_post_id.blank?
+    # Only check when the target is being set. Otherwise archiving a target
+    # would make every later edit to this post unsaveable; redirect_destination
+    # already degrades to rendering the post in that case.
+    return unless redirect_post_id_changed?
+
+    if redirect_post_id == id
+      errors.add(:redirect_post, "cannot be the post itself")
+    elsif redirect_post.nil?
+      errors.add(:redirect_post, "does not exist")
+    elsif redirect_post.page_id != page_id
+      errors.add(:redirect_post, "must belong to the same page")
+    end
+  end
 
   def new_draft_revision
     attributes = { title: title, kind: :draft }

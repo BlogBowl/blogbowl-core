@@ -8,7 +8,7 @@
 </section>
 <section class="posts mt-14 relative">
   <div class="wrapper grid grid-cols-2 gap-y-16">
-    <%= render partial: "public/basic/pages/post", collection: @page.posts %>
+    <%= render partial: "public/basic/pages/post", collection: @page.posts.not_redirected %>
   </div>
 </section>
 <div class="w-full h-px bg-gray-200 my-10"></div>
