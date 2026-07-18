@@ -18,6 +18,12 @@ class Public::PostsController < Public::PageApplicationController
     render show_view
   end
 
+  # Permanent redirect from the legacy /posts/:id URLs to /:id.
+  # @path_prefix keeps the page slug when the page is served from a subfolder.
+  def legacy_show_redirect
+    redirect_to "#{@path_prefix}/#{params[:id]}", status: :moved_permanently, allow_other_host: false
+  end
+
   private
 
   def set_post
