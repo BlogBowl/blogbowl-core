@@ -3,11 +3,11 @@ class Public::ArchiveController < Public::PageApplicationController
   def show
     if params[:s].present?
       @search_query = params[:s].to_s.strip
-      @pagy, @posts = pagy(@page.posts.published.where("title ILIKE ?", "%#{@search_query}%"), page: params[:page] || 1)
+      @pagy, @posts = pagy(@page.posts.published.not_redirected.where("title ILIKE ?", "%#{@search_query}%"), page: params[:page] || 1)
       render show_search_view
       return
     end
-    @pagy, @posts = pagy(@page.posts.published, page: params[:page] || 1)
+    @pagy, @posts = pagy(@page.posts.published.not_redirected, page: params[:page] || 1)
     render show_view
   end
 

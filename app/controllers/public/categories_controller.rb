@@ -13,7 +13,7 @@ class Public::CategoriesController < Public::PageApplicationController
       render_not_found
       return
     end
-    @pagy, @posts = pagy(@page.posts.published.where(category_id: @category.id), page: params[:page] || 1)
+    @pagy, @posts = pagy(@page.posts.published.not_redirected.where(category_id: @category.id), page: params[:page] || 1)
     render show_view
   end
 

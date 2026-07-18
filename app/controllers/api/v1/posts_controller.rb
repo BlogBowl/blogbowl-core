@@ -26,6 +26,8 @@ module API
         property :created_at, String, desc: "Creation date"
         property :updated_at, String, desc: "Updated date"
         property :faq_answers, Array, desc: "FAQ entries (question/answer pairs)"
+        property :redirect_url, String, desc: "URL this post permanently redirects to"
+        property :redirect_post_id, Integer, desc: "ID of the post this post permanently redirects to"
       end
 
       def_param_group :pagination do
@@ -73,6 +75,8 @@ module API
       param :cover_image_url, String, desc: "Cover image URL", default_value: nil
       param :og_image_url, String, desc: "Open Graph image URL", default_value: nil
       param :faq_answers, Array, desc: "FAQ entries [{question, answer}]", default_value: nil
+      param :redirect_url, String, desc: "Permanently redirect this post to a URL or path. Mutually exclusive with redirect_post_id", default_value: nil
+      param :redirect_post_id, :number, desc: "Permanently redirect this post to another post on the same page", default_value: nil
       returns code: 201, desc: "Created post" do
         param_group :post_output
       end
@@ -107,6 +111,8 @@ module API
       param :cover_image_url, String, desc: "Cover image URL", default_value: nil
       param :og_image_url, String, desc: "Open Graph image URL", default_value: nil
       param :faq_answers, Array, desc: "FAQ entries [{question, answer}]", default_value: nil
+      param :redirect_url, String, desc: "Permanently redirect this post to a URL or path. Mutually exclusive with redirect_post_id", default_value: nil
+      param :redirect_post_id, :number, desc: "Permanently redirect this post to another post on the same page", default_value: nil
       returns code: 200, desc: "Updated post" do
         param_group :post_output
       end
@@ -146,6 +152,7 @@ module API
           :post,
           :title, :slug, :content_html, :content_md, :description, :category_id,
           :seo_title, :seo_description, :og_title, :og_description,
+          :redirect_url, :redirect_post_id,
           { faq_answers: [ :question, :answer ] }
         )
       end
@@ -219,7 +226,9 @@ module API
           first_published_at: post.first_published_at,
           created_at: post.created_at,
           updated_at: post.updated_at,
-          faq_answers: post.faq_answers
+          faq_answers: post.faq_answers,
+          redirect_url: post.redirect_url,
+          redirect_post_id: post.redirect_post_id
         }
       end
     end

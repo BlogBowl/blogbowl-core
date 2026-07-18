@@ -6,6 +6,15 @@ class Public::PostsController < Public::PageApplicationController
       render_not_found
       return
     end
+
+    # A redirect whose target has gone away resolves to nil; fall through and
+    # render the post rather than sending the visitor nowhere.
+    destination = @post.redirect_destination(path_prefix: @path_prefix.to_s)
+    if destination.present?
+      redirect_to destination, status: :moved_permanently, allow_other_host: true
+      return
+    end
+
     @authors = @post.authors.where(post_authors: { role: "author" })
     @reviewers = @post.authors.where(post_authors: { role: "reviewer" })
     @main_author = @authors.first
